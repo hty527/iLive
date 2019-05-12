@@ -1,0 +1,31 @@
+{
+  "code": 1,
+  "data": {
+    "list": [
+      {
+        "addtime": 0,
+        "begin_discount": -1,
+        "big_svga": "http://a.197754.com/uploads/images/20181029/cc315443a582352cf016c7af369be0a1.svga",
+        "commision": 1,
+        "desp": "对方可得30万积分，全站礼物，坐上飞碟环游宇宙！",
+        "discount": 0,
+        "end_discount": -1,
+        "gift_category": 0,
+        "gift_type": 4,
+        "id": 7554,
+        "is_hot": 0,
+        "is_wawa": 0,
+        "price": 300000,
+        "scene_api_type": 0,
+        "sort": 70,
+        "source": "0",
+        "src": "http://a.tn990.com/uploads/images/20181029/c735289e51ccb32bc4f80f650259e7c0.png",
+        "state": 0,
+        "svga": "http://a.tn990.com/uploads/images/20181029/27c22b9f827f2a2df33ae2dbd93884ec.svga",
+        "tag": "热",
+        "title": "飞碟"
+      }
+    ]
+  },
+  "message": "成功"
+}

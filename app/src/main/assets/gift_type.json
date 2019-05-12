@@ -1,0 +1,32 @@
+{
+  "code": 1,
+  "data": {
+    "list": [
+      {
+        "addtime": 1530260031,
+        "id": 1,
+        "name": "hot",
+        "title": "热门"
+      },
+      {
+        "addtime": 1530260031,
+        "id": 2,
+        "name": "normal",
+        "title": "普通"
+      },
+      {
+        "addtime": 1530260031,
+        "id": 3,
+        "name": "expensive",
+        "title": "奢侈"
+      },
+      {
+        "addtime": 1530260031,
+        "id": 4,
+        "name": "whole",
+        "title": "全站"
+      }
+    ]
+  },
+  "message": "成功"
+}

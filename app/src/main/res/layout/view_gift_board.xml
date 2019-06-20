@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+    <LinearLayout
+        android:id="@+id/ll_root_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+        <com.android.gift.view.MarqueeTextView
+            android:id="@+id/view_gift_desp"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:textColor="#999999"
+            android:textSize="10dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"/>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/gift_view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false">
+        </android.support.v4.view.ViewPager>
+        <!--下标指示器-->
+        <LinearLayout
+            android:id="@+id/ll_dot_view"
+            android:layout_width="wrap_content"
+            android:layout_height="5dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:orientation="horizontal"/>
+    </LinearLayout>
+</FrameLayout>

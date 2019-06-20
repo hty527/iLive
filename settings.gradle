@@ -1,1 +1,1 @@
-include ':app', ':gift-android'
+include ':app'

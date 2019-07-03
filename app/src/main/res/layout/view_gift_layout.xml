@@ -17,7 +17,7 @@
             app:tabMode="fixed"
             app:tabTextAppearance="@style/TabLayoutTextAppearance"
             app:tabIndicatorHeight="0dp"
-            app:tabTextColor="#9E9E9E"
+            app:tabTextColor="#CCCCCC"
             app:tabSelectedTextColor="#FF6666"/>
         <View
             android:layout_width="match_parent"
@@ -40,6 +40,7 @@
         <android.support.v4.view.ViewPager
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:overScrollMode="never"
             android:id="@+id/gift_view_pager">
         </android.support.v4.view.ViewPager>
     </LinearLayout>

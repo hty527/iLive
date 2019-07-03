@@ -7,12 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.android.gift.R;
 import com.android.gift.bean.GiftItemInfo;
 import com.android.gift.util.AppUtils;
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.bumptech.glide.Glide;
 import java.util.List;
 
 /**
@@ -68,8 +69,15 @@ public class GiftItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             viewHolder.tv_item_title.setText(giftInfo.getTitle());
             viewHolder.item_tv_price.setText(String.valueOf(giftInfo.getPrice()));
+            viewHolder.item_tag.setVisibility(View.INVISIBLE);
             //普通的ICON设置
-            viewHolder.ic_item_icon.setImageURI(Uri.parse(giftInfo.getSrc()));
+            Glide
+                .with(viewHolder.ic_item_icon.getContext())
+                .load(giftInfo.getSrc())
+                .error(R.drawable.ic_default_gift_icon)
+                .skipMemoryCache(true)
+                .dontAnimate()
+                .into(viewHolder.ic_item_icon);
             viewHolder.itemView.setTag(giftInfo);
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -103,7 +111,7 @@ public class GiftItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public class ViewHolder extends RecyclerView.ViewHolder{
         private FrameLayout view_svga_icon;
         private View item_view_group;
-        private SimpleDraweeView ic_item_icon;
+        private ImageView ic_item_icon;
         private TextView tv_item_title;
         private TextView item_tv_price;
         private TextView item_tag;

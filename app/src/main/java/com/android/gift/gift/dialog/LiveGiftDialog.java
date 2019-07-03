@@ -14,7 +14,7 @@ import com.android.gift.R;
 import com.android.gift.bean.GiftItemInfo;
 import com.android.gift.bean.GiftType;
 import com.android.gift.bean.UserInfo;
-import com.android.gift.gift.GiftDataCache;
+import com.android.gift.gift.GiftCacheManager;
 import com.android.gift.gift.contract.GiftContact;
 import com.android.gift.gift.presenter.GiftPresenter;
 import com.android.gift.gift.view.GiftLayout;
@@ -45,10 +45,10 @@ public class LiveGiftDialog extends AppCompatDialog implements GiftContact.View 
         initLayoutPrams();
         mPresenter = new GiftPresenter();
         mPresenter.attachView(this);
-        initViews();
+        initViews(context);
     }
 
-    private void initViews() {
+    private void initViews(Context context) {
         if(null!=mUserInfo){
             ((TextView) findViewById(R.id.dig_sned_user)).setText("送给："+mUserInfo.getNickName());
             View.OnClickListener onClickListener=new View.OnClickListener() {
@@ -60,7 +60,7 @@ public class LiveGiftDialog extends AppCompatDialog implements GiftContact.View 
             findViewById(R.id.dig_btn_sned).setOnClickListener(onClickListener);
             //礼物交互面板初始化
             mGtiftLayout = (FrameLayout) findViewById(R.id.gift_layout);
-            GiftLayout giftLayout=GiftDataCache.getInstance().getGiftView(getContext());
+            GiftLayout giftLayout= GiftCacheManager.getInstance().getGiftView(getContext());
             mGtiftLayout.removeAllViews();
             mGtiftLayout.addView(giftLayout);
         }

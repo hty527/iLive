@@ -12,21 +12,11 @@
         android:orientation="vertical"
         android:clipChildren="false"
         android:clipToPadding="false">
-        <com.android.gift.view.MarqueeTextView
-            android:id="@+id/view_gift_desp"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:singleLine="true"
-            android:ellipsize="marquee"
-            android:textColor="#999999"
-            android:textSize="10dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"/>
         <android.support.v4.view.ViewPager
             android:id="@+id/gift_view_pager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:overScrollMode="never"
             android:clipChildren="false"
             android:clipToPadding="false">
         </android.support.v4.view.ViewPager>

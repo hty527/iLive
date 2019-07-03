@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import com.android.gift.bean.UserInfo;
-import com.android.gift.gift.GiftDataCache;
+import com.android.gift.gift.GiftCacheManager;
 import com.android.gift.gift.dialog.LiveGiftDialog;
 
 public class MainActivity extends AppCompatActivity {
@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //先初始化好礼物交互面板，等到需要展示的时候直接显示出来
-        GiftDataCache.getInstance().init(this);
+        GiftCacheManager.getInstance().init(this);
     }
 
     public void showGift(View view) {

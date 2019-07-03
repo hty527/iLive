@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://D:\AndroidStudioProjects\iLive\RoomGift.iml" filepath="D:\AndroidStudioProjects\iLive\RoomGift.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://D:\AndroidStudioProjects\iLive\app\app.iml" filepath="D:\AndroidStudioProjects\iLive\app\app.iml" />
       <module fileurl="file://D:\AndroidStudioProjects\iLive\gift-android\gift-android.iml" filepath="D:\AndroidStudioProjects\iLive\gift-android\gift-android.iml" />
       <module fileurl="file://$PROJECT_DIR$/iLive.iml" filepath="$PROJECT_DIR$/iLive.iml" />
     </modules>

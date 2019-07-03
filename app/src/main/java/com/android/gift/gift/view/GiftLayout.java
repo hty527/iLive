@@ -14,6 +14,7 @@ import com.android.gift.bean.GiftItemInfo;
 import com.android.gift.bean.GiftType;
 import com.android.gift.gift.contract.GiftContact;
 import com.android.gift.gift.presenter.GiftPresenter;
+import com.android.gift.util.AppUtils;
 import java.util.List;
 
 /**
@@ -46,6 +47,7 @@ public class GiftLayout extends FrameLayout implements GiftContact.View {
     public void showGiftTypes(List<GiftType> data) {
         ViewPager viewPager = (ViewPager) findViewById(R.id.gift_view_pager);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.gift_tab_layout);
+        viewPager.getLayoutParams().height= AppUtils.getScreenWidth(getContext())/2+AppUtils.dpToPxInt(getContext(),5f);
         if(null!=viewPager){
             GiftPagerAdapter adapter = new GiftPagerAdapter(data);
             viewPager.setAdapter(adapter);

@@ -6,7 +6,7 @@ import com.android.gift.bean.GiftItemInfo;
 import com.android.gift.bean.GiftType;
 import com.android.gift.bean.ResultData;
 import com.android.gift.bean.ResultList;
-import com.android.gift.gift.GiftDataCache;
+import com.android.gift.gift.GiftCacheManager;
 import com.android.gift.gift.contract.GiftContact;
 import com.android.gift.model.GiftEngin;
 import com.android.gift.net.OkHttpUtils;
@@ -34,7 +34,7 @@ public class GiftPresenter extends BasePresenter<GiftContact.View,GiftEngin> imp
     @Override
     public void getGiftsType(Context context) {
         if(null!=mViewRef&&null!=mViewRef.get()){
-            List<GiftType> giftTypes = GiftDataCache.getInstance().getGiftTypes();
+            List<GiftType> giftTypes = GiftCacheManager.getInstance().getGiftTypes();
             if(null!=giftTypes&&giftTypes.size()>0){
                 mViewRef.get().showGiftTypes(giftTypes);
                 return;
@@ -46,7 +46,7 @@ public class GiftPresenter extends BasePresenter<GiftContact.View,GiftEngin> imp
                 public void onResponse(ResultData<ResultList<GiftType>> data) {
                     if(null!=mViewRef&&null!=mViewRef.get()){
                         if(null!=data.getData()&&null!=data.getData().getList()&&data.getData().getList().size()>0){
-                            GiftDataCache.getInstance().setGiftTypes(data.getData().getList());
+                            GiftCacheManager.getInstance().setGiftTypes(data.getData().getList());
                             mViewRef.get().showGiftTypes(data.getData().getList());
                         }else{
                             mViewRef.get().showGiftTypesError(OkHttpUtils.ERROR_EMPTY,"礼物数据为空");
@@ -72,7 +72,7 @@ public class GiftPresenter extends BasePresenter<GiftContact.View,GiftEngin> imp
     @Override
     public void getGiftsByType(Context context, final String type) {
         if(null!=mViewRef&&null!=mViewRef.get()){
-            List<GiftItemInfo> giftItemInfos = GiftDataCache.getInstance().getGiftItemInfos(type);
+            List<GiftItemInfo> giftItemInfos = GiftCacheManager.getInstance().getGiftItemInfos(type);
             if(null!=giftItemInfos&&giftItemInfos.size()>0){
                 mViewRef.get().showGifts(giftItemInfos,type);
                 return;
@@ -85,7 +85,7 @@ public class GiftPresenter extends BasePresenter<GiftContact.View,GiftEngin> imp
                 public void onResponse(ResultData<ResultList<GiftItemInfo>> data) {
                     if(null!=mViewRef&&null!=mViewRef.get()){
                         if(null!=data.getData()&&null!=data.getData().getList()&&data.getData().getList().size()>0){
-                            GiftDataCache.getInstance().setGiftItemInfos((ArrayList<GiftItemInfo>) data.getData().getList(),type);
+                            GiftCacheManager.getInstance().setGiftItemInfos((ArrayList<GiftItemInfo>) data.getData().getList(),type);
                             mViewRef.get().showGifts(data.getData().getList(),type);
                         }else{
                             mViewRef.get().showGiftError(OkHttpUtils.ERROR_EMPTY,type,"礼物为空");

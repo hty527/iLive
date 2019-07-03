@@ -1,31 +1,26 @@
 package com.android.gift.gift.view;
 
 import android.content.Context;
-import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 import com.android.gift.R;
 import com.android.gift.bean.GiftItemInfo;
 import com.android.gift.bean.GiftType;
+import com.android.gift.gift.GiftCacheManager;
 import com.android.gift.gift.GiftItemAdapter;
 import com.android.gift.gift.contract.GiftContact;
 import com.android.gift.gift.presenter.GiftPresenter;
 import com.android.gift.util.AppUtils;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.opensource.svgaplayer.SVGAImageView;
-import java.io.File;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -38,6 +33,8 @@ public class GiftBoardView extends FrameLayout implements GiftContact.View {
 
     private final GiftPresenter mPresenter;
     private int mCurrentPosition;
+    private LinearLayout mDotRootView;
+    private GiftPagerAdapter mAdapter;
 
     public GiftBoardView(@NonNull Context context) {
         this(context,null);
@@ -73,15 +70,70 @@ public class GiftBoardView extends FrameLayout implements GiftContact.View {
     public void showGifts(List<GiftItemInfo> data, String type) {
         ViewPager viewPager = (ViewPager) findViewById(R.id.gift_view_pager);
         if(null!=viewPager){
+            viewPager.getLayoutParams().height= AppUtils.getScreenWidth(getContext())/2;
+            viewPager.addOnPageChangeListener(onPageChangeListener);
             TreeMap<Integer, List<GiftItemInfo>> subGroupGift = AppUtils.subGroupGift(data, 8);
-            GiftPagerAdapter adapter=new GiftPagerAdapter(subGroupGift);
-            viewPager.setAdapter(adapter);
+            mAdapter = new GiftPagerAdapter(subGroupGift);
+            viewPager.setAdapter(mAdapter);
+            addDots(subGroupGift.size());
         }
     }
 
     @Override
     public void showGiftError(int code, String type, String errMsg) {
 
+    }
+
+    private ViewPager.OnPageChangeListener onPageChangeListener=new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            if(null!=mDotRootView&&mDotRootView.getChildCount()>0){
+                for (int i = 0; i < mAdapter.getCount(); i++) {
+                    mDotRootView.getChildAt(i).setSelected(i == position);
+                    View childAt = mDotRootView.getChildAt(i);
+                    if(null!=childAt){
+                        ViewGroup.LayoutParams layoutParams = childAt.getLayoutParams();
+                        if(childAt.isSelected()){
+                            layoutParams.width=AppUtils.dpToPxInt(getContext(),8f);
+                            layoutParams.height=AppUtils.dpToPxInt(getContext(),5f);
+                        }else{
+                            layoutParams.width=AppUtils.dpToPxInt(getContext(),5f);
+                            layoutParams.height=AppUtils.dpToPxInt(getContext(),5f);
+                        }
+                        childAt.setLayoutParams(layoutParams);
+                    }
+                }
+            }
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    };
+
+    /**
+     * 绘制页眉小圆点
+     * @param gifNum
+     */
+    private void addDots(int gifNum) {
+        int pxFor10Dp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getResources().getDisplayMetrics());
+        mDotRootView = (LinearLayout) findViewById(R.id.ll_dot_view);
+        mDotRootView.removeAllViews();
+        for (int i=0;i<gifNum;i++) {
+            View dot = new View(getContext());
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(pxFor10Dp, pxFor10Dp);
+            layoutParams.setMargins(0, 0, pxFor10Dp, 0);
+            dot.setLayoutParams(layoutParams);
+            dot.setBackgroundResource(R.drawable.live_arl_dot_selector);
+            mDotRootView.addView(dot);
+        }
+        if(null!=onPageChangeListener) onPageChangeListener.onPageSelected(0);
     }
 
     /**
@@ -140,33 +192,14 @@ public class GiftBoardView extends FrameLayout implements GiftContact.View {
             RecyclerView recyclerView = (RecyclerView) mView.findViewById(R.id.recycler_gift_item);
             final GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 4, GridLayoutManager.VERTICAL, false);
             recyclerView.setLayoutManager(gridLayoutManager);
-            final GiftItemAdapter adapter= new GiftItemAdapter(giftInfos,getContext());
+            GiftItemAdapter adapter= new GiftItemAdapter(giftInfos,getContext());
             adapter.setOnItemClickListener(new GiftItemAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(int poistion, View view, GiftItemInfo giftInfo) {
-                    if(null!=adapter&&adapter.getData().size()>poistion){
-                        selectedChangedGift(poistion,view,giftInfo);
-                    }
+                    selectedChangedGift(poistion,view,giftInfo);
                 }
             });
             recyclerView.setAdapter(adapter);
-            //在用户无操作礼物面板的情况下默认是第一个被选中
-//            if(mIsRecovery&&!GiftHelpManager.getInstance().isExitRecoveryState()&&0==position&&0==currentFragmentIndex){
-//                new android.os.Handler().postAtTime(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        View viewByPosition = gridLayoutManager.findViewByPosition(0);
-//                        if(null!=viewByPosition&&null!=viewByPosition.getTag()){
-//                            GiftInfo giftInfo = (GiftInfo) viewByPosition.getTag();
-//                            clickSelectedIndex=0;
-//                            clickSelectedIndex--;//避免还原选中状态，数量又加上去了。。。，这里的数量永远不会小于0
-//                            currentView=viewByPosition;
-//                            giftInfo.setSelector(true);
-//                            setSelected(currentView,giftInfo,true);
-//                        }
-//                    }
-//                }, SystemClock.uptimeMillis()+500);
-//            }
         }
 
         /**
@@ -184,20 +217,12 @@ public class GiftBoardView extends FrameLayout implements GiftContact.View {
          * @param giftInfo 当前点击的礼物
          */
         private void selectedChangedGift(int poistion, View view, GiftItemInfo giftInfo) {
-
+            FrameLayout svgaIcon = view.findViewById(R.id.view_svga_icon);
+            if(null!=svgaIcon&&svgaIcon.getChildCount()==0){
+                GiftCacheManager.getInstance().removeParentGroup();
+            }
         }
     }
-
-    /**
-     * ItemAdapter 更新此控件是否选中
-     * @param view itemView
-     * @param giftInfo 礼物与ItemView绑定的元素
-     * @param selected 是否选中
-     */
-    public void setSelected(View view,GiftItemInfo giftInfo,boolean selected){
-
-    }
-
 
     @Override
     public void showLoading() {}

@@ -4,6 +4,8 @@ import android.content.Context;
 import com.android.gift.bean.GiftItemInfo;
 import com.android.gift.bean.GiftType;
 import com.android.gift.gift.view.GiftLayout;
+import com.opensource.svgaplayer.SVGAImageView;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,9 +16,9 @@ import java.util.TreeMap;
  * 2019/6/20
  */
 
-public class GiftDataCache {
+public class GiftCacheManager {
 
-    private volatile static GiftDataCache mInstance;
+    private volatile static GiftCacheManager mInstance;
     //礼物分类
     private List<GiftType> mGiftTypes;
     //分类下的礼物
@@ -24,10 +26,10 @@ public class GiftDataCache {
     //展示、与用户交互的礼物容器
     private GiftLayout mGiftLayout;
 
-    public static synchronized GiftDataCache getInstance(){
-        synchronized (GiftDataCache.class){
+    public static synchronized GiftCacheManager getInstance(){
+        synchronized (GiftCacheManager.class){
             if(null==mInstance){
-                mInstance=new GiftDataCache();
+                mInstance=new GiftCacheManager();
             }
         }
         return mInstance;
@@ -69,5 +71,12 @@ public class GiftDataCache {
             mGiftLayout=new GiftLayout(context);
         }
         return mGiftLayout;
+    }
+
+    /**
+     * 移除自身的父容器
+     */
+    public void removeParentGroup() {
+
     }
 }

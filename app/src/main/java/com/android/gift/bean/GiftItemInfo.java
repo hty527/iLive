@@ -52,6 +52,12 @@ public class GiftItemInfo {
     private String svga;
     private String tag;
     private String title;
+    private int drawTimes;//中奖倍数
+
+    //选中的礼物个数
+    private int count;
+    //礼物发出的源房间ID
+    private String source_room_id;
 
     public int getAddtime() {
         return addtime;
@@ -219,6 +225,30 @@ public class GiftItemInfo {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public int getDrawTimes() {
+        return drawTimes;
+    }
+
+    public void setDrawTimes(int drawTimes) {
+        this.drawTimes = drawTimes;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public String getSource_room_id() {
+        return source_room_id;
+    }
+
+    public void setSource_room_id(String source_room_id) {
+        this.source_room_id = source_room_id;
     }
 
     @Override

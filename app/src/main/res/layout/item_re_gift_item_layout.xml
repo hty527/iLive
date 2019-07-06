@@ -12,27 +12,27 @@
         android:clipChildren="false"
         android:clipToPadding="false">
         <RelativeLayout
-            android:id="@+id/item_view_group"
+            android:id="@+id/gift_item_view_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp">
             <RelativeLayout
-                android:id="@+id/re_item_view"
+                android:id="@+id/gift_item_re_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <ImageView
-                    android:id="@+id/ic_item_icon"
+                    android:id="@+id/gift_item_ic_icon"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="2dp"
-                    android:layout_above="@+id/tv_item_title"
+                    android:layout_above="@+id/gift_item_tv_title"
                     android:layout_centerHorizontal="true"/>
                 <TextView
-                    android:id="@+id/tv_item_title"
+                    android:id="@+id/gift_item_tv_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_above="@+id/item_tv_price"
+                    android:layout_above="@+id/gift_item_tv_price"
                     android:textSize="12dp"
                     android:padding="2dp"
                     android:textColor="#FFFFFF"
@@ -42,7 +42,7 @@
                     android:visibility="gone"
                     android:text="--"/>
                 <TextView
-                    android:id="@+id/item_tv_price"
+                    android:id="@+id/gift_item_tv_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -54,11 +54,11 @@
                     android:layout_margin="1dp"
                     android:ellipsize="end"
                     android:textSize="12dp"
-                    android:textColor="#FFFFFF"
+                    android:textColor="#DADADA"
                     android:drawableLeft="@drawable/ic_gift_board_money"
                     android:text="--" />
                 <TextView
-                    android:id="@+id/item_tag"
+                    android:id="@+id/gift_item_tag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#FFFFFF"
@@ -75,7 +75,7 @@
     </RelativeLayout>
     <!--接收动画图层-->
     <FrameLayout
-        android:id="@+id/view_svga_icon"
+        android:id="@+id/gift_svga_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
@@ -83,7 +83,7 @@
         android:layout_marginTop="-16dp"/>
     <!--选中的个数-->
     <TextView
-        android:id="@+id/tv_count"
+        android:id="@+id/gift_item_tv_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="x0"
@@ -92,5 +92,6 @@
         android:layout_alignParentRight="true"
         android:background="@drawable/bg_gift_num_item"
         android:clipToPadding="false"
+        android:includeFontPadding="false"
         android:visibility="invisible"/>
 </RelativeLayout>

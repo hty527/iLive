@@ -11,26 +11,18 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import com.android.gift.R;
-import com.android.gift.bean.GiftItemInfo;
-import com.android.gift.bean.GiftType;
 import com.android.gift.bean.UserInfo;
-import com.android.gift.gift.GiftCacheManager;
-import com.android.gift.gift.contract.GiftContact;
-import com.android.gift.gift.presenter.GiftPresenter;
+import com.android.gift.gift.manager.GiftBoardManager;
 import com.android.gift.gift.view.GiftLayout;
-import java.util.List;
 
 /**
  * Created by TinyHung@outlook.com
  * 2019/6/20
- * 礼物面板容器
+ * 礼物面板弹窗UI交互示例容器
  */
 
-public class LiveGiftDialog extends AppCompatDialog implements GiftContact.View {
+public class LiveGiftDialog extends AppCompatDialog{
 
-    private final UserInfo mUserInfo;
-    private final String mRoomid;
-    private final GiftPresenter mPresenter;
     private FrameLayout mGtiftLayout;
 
     public static LiveGiftDialog getInstance(Context context, UserInfo userInfo, String roomid){
@@ -39,31 +31,28 @@ public class LiveGiftDialog extends AppCompatDialog implements GiftContact.View 
 
     public LiveGiftDialog(@NonNull Context context,UserInfo userInfo,String roomid) {
         super(context, R.style.ButtomDialogTransparentAnimationStyle);
-        this.mUserInfo=userInfo;
-        this.mRoomid=roomid;
         setContentView(R.layout.dialog_gift_group);
         initLayoutPrams();
-        mPresenter = new GiftPresenter();
-        mPresenter.attachView(this);
-        initViews(context);
+        initViews(userInfo,roomid);
     }
 
-    private void initViews(Context context) {
-        if(null!=mUserInfo){
-            ((TextView) findViewById(R.id.dig_sned_user)).setText("送给："+mUserInfo.getNickName());
-            View.OnClickListener onClickListener=new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            };
-            findViewById(R.id.dig_btn_sned).setOnClickListener(onClickListener);
-            //礼物交互面板初始化
-            mGtiftLayout = (FrameLayout) findViewById(R.id.gift_layout);
-            GiftLayout giftLayout= GiftCacheManager.getInstance().getGiftView(getContext());
-            mGtiftLayout.removeAllViews();
-            mGtiftLayout.addView(giftLayout);
+    private void initViews(UserInfo userInfo, String roomid) {
+        if(null!=userInfo){
+            ((TextView) findViewById(R.id.dig_sned_user)).setText("送给："+userInfo.getNickName());
         }
+        findViewById(R.id.dig_btn_sned).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GiftBoardManager.getInstance().sendGift();
+            }
+        });
+        //礼物交互面板初始化
+        mGtiftLayout = (FrameLayout) findViewById(R.id.gift_layout);
+        GiftLayout giftLayout= GiftBoardManager.getInstance().getGiftView(getContext());
+        mGtiftLayout.removeAllViews();
+        mGtiftLayout.addView(giftLayout);
+        GiftBoardManager.getInstance().setReceiveUser(userInfo);
+        GiftBoardManager.getInstance().setReceiveRoomID(roomid);
     }
 
     protected void initLayoutPrams(){
@@ -79,25 +68,9 @@ public class LiveGiftDialog extends AppCompatDialog implements GiftContact.View 
     }
 
     @Override
-    public void showLoading() {}
-    @Override
-    public void showError(int code, String errorMsg) {}
-    @Override
-    public void showGiftTypes(List<GiftType> data) {}
-    @Override
-    public void showGiftTypesError(int code, String errMsg) {}
-    @Override
-    public void showGifts(List<GiftItemInfo> data, String type) {}
-    @Override
-    public void showGiftError(int code, String type, String errMsg) {}
-    @Override
-    public void showGivePresentSuccess(GiftItemInfo giftItemInfo, int giftCount, boolean isDoubleClick) {
-
-    }
-
-    @Override
-    public void showGivePresentError(int code, String errMsg) {
-
+    public void show() {
+        super.show();
+        GiftBoardManager.getInstance().onResume();
     }
 
     @Override
@@ -106,5 +79,6 @@ public class LiveGiftDialog extends AppCompatDialog implements GiftContact.View 
         if(null!=mGtiftLayout){
             mGtiftLayout.removeAllViews();
         }
+        GiftBoardManager.getInstance().onPause();
     }
 }

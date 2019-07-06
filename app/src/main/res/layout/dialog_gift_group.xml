@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#B33A1B59">
+    android:background="#F23A1B59">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
                 android:paddingLeft="5dp"
                 android:gravity="center_vertical"
                 android:layout_marginLeft="10dp"
-                android:text="1i3434476" />
+                android:text="1000万" />
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -42,8 +42,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:textColor="#FFFFFF"
-                    android:textSize="13dp"
-                    android:text="送给:周杰伦" />
+                    android:textSize="13dp" />
                 <com.android.gift.view.ShapeTextView
                     android:id="@+id/dig_btn_sned"
                     android:layout_width="58dp"

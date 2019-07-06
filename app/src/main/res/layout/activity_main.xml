@@ -4,13 +4,15 @@
     android:layout_height="match_parent"
     android:gravity="center">
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
-        android:text="SHOW-GIFT"
+        android:layout_marginRight="5dp"
+        android:text="礼物面板示例"
         android:onClick="showGift"/>
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
-        android:text="START-ROOM"
+        android:layout_marginLeft="5dp"
+        android:text="直播间示例"
         android:onClick="startRoom"/>
 </LinearLayout>

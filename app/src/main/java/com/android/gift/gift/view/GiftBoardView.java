@@ -16,8 +16,8 @@ import android.widget.LinearLayout;
 import com.android.gift.R;
 import com.android.gift.bean.GiftItemInfo;
 import com.android.gift.bean.GiftType;
-import com.android.gift.gift.GiftCacheManager;
-import com.android.gift.gift.GiftItemAdapter;
+import com.android.gift.gift.manager.GiftBoardManager;
+import com.android.gift.gift.adapter.GiftItemAdapter;
 import com.android.gift.gift.contract.GiftContact;
 import com.android.gift.gift.presenter.GiftPresenter;
 import com.android.gift.util.AppUtils;
@@ -27,12 +27,12 @@ import java.util.TreeMap;
 /**
  * Created by TinyHung@outlook.com
  * 2019/6/20
+ * 礼物交互面板
  */
 
 public class GiftBoardView extends FrameLayout implements GiftContact.View {
 
     private final GiftPresenter mPresenter;
-    private int mCurrentPosition;
     private LinearLayout mDotRootView;
     private GiftPagerAdapter mAdapter;
 
@@ -51,18 +51,26 @@ public class GiftBoardView extends FrameLayout implements GiftContact.View {
         mPresenter.attachView(this);
     }
 
+    /**
+     * 绑定礼物分类，根据分类获取礼物列表
+     * @param giftTypeInfo
+     */
     public void setGiftTypeInfo(GiftType giftTypeInfo) {
         if(null!=giftTypeInfo&&null!=mPresenter){
             mPresenter.getGiftsByType(getContext(),giftTypeInfo.getId()+"");
         }
     }
 
-    public void setPosition(int position) {
-        this.mCurrentPosition=position;
-    }
+    //=========================================礼物列表渲染及交互=====================================
 
     /**
-     * 礼物数据
+     * 礼物分类、分类下列表加载中
+     */
+    @Override
+    public void showLoading() {}
+
+    /**
+     * 礼物数据获取成功
      * @param data 礼物列表
      * @param type 礼物类别
      */
@@ -74,63 +82,38 @@ public class GiftBoardView extends FrameLayout implements GiftContact.View {
             viewPager.addOnPageChangeListener(onPageChangeListener);
             TreeMap<Integer, List<GiftItemInfo>> subGroupGift = AppUtils.subGroupGift(data, 8);
             mAdapter = new GiftPagerAdapter(subGroupGift);
+            viewPager.setOffscreenPageLimit(5);
             viewPager.setAdapter(mAdapter);
             addDots(subGroupGift.size());
         }
     }
 
+    /**
+     * 礼物获取失败
+     * @param code 错误码，3002 为空，其他为失败
+     * @param type 礼物类别
+     * @param errMsg 描述信息
+     */
     @Override
     public void showGiftError(int code, String type, String errMsg) {
 
     }
-
-    private ViewPager.OnPageChangeListener onPageChangeListener=new ViewPager.OnPageChangeListener() {
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-        }
-
-        @Override
-        public void onPageSelected(int position) {
-            if(null!=mDotRootView&&mDotRootView.getChildCount()>0){
-                for (int i = 0; i < mAdapter.getCount(); i++) {
-                    mDotRootView.getChildAt(i).setSelected(i == position);
-                    View childAt = mDotRootView.getChildAt(i);
-                    if(null!=childAt){
-                        ViewGroup.LayoutParams layoutParams = childAt.getLayoutParams();
-                        if(childAt.isSelected()){
-                            layoutParams.width=AppUtils.dpToPxInt(getContext(),8f);
-                            layoutParams.height=AppUtils.dpToPxInt(getContext(),5f);
-                        }else{
-                            layoutParams.width=AppUtils.dpToPxInt(getContext(),5f);
-                            layoutParams.height=AppUtils.dpToPxInt(getContext(),5f);
-                        }
-                        childAt.setLayoutParams(layoutParams);
-                    }
-                }
-            }
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int state) {
-
-        }
-    };
 
     /**
      * 绘制页眉小圆点
      * @param gifNum
      */
     private void addDots(int gifNum) {
-        int pxFor10Dp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getResources().getDisplayMetrics());
-        mDotRootView = (LinearLayout) findViewById(R.id.ll_dot_view);
+        int pxFor10Dp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
+        int pxFor8Dp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getResources().getDisplayMetrics());
+        mDotRootView = (LinearLayout) findViewById(R.id.gift_dot_view);
         mDotRootView.removeAllViews();
         for (int i=0;i<gifNum;i++) {
             View dot = new View(getContext());
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(pxFor10Dp, pxFor10Dp);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(pxFor8Dp, pxFor8Dp);
             layoutParams.setMargins(0, 0, pxFor10Dp, 0);
             dot.setLayoutParams(layoutParams);
-            dot.setBackgroundResource(R.drawable.live_arl_dot_selector);
+            dot.setBackgroundResource(R.drawable.dot_arl_selector);
             mDotRootView.addView(dot);
         }
         if(null!=onPageChangeListener) onPageChangeListener.onPageSelected(0);
@@ -175,6 +158,23 @@ public class GiftBoardView extends FrameLayout implements GiftContact.View {
         }
     }
 
+    private ViewPager.OnPageChangeListener onPageChangeListener=new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+
+        @Override
+        public void onPageSelected(int position) {
+            if(null!=mDotRootView&&mDotRootView.getChildCount()>0&&null!=mAdapter){
+                for (int i = 0; i < mAdapter.getCount(); i++) {
+                    mDotRootView.getChildAt(i).setSelected(i == position);
+                }
+            }
+        }
+        @Override
+        public void onPageScrollStateChanged(int state) {}
+    };
+
+
     /**
      * 分页礼物
      */
@@ -183,7 +183,6 @@ public class GiftBoardView extends FrameLayout implements GiftContact.View {
         private View mView;
 
         /**
-         *
          * @param giftInfos 数据
          * @param position 子界面位置
          */
@@ -217,23 +216,14 @@ public class GiftBoardView extends FrameLayout implements GiftContact.View {
          * @param giftInfo 当前点击的礼物
          */
         private void selectedChangedGift(int poistion, View view, GiftItemInfo giftInfo) {
-            FrameLayout svgaIcon = view.findViewById(R.id.view_svga_icon);
-            if(null!=svgaIcon&&svgaIcon.getChildCount()==0){
-                GiftCacheManager.getInstance().removeParentGroup();
-            }
+            GiftBoardManager.getInstance().onClick(view,giftInfo);
         }
     }
 
-    @Override
-    public void showLoading() {}
     @Override
     public void showError(int code, String errorMsg) {}
     @Override
     public void showGiftTypes(List<GiftType> data) {}
     @Override
     public void showGiftTypesError(int code, String errMsg) {}
-    @Override
-    public void showGivePresentSuccess(GiftItemInfo giftItemInfo, int giftCount, boolean isDoubleClick) {}
-    @Override
-    public void showGivePresentError(int code, String errMsg) {}
 }

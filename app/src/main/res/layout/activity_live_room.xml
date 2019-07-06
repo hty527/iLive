@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--视频播放-->
+    <com.video.player.lib.view.VideoPlayerTrackView
+        android:id="@+id/video_track"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:video_autoSetCoverController="true"
+        app:video_autoSetVideoController="false"/>
+    <!--直播间控制器-->
+    <com.android.gift.room.view.VideoLiveControllerView
+        android:id="@+id/live_controller"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</FrameLayout>

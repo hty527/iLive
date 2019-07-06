@@ -6,12 +6,14 @@
     android:clipChildren="false"
     android:clipToPadding="false">
     <LinearLayout
-        android:id="@+id/ll_root_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:clipChildren="false"
         android:clipToPadding="false">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp"/>
         <android.support.v4.view.ViewPager
             android:id="@+id/gift_view_pager"
             android:layout_width="match_parent"
@@ -22,7 +24,7 @@
         </android.support.v4.view.ViewPager>
         <!--下标指示器-->
         <LinearLayout
-            android:id="@+id/ll_dot_view"
+            android:id="@+id/gift_dot_view"
             android:layout_width="wrap_content"
             android:layout_height="5dp"
             android:layout_gravity="center_horizontal"

@@ -4,7 +4,7 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.android.gift"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -14,6 +14,21 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file('newqu.keystore')
+            storePassword "123456"
+            keyAlias "newqu"
+            keyPassword "123456"
+        }
+        release {
+            storeFile file('newqu.keystore')
+            storePassword "123456"
+            keyAlias "newqu"
+            keyPassword "123456"
         }
     }
 }
@@ -38,4 +53,6 @@ dependencies {
     androidTestCompile('com.android.support:support-annotations:26.1.0') {
         force = true
     }
+    //视频播放器
+    implementation 'com.imusic.player:video-player:1.0.7'
 }

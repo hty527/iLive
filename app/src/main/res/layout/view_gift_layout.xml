@@ -17,31 +17,33 @@
             app:tabMode="fixed"
             app:tabTextAppearance="@style/TabLayoutTextAppearance"
             app:tabIndicatorHeight="0dp"
-            app:tabTextColor="#CCCCCC"
+            app:tabTextColor="#AAAAAA"
             app:tabSelectedTextColor="#FF6666"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="0.2dp"
             android:background="#0DFFFFFF"
             android:layout_alignParentBottom="true"/>
-        <TextView
-            android:id="@+id/gift_tv_desp"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:lines="1"
-            android:singleLine="true"
-            android:textSize="11dp"
-            android:textColor="#DDDDDD"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingTop="3dp"
-            android:paddingBottom="3dp"
-            android:text="我是礼物描述我是礼物描述我是礼物描述我是礼物描述我是礼物描述"/>
-        <android.support.v4.view.ViewPager
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:overScrollMode="never"
-            android:id="@+id/gift_view_pager">
-        </android.support.v4.view.ViewPager>
+            android:layout_height="wrap_content">
+            <com.android.gift.view.MarqueeTextView
+                android:id="@+id/gift_tv_desp"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:textSize="11dp"
+                android:textColor="#9A9A9A"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="点击喜欢的礼物，送给心仪的主播吧~"/>
+            <android.support.v4.view.ViewPager
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"
+                android:id="@+id/gift_view_pager">
+            </android.support.v4.view.ViewPager>
+        </FrameLayout>
     </LinearLayout>
 </FrameLayout>

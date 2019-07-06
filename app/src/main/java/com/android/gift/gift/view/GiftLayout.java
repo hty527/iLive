@@ -5,10 +5,12 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.Html;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import com.android.gift.R;
 import com.android.gift.bean.GiftItemInfo;
 import com.android.gift.bean.GiftType;
@@ -26,6 +28,7 @@ import java.util.List;
 public class GiftLayout extends FrameLayout implements GiftContact.View {
 
     private final GiftPresenter mPresenter;
+    private final TextView mTextDesp;
 
     public GiftLayout(Context context) {
         this(context,null);
@@ -41,13 +44,30 @@ public class GiftLayout extends FrameLayout implements GiftContact.View {
         mPresenter = new GiftPresenter();
         mPresenter.attachView(this);
         mPresenter.getGiftsType(getContext().getApplicationContext());
+        mTextDesp = (TextView) findViewById(R.id.gift_tv_desp);
     }
+
+    /**
+     * 设置礼物描述
+     * @param text
+     */
+    public void setGiftDesp(String text){
+        if(null!=mTextDesp){
+            mTextDesp.setText(Html.fromHtml(text));
+        }
+    }
+
+    /**
+     * 礼物分类、分类下列表加载中
+     */
+    @Override
+    public void showLoading() {}
 
     @Override
     public void showGiftTypes(List<GiftType> data) {
         ViewPager viewPager = (ViewPager) findViewById(R.id.gift_view_pager);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.gift_tab_layout);
-        viewPager.getLayoutParams().height= AppUtils.getScreenWidth(getContext())/2+AppUtils.dpToPxInt(getContext(),5f);
+        viewPager.getLayoutParams().height= AppUtils.getScreenWidth(getContext())/2+AppUtils.dpToPxInt(getContext(),25f);
         if(null!=viewPager){
             GiftPagerAdapter adapter = new GiftPagerAdapter(data);
             viewPager.setAdapter(adapter);
@@ -58,8 +78,6 @@ public class GiftLayout extends FrameLayout implements GiftContact.View {
     }
 
     @Override
-    public void showLoading() {}
-    @Override
     public void showError(int code, String errorMsg) {}
     @Override
     public void showGiftTypesError(int code, String errMsg) {}
@@ -67,10 +85,6 @@ public class GiftLayout extends FrameLayout implements GiftContact.View {
     public void showGifts(List<GiftItemInfo> data, String type) {}
     @Override
     public void showGiftError(int code, String type, String errMsg) {}
-    @Override
-    public void showGivePresentSuccess(GiftItemInfo giftItemInfo, int giftCount, boolean isDoubleClick) {}
-    @Override
-    public void showGivePresentError(int code, String errMsg) {}
 
     /**
      * 礼物面板分页适配器
@@ -104,7 +118,6 @@ public class GiftLayout extends FrameLayout implements GiftContact.View {
             if(null!=giftTypeInfo){
                 GiftBoardView giftBoardView = new GiftBoardView(getContext());
                 giftBoardView.setGiftTypeInfo(giftTypeInfo);
-                giftBoardView.setPosition(position);
                 container.addView(giftBoardView);
                 return giftBoardView;
             }

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/view_recycler_msg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fadingEdge="vertical"
+        android:fadingEdgeLength="10dp"
+        android:overScrollFooter="@android:color/transparent"
+        android:overScrollHeader="@android:color/transparent"
+        android:overScrollMode="never"
+        android:scrollbars="none"/>
+    <TextView
+        android:id="@+id/view_btn_newmsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:textColor="#000000"
+        android:background="@drawable/bg_white_circular_trs"
+        android:textSize="12dp"
+        android:drawableRight="@drawable/ic_message_down"
+        android:drawablePadding="4dp"
+        android:gravity="center_vertical"
+        android:text="0条新消息"
+        android:layout_gravity="bottom"
+        android:visibility="invisible"/>
+</FrameLayout>

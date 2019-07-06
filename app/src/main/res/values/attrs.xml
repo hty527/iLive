@@ -31,4 +31,45 @@
         <attr name="blurBottomLeft" format="boolean"/>
         <attr name="blurBottomRight" format="boolean"/>
     </declare-styleable>
+    <!--进度条-->
+    <declare-styleable name="CircleTextProgressbar">
+        <attr name="in_circle_color" format="color" />
+    </declare-styleable>
+    <!--礼物倒计时-->
+    <declare-styleable name="CountdownGiftView">
+        <!--倒计时按钮，一圈耗时，单位秒-->
+        <attr name="count_durtion" format="integer" />
+    </declare-styleable>
+    <!--自定义圆环-->
+    <declare-styleable name="CircleProgressView">
+        <!--进度条背景颜色-->
+        <attr name="circle_progress_bg_color" format="color"></attr>
+        <!--进度条圆环背景颜色-->
+        <attr name="circle_progress_cir_bg_color" format="color"></attr>
+        <!--进度条颜色-->
+        <attr name="circle_progress_color" format="color"></attr>
+        <!--进度条文字颜色-->
+        <attr name="circle_progress_text_color" format="color"></attr>
+        <!--进度条文字大小-->
+        <attr name="circle_progress_text_size" format="dimension"></attr>
+        <!--进度条宽度-->
+        <attr name="circle_progress_stroke_width" format="dimension"></attr>
+        <!--是都显示文字-->
+        <attr name="circle_progress_show_text" format="boolean"></attr>
+        <!--最大进度阈值-->
+        <attr name="circle_progress_max" format="integer"></attr>
+    </declare-styleable>
+    <!-- 飘星自定义属性 -->
+    <declare-styleable name="HeartLayout">
+        <attr name="initX" format="dimension" />
+        <attr name="initY" format="dimension" />
+        <attr name="xRand" format="dimension" />
+        <attr name="animLengthRand" format="dimension" />
+        <attr name="xPointFactor" format="dimension" />
+        <attr name="animLength" format="dimension" />
+        <attr name="heart_width" format="dimension" />
+        <attr name="heart_height" format="dimension" />
+        <attr name="bezierFactor" format="integer" />
+        <attr name="anim_duration" format="integer" />
+    </declare-styleable>
 </resources>

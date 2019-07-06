@@ -43,21 +43,6 @@ public interface GiftContact {
          * @param errMsg 描述信息
          */
         void showGiftError(int code,String type,String errMsg);
-
-        /**
-         * 礼物交易成功
-         * @param giftItemInfo 礼物信息
-         * @param giftCount 礼物数量
-         * @param isDoubleClick 是否连击
-         */
-        void showGivePresentSuccess(GiftItemInfo giftItemInfo, int giftCount, boolean isDoubleClick);
-
-        /**
-         * 礼物交易失败
-         * @param code 错误码 -1：金币不足，需充值
-         * @param errMsg 描述信息
-         */
-        void showGivePresentError(int code, String errMsg);
     }
 
     interface Presenter<T> extends BaseContract.BasePresenter<T> {
@@ -74,16 +59,5 @@ public interface GiftContact {
          * @param type 礼物分类
          */
         void getGiftsByType(Context context, String type);
-
-        /**
-         * 发送人，接收人，礼物ID，房号,是否连击模式,应用场景
-         * @param giftItemInfo 包含礼物ID的礼物信息
-         * @param acceptUserID 接收人
-         * @param giftCount 礼物数量
-         * @param roomID 房间ID
-         * @param isDoubleClick 是否连击
-         * @param sceneType 场景
-         */
-        void givePresentGift(GiftItemInfo giftItemInfo, String acceptUserID, int giftCount, String roomID, boolean isDoubleClick, int sceneType);
     }
 }

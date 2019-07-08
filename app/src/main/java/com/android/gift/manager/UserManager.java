@@ -7,7 +7,7 @@ package com.android.gift.manager;
 
 public class UserManager {
 
-    private static UserManager mInstance;
+    private static volatile UserManager mInstance;
     private String mUserId="88888888";
     private String mNickName="周杰伦";
     private String mAcatar="http://img.mp.sohu.com/upload/20170811/eaec0c0513e544adb68c6b2af0fdbb1b_th.png";

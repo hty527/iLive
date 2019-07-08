@@ -67,7 +67,7 @@ public class GiftLayout extends FrameLayout implements GiftContact.View {
     public void showGiftTypes(List<GiftType> data) {
         ViewPager viewPager = (ViewPager) findViewById(R.id.gift_view_pager);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.gift_tab_layout);
-        viewPager.getLayoutParams().height= AppUtils.getScreenWidth(getContext())/2+AppUtils.dpToPxInt(getContext(),25f);
+        viewPager.getLayoutParams().height= AppUtils.getInstance().getScreenWidth(getContext())/2+AppUtils.getInstance().dpToPxInt(getContext(),30f);
         if(null!=viewPager){
             GiftPagerAdapter adapter = new GiftPagerAdapter(data);
             viewPager.setAdapter(adapter);

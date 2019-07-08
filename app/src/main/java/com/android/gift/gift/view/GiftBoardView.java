@@ -78,9 +78,9 @@ public class GiftBoardView extends FrameLayout implements GiftContact.View {
     public void showGifts(List<GiftItemInfo> data, String type) {
         ViewPager viewPager = (ViewPager) findViewById(R.id.gift_view_pager);
         if(null!=viewPager){
-            viewPager.getLayoutParams().height= AppUtils.getScreenWidth(getContext())/2;
+            viewPager.getLayoutParams().height= AppUtils.getInstance().getScreenWidth(getContext())/2;
             viewPager.addOnPageChangeListener(onPageChangeListener);
-            TreeMap<Integer, List<GiftItemInfo>> subGroupGift = AppUtils.subGroupGift(data, 8);
+            TreeMap<Integer, List<GiftItemInfo>> subGroupGift = AppUtils.getInstance().subGroupGift(data, 8);
             mAdapter = new GiftPagerAdapter(subGroupGift);
             viewPager.setOffscreenPageLimit(5);
             viewPager.setAdapter(mAdapter);

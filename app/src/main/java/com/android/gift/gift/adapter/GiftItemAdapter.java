@@ -32,12 +32,12 @@ public class GiftItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public GiftItemAdapter(List<GiftItemInfo> data, Context context) {
         this.mData=data;
-        int screenWidth = AppUtils.getScreenWidth(context);
+        int screenWidth = AppUtils.getInstance().getScreenWidth(context);
         this.mContext=context;
         mInflater = LayoutInflater.from(context);
         mItemHeight = screenWidth/4;
-        mIconWidth = mItemHeight - AppUtils.dpToPxInt(context,36f);
-        mSvgaIconWidth = mItemHeight - AppUtils.dpToPxInt(context,25f);
+        mIconWidth = mItemHeight - AppUtils.getInstance().dpToPxInt(context,36f);
+        mSvgaIconWidth = mItemHeight - AppUtils.getInstance().dpToPxInt(context,25f);
     }
 
     @Override

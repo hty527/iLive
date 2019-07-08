@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import com.android.gift.R;
@@ -76,13 +77,14 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
      */
     @SuppressLint("WrongViewCast")
     private void init(Context context, AttributeSet attrs) {
+        Logger.d(TAG,"init");
         this.mContext=context;
         View.inflate(context, R.layout.view_live_controller_layout,this);
         //状态栏高度,整个Activity是沉浸式的
-        findViewById(R.id.view_top_bar_empty).getLayoutParams().height=AppUtils.getStatusBarHeight(getContext());
+        findViewById(R.id.view_top_bar_empty).getLayoutParams().height=AppUtils.getInstance().getStatusBarHeight(getContext());
         //直播间在线人数
         if(null== mOnlineNumber) mOnlineNumber = (TextView) findViewById(R.id.view_online_number);
-        mOnlineNumber.setText(AppUtils.formatWan(100000,true)+"人");
+        mOnlineNumber.setText(AppUtils.getInstance().formatWan(100000,true)+"人");
         mTopBar = findViewById(R.id.tool_bar_view);
         //房间内会话列表
         mConversationListView = (BrightConversationListView) findViewById(R.id.view_bright_conversation);
@@ -96,13 +98,31 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
         mHandler = new Handler(Looper.getMainLooper());
         //连击赠送礼物
         mCountdownGiftView = (CountdownGiftView) findViewById(R.id.view_countdown_view);
+        //确定倒计时按钮的的位置，金币掉落时的终点位置
+        mCountdownGiftView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int[] location=new int[2];
+                mCountdownGiftView.getLocationOnScreen(location);
+                GiftBoardManager.getInstance().setAwardEndLocation(location);
+                mCountdownGiftView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
         //输入框弹起占位
         mEmptyView = findViewById(R.id.empty_view);
         findViewById(R.id.view_btn_close).setOnClickListener(this);
         findViewById(R.id.view_btn_menu4).setOnClickListener(this);
+        findViewById(R.id.re_root_view).setOnClickListener(this);
+        findViewById(R.id.view_btn_menu0).setOnClickListener(this);
         //监听礼物交互
         GiftBoardManager.getInstance().addOnGiveGiftListener(this);
         startGiftTask();
+    }
+
+    @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
+        Logger.d(TAG,"onFinishInflate");
     }
 
     /**
@@ -117,11 +137,11 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
         FrameLayout.LayoutParams layoutParams=new  FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         recyclerView.setLayoutParams(layoutParams);
         recyclerView.setHorizontalFadingEdgeEnabled(true);
-        recyclerView.setFadingEdgeLength(AppUtils.dpToPxInt(20f));
+        recyclerView.setFadingEdgeLength(AppUtils.getInstance().dpToPxInt(20f));
         ScrollSpeedLinearLayoutManger linearLayoutManger=new ScrollSpeedLinearLayoutManger(getContext());
         linearLayoutManger.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(linearLayoutManger);
-        recyclerView.addItemDecoration(new ItemSpacesItemDecoration(AppUtils.dpToPxInt(8f)));
+        recyclerView.addItemDecoration(new ItemSpacesItemDecoration(AppUtils.getInstance().dpToPxInt(8f)));
         mAvatarListAdapter = new LiveFansListAdapter(getContext());
         recyclerView.setAdapter(mAvatarListAdapter);
         userContent.addView(recyclerView);
@@ -141,13 +161,22 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
             //礼物
             case R.id.view_btn_menu4:
                 if(null!=mFunctionListener){
-                    mFunctionListener.onGift();
+                    mFunctionListener.showGift();
                 }
                 break;
             //关闭
             case R.id.view_btn_close:
                 if(null!=mFunctionListener){
-                    mFunctionListener.onBack();
+                    mFunctionListener.backPress();
+                }
+                break;
+            case R.id.re_root_view:
+                clickHeart();
+                break;
+            //聊天
+            case R.id.view_btn_menu0:
+                if(null!=mFunctionListener){
+                    mFunctionListener.showInput();
                 }
                 break;
         }
@@ -187,8 +216,23 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
             }
             giftItemInfo.setCount(count);
             giftItemInfo.setSource_room_id("AAAAAA");
-            CustomMsgInfo customMsgInfo = AppUtils.packMessage(customMsgExtra, giftItemInfo);
+            giftItemInfo.setDrawTimes(0);
+            CustomMsgInfo customMsgInfo = AppUtils.getInstance().packMessage(customMsgExtra, giftItemInfo);
             customMsgInfo.setAccapGroupID("er43te5yttrywrer4t");
+            // TODO: 2019/7/8 模拟奇数小倍率中奖
+            int randomNum = AppUtils.getInstance().getRandomNum(0, 100);
+            if((randomNum&1)==1){
+                //收紧概率区间
+                if(randomNum>90){
+                    giftItemInfo.setDrawTimes(randomNum);
+                }
+            }else{
+                // TODO: 2019/7/8 模拟偶数大倍率中奖
+                if(randomNum>93){
+                    giftItemInfo.setDrawTimes(randomNum);
+                }
+            }
+            // TODO: 2019/7/8  特别注意，这里的虚拟中奖，不会计算增加到赠送的礼物的数量中！实际中奖也不需要计数
             //礼物动画展示
             if(null!=mGiftGroupManager){
                 mGiftGroupManager.addGiftAnimationItem(customMsgInfo);
@@ -269,7 +313,7 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
         if(null==changedInfo) return;
         //在线人数更新
         if(null!= mOnlineNumber){
-            mOnlineNumber.setText(AppUtils.formatWan(changedInfo.getOnlineNumer(),true)+"人");
+            mOnlineNumber.setText(AppUtils.getInstance().formatWan(changedInfo.getOnlineNumer(),true)+"人");
         }
     }
 
@@ -317,7 +361,7 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
                         //观众离开,人数发生了变化
                     case Constants.MSG_CUSTOM_REDUCE_USER:
                         if (null != mOnlineNumber)
-                            mOnlineNumber.setText(AppUtils.formatWan(customMsgInfo.getOnlineNumer(),true)+"人");
+                            mOnlineNumber.setText(AppUtils.getInstance().formatWan(customMsgInfo.getOnlineNumer(),true)+"人");
                         continue;
                         //观众列表发生了变化
                     case Constants.MSG_CUSTOM_TOP_USER:
@@ -396,8 +440,9 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
     }
 
     public interface OnLiveRoomFunctionListener{
-        void onBack();
-        void onGift();
+        void backPress();
+        void showGift();
+        void showInput();
     }
 
     private OnLiveRoomFunctionListener mFunctionListener;

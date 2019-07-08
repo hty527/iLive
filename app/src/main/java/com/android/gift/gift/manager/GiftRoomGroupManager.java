@@ -25,7 +25,6 @@ public class GiftRoomGroupManager extends FrameLayout {
 
     private GiftRoomItemView[] mRoomGiftItemView;
     private static final String TAG = "RoomGiftGroupManager";
-    public static final int CANCLE_GIFT_CACHE = 10086;//清空cache的指令
     // 由一个父队列来向四个子队列分配任务，当队列为空，创建新的队列，当队列不为空，根据用户ID和礼物ID分配之任务到子队列中
     private Queue<CustomMsgInfo> mGroupGiftQueue;//父队列，负责统一接收任务，心跳线程中分发任务给子队列
     private Queue<CustomMsgInfo> mChildGiftQueue1=new ArrayDeque<>();//子队列1

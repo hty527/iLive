@@ -383,8 +383,8 @@ public class GiftBoardManager {
     public int[] getAwardEndLocation() {
         if(null==mAwardEndLocation||mAwardEndLocation.length<=0){
             mAwardEndLocation=new int[2];
-            mAwardEndLocation[0]=(AppUtils.getScreenWidth()-AppUtils.dpToPxInt(45f));
-            mAwardEndLocation[1]= (AppUtils.getScreenHeight()-AppUtils.dpToPxInt(145f)) ;
+            mAwardEndLocation[0]=(AppUtils.getInstance().getScreenWidth()-AppUtils.getInstance().dpToPxInt(32f));
+            mAwardEndLocation[1]= (AppUtils.getInstance().getScreenHeight()-AppUtils.getInstance().dpToPxInt(96f)) ;
         }
         return mAwardEndLocation;
     }

@@ -37,7 +37,6 @@ public class CountdownGiftView extends LinearLayout {
     private TextView mViewCount;
     private FrameLayout mProgressView;
     private TextView mViewTvMonery;
-    private int[] mLocationPosition;
 
     public CountdownGiftView(@NonNull Context context) {
         this(context,null);
@@ -69,7 +68,7 @@ public class CountdownGiftView extends LinearLayout {
         mGiftImageView = findViewById(R.id.view_circle_gift_icon);
         mViewCount = findViewById(R.id.view_circle_count);
         mViewTvMonery = (TextView) findViewById(R.id.view_tv_monery);
-        int screenDensity = AppUtils.getScreenDensity();
+        int screenDensity = AppUtils.getInstance().getScreenDensity();
         if(screenDensity<=300){
             mProgressbar.setProgressLineWidth(6);//进度条宽度
         }else{
@@ -90,11 +89,6 @@ public class CountdownGiftView extends LinearLayout {
         mGiftImageView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(null==mLocationPosition){
-                    mLocationPosition = new int[2];
-                    v.getLocationInWindow(mLocationPosition);
-                    GiftBoardManager.getInstance().setAwardEndLocation(mLocationPosition);
-                }
                 if(null!=mProgressbar){
                     mProgressbar.setTimeMillis(1000*PROGRESS_DURTION);//一分钟的连击
                     mProgressbar.reStart();
@@ -110,7 +104,7 @@ public class CountdownGiftView extends LinearLayout {
      * @param diamonds
      */
     private void setMoney(long diamonds) {
-        if(null!=mViewTvMonery) mViewTvMonery.setText(AppUtils.formatWan(diamonds,true));
+        if(null!=mViewTvMonery) mViewTvMonery.setText(AppUtils.getInstance().formatWan(diamonds,true));
     }
 
     /**
@@ -146,7 +140,7 @@ public class CountdownGiftView extends LinearLayout {
      * @param count
      */
     public void setCount(int count){
-        SpannableStringBuilder stringBuilder = SpannableStringUtils.giftSendNumFromat(String.valueOf(count));
+        SpannableStringBuilder stringBuilder = SpannableStringUtils.getInstance().giftSendNumFromat(String.valueOf(count));
         mViewCount.setText(stringBuilder);
         recoverTime();
     }

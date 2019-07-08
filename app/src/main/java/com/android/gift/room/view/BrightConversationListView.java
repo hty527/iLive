@@ -13,8 +13,6 @@ import com.android.gift.R;
 import com.android.gift.gift.adapter.ConversationChatAdapter;
 import com.android.gift.model.IndexLinLayoutManager;
 import com.android.gift.room.bean.CustomMsgInfo;
-import com.android.gift.util.DataFactory;
-import java.util.List;
 
 /**
  * TinyHung@Outlook.com
@@ -85,8 +83,6 @@ public class BrightConversationListView extends FrameLayout {
                 }
             }
         });
-        List<CustomMsgInfo> liveConversation = DataFactory.createLiveConversation();
-        mChatMsgListAdapter.setNewData(liveConversation);
     }
 
     /**

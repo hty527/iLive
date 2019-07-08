@@ -16,6 +16,8 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ * TinyHung@Outlook.com
+ * 2018/5/27
  * 飘心路径动画器
  */
 public class LikePathAnimator extends LikeAbstractPathAnimator {

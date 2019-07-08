@@ -17,16 +17,15 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import com.android.gift.R;
+import com.android.gift.constant.Constants;
 import com.android.gift.gift.manager.SpannableStringUtils;
-import com.android.gift.gift.manager.GiftRoomGroupManager;
 import com.android.gift.model.GlideCircleTransform;
 import com.android.gift.room.bean.CustomMsgInfo;
+import com.android.gift.util.Logger;
 import com.android.gift.view.MarqueeTextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.TreeMap;
 
 /**
@@ -35,7 +34,7 @@ import java.util.TreeMap;
 * 直播间普通礼物条目
 */
 
-public class GiftRoomItemView extends FrameLayout implements Observer {
+public class GiftRoomItemView extends FrameLayout {
 
    private static final String TAG = "RoomGiftItemView";
    private TranslateAnimation mItemInAnim;//礼物进场
@@ -96,6 +95,7 @@ public class GiftRoomItemView extends FrameLayout implements Observer {
    public boolean addGiftItem(String tagID, CustomMsgInfo msgInfo){
        //如果条目正在移除，拦截
        if(isCleaning) return false;
+       Logger.d(TAG,"addGiftItem-->:"+msgInfo.getGift().getCount()+",tagID:"+tagID);
        //1.检查是否重复加入
        View viewItem = this.findViewWithTag(tagID);
        //2.全新的入场初始化
@@ -117,7 +117,7 @@ public class GiftRoomItemView extends FrameLayout implements Observer {
            if(allGiftCount>1){
                giftNum.setNumberWithAnim(allGiftCount);
            }else{
-               SpannableStringBuilder stringBuilder = SpannableStringUtils.giftNumFromat(String.valueOf(allGiftCount));
+               SpannableStringBuilder stringBuilder = SpannableStringUtils.getInstance().giftNumFromat(String.valueOf(allGiftCount));
                giftNum.setText(stringBuilder);
            }
            //2.4更新最新的缓存池数量
@@ -130,7 +130,7 @@ public class GiftRoomItemView extends FrameLayout implements Observer {
            //2.7中奖处理
            if(msgInfo.getGift().getDrawTimes()>0){
                //小于5倍的奖励
-               if(msgInfo.getGift().getDrawTimes()<5){
+               if(msgInfo.getGift().getDrawTimes()< Constants.ROOM_GIFT_DRAW_ONE_LEVEL){
                    GiftDrawSmallMulitAnimationView tvDrawTimes = (GiftDrawSmallMulitAnimationView) viewItem.findViewById(R.id.tv_draw_times);
                    tvDrawTimes.setBackgroundResource(R.drawable.bg_room_draw_level_bg);
                    tvDrawTimes.startText("中奖"+msgInfo.getGift().getDrawTimes()+"倍!");
@@ -212,7 +212,7 @@ public class GiftRoomItemView extends FrameLayout implements Observer {
                //超级大奖+倍率动画
                GiftDrawBigMulitAnimationView animationView = (GiftDrawBigMulitAnimationView) viewItem.findViewById(R.id.view_draw_icon);
                //小于5倍的奖励
-               if(msgInfo.getGift().getDrawTimes()<5){
+               if(msgInfo.getGift().getDrawTimes()<Constants.ROOM_GIFT_DRAW_ONE_LEVEL){
                    GiftDrawSmallMulitAnimationView tvDrawTimes = (GiftDrawSmallMulitAnimationView) viewItem.findViewById(R.id.tv_draw_times);
                    tvDrawTimes.setBackgroundResource(R.drawable.bg_room_draw_level_bg);
                    tvDrawTimes.startText("中奖"+msgInfo.getGift().getDrawTimes()+"倍!");
@@ -229,7 +229,7 @@ public class GiftRoomItemView extends FrameLayout implements Observer {
                //3.2普通的赠送礼物
                GiftGradualTextView giftNum = (GiftGradualTextView) viewItem.findViewById(R.id.view_gift_num);
                int showNum = (Integer) giftNum.getTag()+msgInfo.getGift().getCount();
-               SpannableStringBuilder stringBuilder = SpannableStringUtils.giftNumFromat(String.valueOf(showNum));
+               SpannableStringBuilder stringBuilder = SpannableStringUtils.getInstance().giftNumFromat(String.valueOf(showNum));
                giftNum.setText(stringBuilder);
                //更新最新的缓存池数量
                if(null!=mGiftCountBadge) mGiftCountBadge.put(tagID,showNum);
@@ -335,21 +335,6 @@ public class GiftRoomItemView extends FrameLayout implements Observer {
            removeGiftView();
        }
    };
-
-   /**
-    * 清空缓存池
-    * @param o
-    * @param arg
-    */
-   @Override
-   public void update(Observable o, Object arg) {
-       if(null!=arg&&arg instanceof Integer){
-           int cmd= (int) arg;
-           if(cmd== GiftRoomGroupManager.CANCLE_GIFT_CACHE){
-               if(null!= mGiftCountBadge) mGiftCountBadge.clear();
-           }
-       }
-   }
 
    /**
     * 对应生命周期调用

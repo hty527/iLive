@@ -7,26 +7,26 @@
     android:clipToPadding="false">
     <com.android.gift.gift.view.GiftRoomItemView
         android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:id="@+id/room_gift_item1"
+        android:layout_height="60dp"
+        android:id="@+id/room_gift_item4"
         android:clipChildren="false"
         android:clipToPadding="false"/>
     <com.android.gift.gift.view.GiftRoomItemView
         android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:id="@+id/room_gift_item2"
-        android:clipChildren="false"
-        android:clipToPadding="false"/>
-    <com.android.gift.gift.view.GiftRoomItemView
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="60dp"
         android:id="@+id/room_gift_item3"
         android:clipChildren="false"
         android:clipToPadding="false"/>
     <com.android.gift.gift.view.GiftRoomItemView
         android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:id="@+id/room_gift_item4"
+        android:layout_height="60dp"
+        android:id="@+id/room_gift_item2"
+        android:clipChildren="false"
+        android:clipToPadding="false"/>
+    <com.android.gift.gift.view.GiftRoomItemView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/room_gift_item1"
         android:clipChildren="false"
         android:clipToPadding="false"/>
 </LinearLayout>

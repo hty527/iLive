@@ -773,8 +773,8 @@ public class AnimationUtil {
             return;
         }
         view.clearAnimation();
-        PropertyValuesHolder pvhX = PropertyValuesHolder.ofFloat("scaleX", 1.5f, 0.6f, 1.0f);
-        PropertyValuesHolder pvhY = PropertyValuesHolder.ofFloat("scaleY", 1.5f, 0.6f, 1.0f);
+        PropertyValuesHolder pvhX = PropertyValuesHolder.ofFloat("scaleX", 1.2f, 0.6f, 1.0f);
+        PropertyValuesHolder pvhY = PropertyValuesHolder.ofFloat("scaleY", 1.2f, 0.6f, 1.0f);
         ObjectAnimator objectAnimator = ObjectAnimator.ofPropertyValuesHolder(view, pvhX, pvhY);
         objectAnimator.setDuration(duration);
         objectAnimator.setInterpolator(new LinearInterpolator());

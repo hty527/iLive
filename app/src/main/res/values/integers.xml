@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <!--中奖动画帧时长-->
     <integer name="gift_big_draw_duration">80</integer>
+    <!--an-->
     <integer name="heart_anim_bezier_factor">6</integer>
+    <!--飘心动画执行时长-->
+    <integer name="anim_duration">1000</integer>
 </resources>

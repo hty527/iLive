@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.android.gift.R;
 import com.android.gift.base.BaseAdapter;
+import com.android.gift.constant.Constants;
 import com.android.gift.room.bean.CustomMsgInfo;
 
 /**
@@ -34,7 +35,12 @@ public class ConversationChatAdapter extends BaseAdapter<CustomMsgInfo,Conversat
         if(null!=itemData){
             if(!TextUtils.isEmpty(itemData.getMsgContent())){
                 viewHolder.itemContent.setBackgroundResource(R.drawable.bg_shape_room_cacht_content);
-                String content="<font color='#E0DBDB'>"+itemData.getSendUserName()+"</font>  <font color='#FFF566'>"+itemData.getMsgContent()+"</font>";
+                String content;
+                if(Constants.MSG_CUSTOM_NOTICE.equals(itemData.getChildCmd())){
+                    content="<font color='#FF7575'>"+itemData.getMsgContent()+"</font>";
+                }else{
+                    content="<font color='#E0DBDB'>"+itemData.getSendUserName()+"</font>  <font color='#FFF566'>"+itemData.getMsgContent()+"</font>";
+                }
                 viewHolder.itemContent.setText(Html.fromHtml(content));
             }
         }

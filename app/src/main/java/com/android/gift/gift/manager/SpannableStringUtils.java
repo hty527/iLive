@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.android.gift.APPLication;
 import com.android.gift.R;
 import com.android.gift.model.UserModelUtil;
+import com.android.gift.util.AppUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -30,13 +31,28 @@ import java.io.InputStream;
 
 public class SpannableStringUtils {
 
+    private static volatile SpannableStringUtils mInstance;
+
     /**
-     * 将礼物数字替换成图片显示
-     *
+     * 单例初始化
+     * @return
+     */
+    public static synchronized SpannableStringUtils getInstance() {
+        synchronized (SpannableStringUtils.class) {
+            if (null == mInstance) {
+                mInstance = new SpannableStringUtils();
+            }
+        }
+        return mInstance;
+    }
+
+
+    /**
+     * 将礼物数字替换成图片显
      * @param content 数字内容，内容必须是 int 类型字符串
      * @return
      */
-    public static SpannableStringBuilder giftNumFromat(String content) {
+    public SpannableStringBuilder giftNumFromat(String content) {
         if (null == content) return null;
         char[] chars = content.toCharArray();
         SpannableStringBuilder stringBuilde = new SpannableStringBuilder();
@@ -64,7 +80,7 @@ public class SpannableStringUtils {
      * @param content 数字内容，内容必须是 int 类型字符串
      * @return
      */
-    public static SpannableStringBuilder giftSendNumFromat(String content) {
+    public SpannableStringBuilder giftSendNumFromat(String content) {
         if (null == content) return null;
         char[] chars = content.toCharArray();
         SpannableStringBuilder stringBuilde = new SpannableStringBuilder();
@@ -91,7 +107,7 @@ public class SpannableStringUtils {
      * @param content 数字内容，内容必须是 int 类型字符串
      * @return
      */
-    public static SpannableStringBuilder drawNumFromat(String content) {
+    public SpannableStringBuilder drawNumFromat(String content) {
         if (null == content) return null;
         char[] chars = content.toCharArray();
         SpannableStringBuilder stringBuilde = new SpannableStringBuilder();
@@ -118,7 +134,7 @@ public class SpannableStringUtils {
      * @param content
      * @return
      */
-    public static SpannableString drawPowerFromat(String content) {
+    public SpannableString drawPowerFromat(String content) {
         SpannableString stringSpannable = new SpannableString(content);
         Drawable drawable = APPLication.getInstance().getApplicationContext().getResources().getDrawable(R.drawable.ic_draw_text);
         if (null != drawable) {

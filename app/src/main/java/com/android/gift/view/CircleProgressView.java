@@ -63,8 +63,8 @@ public class CircleProgressView extends View {
             mMaxProgress = typedArray.getInt(R.styleable.CircleProgressView_circle_progress_max, 3000);
             typedArray.recycle();
         }else {
-            mTextSize= AppUtils.dpToPxInt(15f);
-            mStrokeWidth= AppUtils.dpToPxInt(4f);
+            mTextSize= AppUtils.getInstance().dpToPxInt(15f);
+            mStrokeWidth= AppUtils.getInstance().dpToPxInt(4f);
             mProBgColor = Color.argb(0,0,0,0);
             mProCirBgColor =Color.rgb(0xE6, 0xE6, 0xE6);
             mProColor=Color.rgb(0xFF, 0x32, 0x00);

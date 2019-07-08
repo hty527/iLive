@@ -8,4 +8,6 @@
     <color name="color_dot_true">#FFFFFF</color>
     <color name="translucent_30">#4D000000</color>
     <color name="translucent_20">#33000000</color>
+    <color name="input_edit_color">#FFDDDDDD</color>
+    <color name="colorTextG5">#FF959595</color>
 </resources>

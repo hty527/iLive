@@ -17,7 +17,6 @@ import com.android.gift.gift.manager.SpannableStringUtils;
 import com.android.gift.room.view.GoldWireLayout;
 import com.android.gift.util.AnimationUtil;
 import com.android.gift.util.AppUtils;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -77,14 +76,14 @@ public class GiftDrawBigMulitAnimationView extends RelativeLayout{
      * 开始动画
      * @param powerNum 倍率
      */
-    public void start(final int powerNum){
+    public void start(int powerNum){
         if(null==mSurfaceView||null==mSurfaceText) return;
         if(isRunning){
             this.removeCallbacks(stopRunnable);
             //480毫秒过后绘制中奖倍数
-            SpannableStringBuilder stringBuilder = SpannableStringUtils.drawNumFromat(String.valueOf(powerNum));
+            SpannableStringBuilder stringBuilder = SpannableStringUtils.getInstance().drawNumFromat(String.valueOf(powerNum));
             //拼接自定义倍数Image
-            stringBuilder.append(SpannableStringUtils.drawPowerFromat("倍"));
+            stringBuilder.append(SpannableStringUtils.getInstance().drawPowerFromat("倍"));
             mSurfaceText.setText(stringBuilder);
             this.postDelayed(stopRunnable,CLEAN_MILLIS);
             return;
@@ -96,9 +95,9 @@ public class GiftDrawBigMulitAnimationView extends RelativeLayout{
         mAnimationDrawable = (AnimationDrawable) mSurfaceView.getDrawable();
         mAnimationDrawable.start();
         //绘制中奖倍数
-        SpannableStringBuilder stringBuilder = SpannableStringUtils.drawNumFromat(String.valueOf(powerNum));
+        SpannableStringBuilder stringBuilder = SpannableStringUtils.getInstance().drawNumFromat(String.valueOf(powerNum));
         //拼接自定义倍数Image
-        stringBuilder.append(SpannableStringUtils.drawPowerFromat("倍"));
+        stringBuilder.append(SpannableStringUtils.getInstance().drawPowerFromat("倍"));
         mSurfaceText.setText(stringBuilder);
         //5秒后自动结束
         this.postDelayed(stopRunnable,CLEAN_MILLIS);
@@ -163,13 +162,13 @@ public class GiftDrawBigMulitAnimationView extends RelativeLayout{
                         Context context = getContext();
                         if(null!=context){
                             GoldWireLayout goldWireLayout = new GoldWireLayout(getContext());
-                            int startX = AppUtils.getRandomNum(AppUtils.dpToPxInt(getContext(),72f), AppUtils.dpToPxInt(getContext(),92f));
-                            int startY=(mStartPosition[1]+AppUtils.dpToPxInt(getContext(),30f));
+                            int startX = AppUtils.getInstance().getRandomNum(AppUtils.getInstance().dpToPxInt(getContext(),72f), AppUtils.getInstance().dpToPxInt(getContext(),92f));
+                            int startY=(mStartPosition[1]+AppUtils.getInstance().dpToPxInt(getContext(),30f));
                             goldWireLayout.setStartPosition(new Point(startX,startY));
                             ViewGroup rootView = (ViewGroup) ((Activity) context).getWindow().getDecorView();
                             rootView.addView(goldWireLayout);
                             int[] awardEndLocation = GiftBoardManager.getInstance().getAwardEndLocation();
-                            goldWireLayout.setEndPosition(new Point(awardEndLocation[0]+AppUtils.dpToPxInt(getContext(),20f), awardEndLocation[1]+AppUtils.dpToPxInt(getContext(),15f)));
+                            goldWireLayout.setEndPosition(new Point(awardEndLocation[0]+AppUtils.getInstance().dpToPxInt(getContext(),23f), awardEndLocation[1]+AppUtils.getInstance().dpToPxInt(getContext(),15f)));
                             goldWireLayout.startBeizerAnimation();
                             count++;
                             if(count>=COUNT){

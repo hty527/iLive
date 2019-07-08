@@ -24,6 +24,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:animateLayoutChanges="true"
+                android:clipChildren="false"
+                android:clipToPadding="false"
                 android:id="@+id/room_gift_manager"/>
             <!--消息-->
             <com.android.gift.room.view.BrightConversationListView
@@ -43,7 +45,8 @@
                 android:orientation="horizontal"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:visibility="visible">
+                android:visibility="visible"
+                android:background="@drawable/bg_black_shape_gratien">
                 <!--消息-->
                 <ImageView
                     android:id="@+id/view_btn_menu0"

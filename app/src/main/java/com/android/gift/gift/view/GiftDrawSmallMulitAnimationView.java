@@ -15,7 +15,7 @@ import com.android.gift.util.AnimationUtil;
 public class GiftDrawSmallMulitAnimationView extends android.support.v7.widget.AppCompatTextView {
 
     private static final long CLEAN_MILLIS = 2500;//定时清除自己
-    private static final String TAG = "DrawSmallMulitAnimationView";
+    private static final String TAG = "GiftDrawSmallMulitAnimationView";
     private int strokeColor=Color.BLACK;//描边颜色
 
 

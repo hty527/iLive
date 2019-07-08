@@ -10,17 +10,17 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.RelativeLayout;
-
 import com.android.gift.R;
-
 import java.util.Random;
 
 
 /**
+ * TinyHung@Outlook.com
+ * 2018/5/27
  * 飘心动画界面布局类
  * 通过动画控制每个心形界面的显示
- * TCPathAnimator 控制显示路径
- * TCHeartView 单个心形界面
+ * LikePathAnimator 控制显示路径
+ * LikeHeartView 单个心形界面
  */
 public class LikeHeartLayout extends RelativeLayout {
 

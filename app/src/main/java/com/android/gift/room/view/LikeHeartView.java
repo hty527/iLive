@@ -12,8 +12,10 @@ import android.util.AttributeSet;
 import com.android.gift.R;
 
 /**
+ * TinyHung@Outlook.com
+ * 2018/5/28
  * 飘心动画心形界面类
- * 一个TCHeartView代表一个心形，由heart.png组成
+ * 一个LikeHeartView代表一个心形，由heart.png组成
  */
 public class LikeHeartView extends android.support.v7.widget.AppCompatImageView {
 

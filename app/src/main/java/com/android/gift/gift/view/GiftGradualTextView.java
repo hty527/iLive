@@ -169,7 +169,7 @@ public class GiftGradualTextView extends android.support.v7.widget.AppCompatText
             animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    SpannableStringBuilder stringBuilder = SpannableStringUtils.giftNumFromat(valueAnimator.getAnimatedValue().toString());
+                    SpannableStringBuilder stringBuilder = SpannableStringUtils.getInstance().giftNumFromat(valueAnimator.getAnimatedValue().toString());
                     setText(stringBuilder);
                 }
             });
@@ -189,7 +189,7 @@ public class GiftGradualTextView extends android.support.v7.widget.AppCompatText
                         try {
                             Integer integer = Integer.valueOf(trim);
                             if(integer!=olderNum){
-                                SpannableStringBuilder stringBuilder = SpannableStringUtils.giftNumFromat(String.valueOf(olderNum));
+                                SpannableStringBuilder stringBuilder = SpannableStringUtils.getInstance().giftNumFromat(String.valueOf(olderNum));
                                 setText(stringBuilder);
                             }
                         }catch (Exception e){

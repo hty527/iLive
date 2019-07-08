@@ -21,7 +21,6 @@ import com.android.gift.constant.Constants;
 import com.android.gift.gift.manager.SpannableStringUtils;
 import com.android.gift.model.GlideCircleTransform;
 import com.android.gift.room.bean.CustomMsgInfo;
-import com.android.gift.util.Logger;
 import com.android.gift.view.MarqueeTextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -95,7 +94,6 @@ public class GiftRoomItemView extends FrameLayout {
    public boolean addGiftItem(String tagID, CustomMsgInfo msgInfo){
        //如果条目正在移除，拦截
        if(isCleaning) return false;
-       Logger.d(TAG,"addGiftItem-->:"+msgInfo.getGift().getCount()+",tagID:"+tagID);
        //1.检查是否重复加入
        View viewItem = this.findViewWithTag(tagID);
        //2.全新的入场初始化
@@ -128,9 +126,9 @@ public class GiftRoomItemView extends FrameLayout {
            //礼物消息
            tvGiftDesp.setText(msgInfo.getAccapUserName());
            //2.7中奖处理
-           if(msgInfo.getGift().getDrawTimes()>0){
+           if(msgInfo.getGift().getDrawLevel()>0){
                //小于5倍的奖励
-               if(msgInfo.getGift().getDrawTimes()< Constants.ROOM_GIFT_DRAW_ONE_LEVEL){
+               if(msgInfo.getGift().getDrawLevel()==Constants.ROOM_GIFT_DRAW_ONE_LEVEL){
                    GiftDrawSmallMulitAnimationView tvDrawTimes = (GiftDrawSmallMulitAnimationView) viewItem.findViewById(R.id.tv_draw_times);
                    tvDrawTimes.setBackgroundResource(R.drawable.bg_room_draw_level_bg);
                    tvDrawTimes.startText("中奖"+msgInfo.getGift().getDrawTimes()+"倍!");
@@ -208,11 +206,11 @@ public class GiftRoomItemView extends FrameLayout {
        } else {
            if(null!=cleanGiftItemRunnable) GiftRoomItemView.this.removeCallbacks(cleanGiftItemRunnable);
            //3.1只是中奖动画
-           if(msgInfo.getGift().getDrawTimes()>0){
+           if(msgInfo.getGift().getDrawLevel()>0){
                //超级大奖+倍率动画
                GiftDrawBigMulitAnimationView animationView = (GiftDrawBigMulitAnimationView) viewItem.findViewById(R.id.view_draw_icon);
                //小于5倍的奖励
-               if(msgInfo.getGift().getDrawTimes()<Constants.ROOM_GIFT_DRAW_ONE_LEVEL){
+               if(msgInfo.getGift().getDrawLevel()==Constants.ROOM_GIFT_DRAW_ONE_LEVEL){
                    GiftDrawSmallMulitAnimationView tvDrawTimes = (GiftDrawSmallMulitAnimationView) viewItem.findViewById(R.id.tv_draw_times);
                    tvDrawTimes.setBackgroundResource(R.drawable.bg_room_draw_level_bg);
                    tvDrawTimes.startText("中奖"+msgInfo.getGift().getDrawTimes()+"倍!");

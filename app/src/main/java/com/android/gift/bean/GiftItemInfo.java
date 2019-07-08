@@ -53,6 +53,7 @@ public class GiftItemInfo {
     private String tag;
     private String title;
     private int drawTimes;//中奖倍数
+    private int drawLevel;//中奖等级
 
     //选中的礼物个数
     private int count;
@@ -251,6 +252,14 @@ public class GiftItemInfo {
         this.source_room_id = source_room_id;
     }
 
+    public int getDrawLevel() {
+        return drawLevel;
+    }
+
+    public void setDrawLevel(int drawLevel) {
+        this.drawLevel = drawLevel;
+    }
+
     @Override
     public String toString() {
         return "GiftItemInfo{" +
@@ -275,6 +284,10 @@ public class GiftItemInfo {
                 ", svga='" + svga + '\'' +
                 ", tag='" + tag + '\'' +
                 ", title='" + title + '\'' +
+                ", drawTimes=" + drawTimes +
+                ", drawLevel=" + drawLevel +
+                ", count=" + count +
+                ", source_room_id='" + source_room_id + '\'' +
                 '}';
     }
 }

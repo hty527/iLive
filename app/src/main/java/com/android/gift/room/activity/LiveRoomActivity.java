@@ -80,7 +80,7 @@ public class LiveRoomActivity extends AppCompatActivity {
             }
         });
         //视频准备
-        VideoPlayerManager.getInstance().setLoop(true);
+        VideoPlayerManager.getInstance().setLoop(true).setMobileWorkEnable(true);
         VideoPlayerManager.getInstance().setVideoDisplayType(VideoConstants.VIDEO_DISPLAY_TYPE_CUT);
         VideoPlayerTrackView playerTrackView = (VideoPlayerTrackView) findViewById(R.id.video_track);
         DefaultCoverController coverController = playerTrackView.getCoverController();

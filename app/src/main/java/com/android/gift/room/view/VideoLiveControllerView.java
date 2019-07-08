@@ -214,9 +214,10 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
                 customMsgExtra.setAccapUserName(userInfo.getNickName());
                 customMsgExtra.setAccapUserHeader(userInfo.getAvatar());
             }
+            giftItemInfo.setDrawLevel(0);
+            giftItemInfo.setDrawTimes(0);
             giftItemInfo.setCount(count);
             giftItemInfo.setSource_room_id("AAAAAA");
-            giftItemInfo.setDrawTimes(0);
             CustomMsgInfo customMsgInfo = AppUtils.getInstance().packMessage(customMsgExtra, giftItemInfo);
             customMsgInfo.setAccapGroupID("er43te5yttrywrer4t");
             // TODO: 2019/7/8 模拟奇数小倍率中奖
@@ -224,11 +225,13 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
             if((randomNum&1)==1){
                 //收紧概率区间
                 if(randomNum>90){
+                    giftItemInfo.setDrawLevel(Constants.ROOM_GIFT_DRAW_ONE_LEVEL);
                     giftItemInfo.setDrawTimes(randomNum);
                 }
             }else{
                 // TODO: 2019/7/8 模拟偶数大倍率中奖
                 if(randomNum>93){
+                    giftItemInfo.setDrawLevel(Constants.ROOM_GIFT_DRAW_TWO_LEVEL);
                     giftItemInfo.setDrawTimes(randomNum);
                 }
             }

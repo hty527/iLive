@@ -40,6 +40,8 @@ public interface Constants {
     String MESSAGE_PRIVATE_CUSTOM_WAKEUP="private_live_wakeup";
     //语音聊天参数
     String MESSAGE_VOICE_PARAMS="msg_voice_params";
-    // <50小奖  >50:大奖
-    int ROOM_GIFT_DRAW_ONE_LEVEL = 50;
+    //小奖
+    int ROOM_GIFT_DRAW_ONE_LEVEL = 1;
+    //大奖
+    int ROOM_GIFT_DRAW_TWO_LEVEL = 2;
 }

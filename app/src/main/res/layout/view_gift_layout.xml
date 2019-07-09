@@ -22,7 +22,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0.2dp"
-            android:background="#0DEFA109"
+            android:background="#4DEFA109"
             android:layout_alignParentBottom="true"/>
         <FrameLayout
             android:layout_width="match_parent"

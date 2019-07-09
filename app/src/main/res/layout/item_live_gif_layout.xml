@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="76dp"
     android:clipChildren="false"
     android:clipToPadding="false">
     <LinearLayout
@@ -86,8 +86,8 @@
             <!--礼物ICON-->
             <ImageView
                 android:id="@+id/view_iv_gift_icon"
-                android:layout_width="39dp"
-                android:layout_height="39dp"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
                 android:layout_weight="0"
                 android:scaleType="fitCenter"
                 android:layout_gravity="center_vertical" />
@@ -121,14 +121,15 @@
         android:shadowDy="3"
         android:shadowRadius="5"
         android:shadowColor="#AD0000"
-        android:layout_gravity="bottom"/>
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="12dp"/>
     <!--大倍率中奖-->
     <com.android.gift.gift.view.GiftDrawBigMulitAnimationView
         android:id="@+id/view_draw_icon"
-        android:layout_width="135dp"
-        android:layout_height="96dp"
+        android:layout_width="167dp"
+        android:layout_height="120dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="40dp"
         android:visibility="invisible"
         android:clipChildren="false"
         android:clipToPadding="false"

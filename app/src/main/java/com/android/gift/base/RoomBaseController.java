@@ -63,10 +63,15 @@ public abstract class RoomBaseController extends FrameLayout{
 
     public abstract void stopReckonTime();
 
+    public abstract void closeGiftBoard();
+
+    public abstract void showGiftBoard();
+
     public abstract void onResume();
 
     public abstract void onPause();
 
     public abstract void onDestroy();
+
 
 }

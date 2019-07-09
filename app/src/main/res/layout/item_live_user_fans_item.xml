@@ -6,9 +6,9 @@
     android:clipToPadding="false">
     <ImageView
         android:id="@+id/item_iv_user_icon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:padding="1dp"
         android:layout_centerInParent="true"
         android:scaleType="centerCrop" />
 </FrameLayout>
-

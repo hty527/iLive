@@ -18,7 +18,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import com.android.gift.R;
 import com.android.gift.constant.Constants;
-import com.android.gift.gift.manager.SpannableStringUtils;
+import com.android.gift.util.SpannableStringUtils;
 import com.android.gift.model.GlideCircleTransform;
 import com.android.gift.room.bean.CustomMsgInfo;
 import com.android.gift.view.MarqueeTextView;

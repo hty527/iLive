@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:visibility="visible"
+    android:background="@drawable/bg_black_shape_gratien">
+    <ImageView
+        android:id="@+id/view_btn_menu0"
+        style="@style/LiveRoomControllerTab"
+        android:visibility="visible"
+        android:src="@drawable/btn_live_msg"/>
+    <ImageView
+        android:id="@+id/view_btn_menu1"
+        style="@style/LiveRoomControllerTab"
+        android:src="@drawable/btn_live_private_chat"/>
+    <ImageView
+        android:id="@+id/view_btn_menu2"
+        style="@style/LiveRoomControllerTab"/>
+    <ImageView
+        android:id="@+id/view_btn_menu4"
+        style="@style/LiveRoomControllerTab"
+        android:src="@drawable/ic_gift_send_icon"/>
+    <ImageView
+        android:id="@+id/view_btn_menu5"
+        style="@style/LiveRoomControllerTab"/>
+    <ImageView
+        android:id="@+id/view_btn_menu6"
+        style="@style/LiveRoomControllerTab"/>
+    <ImageView
+        android:id="@+id/view_btn_menu7"
+        style="@style/LiveRoomControllerTab"/>
+</LinearLayout>

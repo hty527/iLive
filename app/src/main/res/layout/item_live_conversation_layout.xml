@@ -10,8 +10,14 @@
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
             android:gravity="center_vertical"
-            android:textSize="13dp"
-            android:lineSpacingMultiplier="1.0"/>
+            android:textSize="14dp"
+            android:includeFontPadding="false"
+            android:lineSpacingMultiplier="1.1"
+            android:shadowColor="#E6000000"
+            android:textStyle="normal"
+            android:shadowRadius="2"
+            android:shadowDx="2"
+            android:shadowDy="2"/>
         <View
             android:layout_width="wrap_content"
             android:layout_height="5dp"/>

@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatDialog;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -25,21 +26,18 @@ public class LiveGiftDialog extends AppCompatDialog{
 
     private FrameLayout mGtiftLayout;
 
-    public static LiveGiftDialog getInstance(Context context, UserInfo userInfo, String roomid){
-        return new LiveGiftDialog(context,userInfo,roomid);
+    public static LiveGiftDialog getInstance(Context context){
+        return new LiveGiftDialog(context);
     }
 
-    public LiveGiftDialog(@NonNull Context context,UserInfo userInfo,String roomid) {
+    public LiveGiftDialog(@NonNull Context context) {
         super(context, R.style.ButtomDialogTransparentAnimationStyle);
         setContentView(R.layout.dialog_gift_group);
         initLayoutPrams();
-        initViews(userInfo,roomid);
+        initViews();
     }
 
-    private void initViews(UserInfo userInfo, String roomid) {
-        if(null!=userInfo){
-            ((TextView) findViewById(R.id.dig_sned_user)).setText("送给："+userInfo.getNickName());
-        }
+    private void initViews() {
         findViewById(R.id.dig_btn_sned).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,9 +48,22 @@ public class LiveGiftDialog extends AppCompatDialog{
         mGtiftLayout = (FrameLayout) findViewById(R.id.gift_layout);
         GiftLayout giftLayout= GiftBoardManager.getInstance().getGiftView(getContext());
         mGtiftLayout.removeAllViews();
+        if(null!=giftLayout.getParent()){
+            ViewGroup parent = (ViewGroup) giftLayout.getParent();
+            parent.removeView(giftLayout);
+        }
         mGtiftLayout.addView(giftLayout);
+    }
+
+    public void setSendeeUser(UserInfo userInfo) {
         GiftBoardManager.getInstance().setReceiveUser(userInfo);
-        GiftBoardManager.getInstance().setReceiveRoomID(roomid);
+        if(null!=userInfo){
+            ((TextView) findViewById(R.id.dig_sned_user)).setText("送给："+userInfo.getNickName());
+        }
+    }
+
+    public void setSendeeRoomID(String roomID) {
+        GiftBoardManager.getInstance().setReceiveRoomID(roomID);
     }
 
     protected void initLayoutPrams(){
@@ -67,18 +78,29 @@ public class LiveGiftDialog extends AppCompatDialog{
         attributes.gravity= Gravity.BOTTOM;
     }
 
+    /**
+     * 设置是否自动选中
+     * @param autoSelected true：自动选中第一个
+     */
+    public void setAutoSelected(boolean autoSelected) {
+        GiftBoardManager.getInstance().setAutoSelected(autoSelected);
+    }
+
     @Override
     public void show() {
         super.show();
         GiftBoardManager.getInstance().onResume();
     }
 
-    @Override
-    public void dismiss() {
-        super.dismiss();
+    public void destroy(){
         if(null!=mGtiftLayout){
             mGtiftLayout.removeAllViews();
         }
+    }
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
         GiftBoardManager.getInstance().onPause();
     }
 }

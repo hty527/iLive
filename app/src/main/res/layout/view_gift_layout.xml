@@ -17,12 +17,12 @@
             app:tabMode="fixed"
             app:tabTextAppearance="@style/TabLayoutTextAppearance"
             app:tabIndicatorHeight="0dp"
-            app:tabTextColor="#AAAAAA"
-            app:tabSelectedTextColor="#FF6666"/>
+            app:tabTextColor="#808080"
+            app:tabSelectedTextColor="#EFA109"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="0.2dp"
-            android:background="#0DFFFFFF"
+            android:background="#0DEFA109"
             android:layout_alignParentBottom="true"/>
         <FrameLayout
             android:layout_width="match_parent"
@@ -34,7 +34,7 @@
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:textSize="11dp"
-                android:textColor="#9A9A9A"
+                android:textColor="#7A7A7A"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="点击喜欢的礼物，送给心仪的主播吧~"/>

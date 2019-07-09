@@ -1,4 +1,4 @@
-package com.android.gift.gift.adapter;
+package com.android.gift.room.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -32,6 +32,8 @@ public class LiveFansListAdapter extends BaseAdapter<UserInfo,LiveFansListAdapte
     @Override
     public void inBindViewHolder(FansViewHolder viewHolder, int position) {
         UserInfo itemData = getItemData(position);
+        viewHolder.itemIcon.setBackgroundResource(itemData.getUserSex() ==1 ?
+                R.drawable.bg_fans_user_mad_head_shape:R.drawable.bg_fans_user_man_head_shape);
         if(null!=itemData){
             Glide.with(getContext())
                     .load(itemData.getAvatar())

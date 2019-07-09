@@ -3,35 +3,38 @@ package com.android.gift.gift.manager;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.FrameLayout;
-import com.android.gift.R;
+import android.widget.LinearLayout;
 import com.android.gift.bean.GiftItemInfo;
 import com.android.gift.gift.view.GiftRoomItemView;
 import com.android.gift.room.bean.CustomMsgInfo;
+import com.android.gift.util.AppUtils;
 import com.android.gift.util.Logger;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
 
 /**
  * TinyHung@Outlook.com
  * 2018/7/30
- * 直播间的普通礼物动画容器兼管理者
+ * 直播间普通礼物动画播放管理者，请调用initGiftPass或者initGiftPassCount方法初始化礼物通道
+ * 内部动态创建礼物通道队列及个数(已调用initGiftPass且未调用initGiftPassCount情况下)
  */
 
-public class GiftRoomGroupManager extends FrameLayout {
+public class GiftRoomGroupManager extends LinearLayout {
 
+    private static final String TAG = "GiftRoomGroupManager";
+    //礼物动画ITEM通道
     private GiftRoomItemView[] mRoomGiftItemView;
-    private static final String TAG = "RoomGiftGroupManager";
-    // 由一个父队列来向四个子队列分配任务，当队列为空，创建新的队列，当队列不为空，根据用户ID和礼物ID分配之任务到子队列中
-    private Queue<CustomMsgInfo> mGroupGiftQueue;//父队列，负责统一接收任务，心跳线程中分发任务给子队列
-    private Queue<CustomMsgInfo> mChildGiftQueue1=new ArrayDeque<>();//子队列1
-    private Queue<CustomMsgInfo> mChildGiftQueue2=new ArrayDeque<>();//子队列2
-    private Queue<CustomMsgInfo> mChildGiftQueue3=new ArrayDeque<>();//子队列3
-    private Queue<CustomMsgInfo> mChildGiftQueue4=new ArrayDeque<>();//子队列4
-    private boolean taskRunning;//礼物动画是否正在执行
+    //通道对应的礼物栈队列
+    private List<Queue<CustomMsgInfo>> mQueues=new ArrayList<>();
+    //临时的动画任务总队列，内部智能分配到mQueues队列中
+    private Queue<CustomMsgInfo> mGroupGiftQueue;
+    //礼物动画是否正在执行
+    private boolean taskRunning;
 
     public GiftRoomGroupManager(@NonNull Context context) {
         super(context);
@@ -44,17 +47,41 @@ public class GiftRoomGroupManager extends FrameLayout {
     }
 
     private void init(Context context,AttributeSet attrs) {
-        View.inflate(context, R.layout.view_gift_room_group_layout,this);
-        GiftRoomItemView giftItemView1 = (GiftRoomItemView) findViewById(R.id.room_gift_item1);
-        GiftRoomItemView giftItemView2 = (GiftRoomItemView) findViewById(R.id.room_gift_item2);
-        GiftRoomItemView giftItemView3 = (GiftRoomItemView) findViewById(R.id.room_gift_item3);
-        GiftRoomItemView giftItemView4 = (GiftRoomItemView) findViewById(R.id.room_gift_item4);
+        this.setOrientation(LinearLayout.VERTICAL);
+    }
 
-        mRoomGiftItemView=new GiftRoomItemView[4];
-        mRoomGiftItemView[0]=giftItemView1;
-        mRoomGiftItemView[1]=giftItemView2;
-        mRoomGiftItemView[2]=giftItemView3;
-        mRoomGiftItemView[3]=giftItemView4;
+    /**
+     * 根据礼物动画UI容器可用的高度来分类礼物通道个数
+     * @param resolutionPX 礼物动画最大可用高度
+     */
+    public void initGiftPass(int resolutionPX) {
+        int itemHeight = AppUtils.getInstance().dpToPxInt(getContext(), 76f);
+        int count = resolutionPX / itemHeight;
+        initGiftPassCount(itemHeight,count);
+    }
+
+    /**
+     * 自定指定礼物通道ITEM高度及个数
+     * @param itemHeight 礼物通道ITEM高度
+     * @param count 总个数
+     */
+    public void initGiftPassCount(int itemHeight,int count){
+        removeAllViews();
+        mRoomGiftItemView=new GiftRoomItemView[count];
+        Logger.d(TAG,"initGift-->itemHeight:"+itemHeight+",count:"+count);
+        if(null==mQueues){
+            mQueues=new ArrayList<>();
+        }
+        for (int i = 0; i < count; i++) {
+            GiftRoomItemView giftRoomItemView=new GiftRoomItemView(getContext());
+            giftRoomItemView.setClipChildren(false);
+            giftRoomItemView.setClipToPadding(false);
+            //倒过来添加到views
+            mRoomGiftItemView[((count-1)-i)]=giftRoomItemView;
+            GiftRoomGroupManager.this.addView(giftRoomItemView,new LinearLayoutCompat.LayoutParams(-1,itemHeight));
+            Queue<CustomMsgInfo> mChildGiftQueue=new ArrayDeque<>();
+            mQueues.add(mChildGiftQueue);
+        }
     }
 
     /**
@@ -122,22 +149,15 @@ public class GiftRoomGroupManager extends FrameLayout {
                 }
             }
         }
-
-        //判断是否播放礼物动画,若有数据，同步播放礼物动画
-        if(null!=mChildGiftQueue1&&mChildGiftQueue1.size()>0){
-            addGiftItemView(mChildGiftQueue1.poll(),0);
-        }
-        //同上判断
-        if(null!=mChildGiftQueue2&&mChildGiftQueue2.size()>0){
-            addGiftItemView(mChildGiftQueue2.poll(),1);
-        }
-        //同上判断
-        if(null!=mChildGiftQueue3&&mChildGiftQueue3.size()>0){
-            addGiftItemView(mChildGiftQueue3.poll(),2);
-        }
-        //同上判断
-        if(null!=mChildGiftQueue4&&mChildGiftQueue4.size()>0){
-            addGiftItemView(mChildGiftQueue4.poll(),3);
+        if(null!=mQueues){
+            //检查礼物动画待播放队列
+            for (int i = 0; i < mQueues.size(); i++) {
+                Queue<CustomMsgInfo> customMsgInfos = mQueues.get(i);
+                //判断是否播放礼物动画,若有数据，同步播放礼物动画
+                if(null!=customMsgInfos&&customMsgInfos.size()>0){
+                    addGiftItemView(customMsgInfos.poll(),i);
+                }
+            }
         }
     }
 
@@ -147,19 +167,9 @@ public class GiftRoomGroupManager extends FrameLayout {
      * @param index
      */
     private void addTask(CustomMsgInfo data, int index) {
-        switch (index) {
-            case 0:
-                if(null!=mChildGiftQueue1) mChildGiftQueue1.add(data);
-                break;
-            case 1:
-                if(null!=mChildGiftQueue2) mChildGiftQueue2.add(data);
-                break;
-            case 2:
-                if(null!=mChildGiftQueue3) mChildGiftQueue3.add(data);
-                break;
-            case 3:
-                if(null!=mChildGiftQueue4) mChildGiftQueue4.add(data);
-                break;
+        if(null!=mQueues){
+            Queue<CustomMsgInfo> customMsgInfos = mQueues.get(index);
+            customMsgInfos.add(data);
         }
     }
 
@@ -247,10 +257,12 @@ public class GiftRoomGroupManager extends FrameLayout {
     public void stopPlayTask(){
         taskRunning =false;
         if(null!=mGroupGiftQueue) mGroupGiftQueue.clear(); mGroupGiftQueue=null;
-        if(null!=mChildGiftQueue1) mChildGiftQueue1.clear(); mChildGiftQueue1=null;
-        if(null!=mChildGiftQueue2) mChildGiftQueue2.clear();mChildGiftQueue2=null;
-        if(null!=mChildGiftQueue3) mChildGiftQueue3.clear();mChildGiftQueue3=null;
-        if(null!=mChildGiftQueue4) mChildGiftQueue4.clear();mChildGiftQueue4=null;
+        if(null!=mQueues){
+            for (Queue<CustomMsgInfo> queue : mQueues) {
+                queue.clear();
+            }
+            mQueues.clear();
+        }
     }
 
     /**
@@ -259,10 +271,11 @@ public class GiftRoomGroupManager extends FrameLayout {
     public void onReset(){
         taskRunning =false;
         if(null!=mGroupGiftQueue) mGroupGiftQueue.clear();
-        if(null!=mChildGiftQueue1) mChildGiftQueue1.clear();
-        if(null!=mChildGiftQueue2) mChildGiftQueue2.clear();
-        if(null!=mChildGiftQueue3) mChildGiftQueue3.clear();
-        if(null!=mChildGiftQueue4) mChildGiftQueue4.clear();
+        if(null!=mQueues){
+            for (Queue<CustomMsgInfo> queue : mQueues) {
+                queue.clear();
+            }
+        }
     }
 
     /**

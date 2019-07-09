@@ -12,13 +12,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.android.gift.R;
 import com.android.gift.base.RoomBaseController;
 import com.android.gift.bean.GiftItemInfo;
 import com.android.gift.bean.UserInfo;
 import com.android.gift.constant.Constants;
-import com.android.gift.gift.adapter.LiveFansListAdapter;
+import com.android.gift.manager.RoomDanmuManager;
+import com.android.gift.model.GlideCircleTransform;
+import com.android.gift.room.adapter.LiveFansListAdapter;
 import com.android.gift.gift.dialog.LiveGiftDialog;
 import com.android.gift.gift.listener.OnGiveGiftListener;
 import com.android.gift.gift.manager.GiftBoardManager;
@@ -34,7 +37,10 @@ import com.android.gift.util.AnimationUtil;
 import com.android.gift.util.AppUtils;
 import com.android.gift.util.DataFactory;
 import com.android.gift.util.Logger;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import java.util.List;
+import master.flame.danmaku.controller.IDanmakuView;
 
 /**
  * TinyHung@Outlook.com
@@ -47,8 +53,11 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
 
     private static final String TAG = "VideoLiveControllerView";
     private Context mContext;
+    //主播信息
+    private UserInfo mAnchorUser;
     private LiveFansListAdapter mAvatarListAdapter;//在线观众
     private BrightConversationListView mConversationListView;//会话列表
+    private LiveGiftDialog mFragment;
     //主播端
     private long SECOND=0;//直播、观看时长
     private TextView mOnlineNumber;//直播间在线人数
@@ -57,8 +66,9 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
     private CountdownGiftView mCountdownGiftView;//连击赠送礼物
     private GiftRoomGroupManager mGiftGroupManager;//普通礼物
     private View mEmptyView;
-    private LiveGiftDialog mFragment;
     private View mTopBar;
+    //飘屏、中奖动画
+    private RoomDanmuManager mDrawDanmuManager;
 
     public VideoLiveControllerView(Context context) {
         super(context);
@@ -116,13 +126,46 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
         findViewById(R.id.view_btn_menu0).setOnClickListener(this);
         //监听礼物交互
         GiftBoardManager.getInstance().addOnGiveGiftListener(this);
-        startGiftTask();
+        //弹幕、中奖飘屏
+        IDanmakuView drawDanmakuView = (IDanmakuView) findViewById(R.id.draw_danmakuView);
+        mDrawDanmuManager = new RoomDanmuManager(getContext());
+        mDrawDanmuManager.bindDanmakuView(drawDanmakuView);
+
+        //布局监听，根据用户设备分辨率开始礼物动画通道分配后开始礼物栈的运行
+        findViewById(R.id.tool_bar_view).getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                findViewById(R.id.tool_bar_view).getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                if(null!=mGiftGroupManager){
+                    int topBarHeight = findViewById(R.id.tool_bar_view).getMeasuredHeight();
+                    int bottomBarHeight = findViewById(R.id.tool_bottom_bar).getMeasuredHeight();
+                    int conversationHeight = mConversationListView.getMeasuredHeight();
+                    int resolutionPX=AppUtils.getInstance().getScreenHeight(getContext())-(topBarHeight+bottomBarHeight+conversationHeight);
+                    mGiftGroupManager.initGiftPass(resolutionPX);
+                    startGiftTask();
+                }
+            }
+        });
+
     }
 
-    @Override
-    protected void onFinishInflate() {
-        super.onFinishInflate();
-        Logger.d(TAG,"onFinishInflate");
+    /**
+     * 设置主播信息
+     * @param userInfo
+     */
+    public void setAnchorData(UserInfo userInfo){
+        this.mAnchorUser=userInfo;
+        if(null!=userInfo){
+            ImageView iconImage = (ImageView) findViewById(R.id.view_anchor_head);
+            Glide.with(getContext())
+                    .load(userInfo.getAvatar())
+                    .error(R.drawable.ic_default_user_head)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .centerCrop()
+                    .transform(new GlideCircleTransform(getContext()))
+                    .dontAnimate()
+                    .into(iconImage);
+        }
     }
 
     /**
@@ -160,8 +203,8 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
         switch (v.getId()) {
             //礼物
             case R.id.view_btn_menu4:
-                if(null!=mFunctionListener){
-                    mFunctionListener.showGift();
+                if(null!=mFunctionListener&&null!=mAnchorUser){
+                    mFunctionListener.showGift(mAnchorUser);
                 }
                 break;
             //关闭
@@ -201,14 +244,12 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
     @Override
     public void onReceiveGift(GiftItemInfo giftItemInfo, UserInfo userInfo, String roomid, int count) {
         if(null!=giftItemInfo){
-            Logger.d(TAG,"onReceiveGift-->接收人："+userInfo.getUserid()+",群组ID："+roomid+",礼物ID："+giftItemInfo.getId()+",数量："+count);
+            //Logger.d(TAG,"onReceiveGift-->接收人："+userInfo.getUserid()+",群组ID："+roomid+",礼物ID："+giftItemInfo.getId()+",数量："+count);
             if(null!=mCountdownGiftView){
                 mCountdownGiftView.updataView(giftItemInfo);
             }
-
             //本地播放礼物动画，远程端交由服务器推送
             CustomMsgExtra customMsgExtra=new CustomMsgExtra();
-            customMsgExtra.setCmd(Constants.MSG_CUSTOM_GIFT);
             if(null!=userInfo){
                 customMsgExtra.setAccapUserID(userInfo.getUserid());
                 customMsgExtra.setAccapUserName(userInfo.getNickName());
@@ -218,28 +259,30 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
             giftItemInfo.setDrawTimes(0);
             giftItemInfo.setCount(count);
             giftItemInfo.setSource_room_id("AAAAAA");
-            CustomMsgInfo customMsgInfo = AppUtils.getInstance().packMessage(customMsgExtra, giftItemInfo);
-            customMsgInfo.setAccapGroupID("er43te5yttrywrer4t");
+            customMsgExtra.setCmd(Constants.MSG_CUSTOM_GIFT);
             // TODO: 2019/7/8 模拟奇数小倍率中奖
             int randomNum = AppUtils.getInstance().getRandomNum(0, 100);
             if((randomNum&1)==1){
                 //收紧概率区间
-                if(randomNum>90){
+                if(randomNum>88){
                     giftItemInfo.setDrawLevel(Constants.ROOM_GIFT_DRAW_ONE_LEVEL);
                     giftItemInfo.setDrawTimes(randomNum);
+                    //将消息命令更改为中奖
+                    customMsgExtra.setCmd(Constants.MSG_CUSTOM_ROOM_DRAW);
                 }
             }else{
                 // TODO: 2019/7/8 模拟偶数大倍率中奖
-                if(randomNum>93){
+                if(randomNum>91){
                     giftItemInfo.setDrawLevel(Constants.ROOM_GIFT_DRAW_TWO_LEVEL);
                     giftItemInfo.setDrawTimes(randomNum);
+                    //将消息命令更改为中奖
+                    customMsgExtra.setCmd(Constants.MSG_CUSTOM_ROOM_DRAW);
                 }
             }
             // TODO: 2019/7/8  特别注意，这里的虚拟中奖，不会计算增加到赠送的礼物的数量中！实际中奖也不需要计数
+            CustomMsgInfo customMsgInfo = AppUtils.getInstance().packMessage(customMsgExtra, giftItemInfo);
             //礼物动画展示
-            if(null!=mGiftGroupManager){
-                mGiftGroupManager.addGiftAnimationItem(customMsgInfo);
-            }
+            newSystemCustomMessage(customMsgInfo,false);
         }
     }
 
@@ -384,8 +427,16 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
                         continue;
                         //中奖信息
                     case Constants.MSG_CUSTOM_ROOM_DRAW:
-                        if(null!=mGiftGroupManager) mGiftGroupManager.addGiftAnimationItem(customMsgInfo);
-                            continue;
+                        if(null!=mGiftGroupManager){
+                            mGiftGroupManager.addGiftAnimationItem(customMsgInfo);
+                        }
+                        //大奖、飘屏
+                        if(null!=mDrawDanmuManager&&null!=customMsgInfo.getGift()){
+                            if(customMsgInfo.getGift().getDrawLevel()>1){
+                                mDrawDanmuManager.addRoomDanmu(customMsgInfo,RoomDanmuManager.DanmuType.AWARD);
+                            }
+                        }
+                        continue;
             }
         }
     }
@@ -412,13 +463,30 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
     public void stopReckonTime() {}
 
     @Override
-    public void onResume() {
+    public void closeGiftBoard() {
+        if(null!=mEmptyView&&mEmptyView.getVisibility()!=GONE){
+            mEmptyView.setVisibility(GONE);
+        }
+    }
 
+    @Override
+    public void showGiftBoard() {
+        if(null==mEmptyView) return;
+        int height = AppUtils.getInstance().dpToPxInt(getContext(), 100f);
+        if(mEmptyView.getLayoutParams().height!=height){
+            mEmptyView.getLayoutParams().height=height;
+        }
+        mEmptyView.setVisibility(VISIBLE);
+    }
+
+    @Override
+    public void onResume() {
+        if(null!=mDrawDanmuManager) mDrawDanmuManager.onResume();
     }
 
     @Override
     public void onPause() {
-
+        if(null!=mDrawDanmuManager) mDrawDanmuManager.onPause();
     }
 
     /**
@@ -430,6 +498,10 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
         if(null!=mFragment){
             mFragment.dismiss();
             mFragment=null;
+        }
+        if(null!=mDrawDanmuManager){
+            mDrawDanmuManager.onDestroy();
+            mDrawDanmuManager=null;
         }
         //移除礼物交互监听事件
         GiftBoardManager.getInstance().removeOnGiveGiftListener(this);
@@ -444,7 +516,7 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
 
     public interface OnLiveRoomFunctionListener{
         void backPress();
-        void showGift();
+        void showGift(UserInfo anchorUser);
         void showInput();
     }
 

@@ -1,7 +1,8 @@
-package com.android.gift.gift.manager;
+package com.android.gift.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LevelListDrawable;
@@ -15,13 +16,14 @@ import android.util.TypedValue;
 import android.widget.TextView;
 import com.android.gift.APPLication;
 import com.android.gift.R;
-import com.android.gift.model.UserModelUtil;
-import com.android.gift.util.AppUtils;
+import com.android.gift.view.TextImageSpan;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * TinyHung@outlook.com
@@ -31,8 +33,9 @@ import java.io.InputStream;
 
 public class SpannableStringUtils {
 
+    private static final String TAG = "SpannableStringUtils";
     private static volatile SpannableStringUtils mInstance;
-
+    private static final String GRADLE = "#gradle#[\u4e00-\u9fa5\\w]+#gradle#";//等级
     /**
      * 单例初始化
      * @return
@@ -60,7 +63,7 @@ public class SpannableStringUtils {
         try {
             for (char aChar : chars) {
                 SpannableString stringSpannable = new SpannableString(String.valueOf(aChar));
-                Drawable drawable = APPLication.getInstance().getApplicationContext().getResources().getDrawable(UserModelUtil.getNumCount(Integer.parseInt(String.valueOf(aChar))));
+                Drawable drawable = APPLication.getInstance().getApplicationContext().getResources().getDrawable(UserModelUtil.getInstance().getNumCount(Integer.parseInt(String.valueOf(aChar))));
                 if (null != drawable) {
                     drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
                     ImageSpan imageSpan = new ImageSpan(drawable, ImageSpan.ALIGN_BOTTOM);
@@ -87,7 +90,7 @@ public class SpannableStringUtils {
         try {
             for (char aChar : chars) {
                 SpannableString stringSpannable = new SpannableString(String.valueOf(aChar));
-                Drawable drawable = APPLication.getInstance().getApplicationContext().getResources().getDrawable(UserModelUtil.giftSendNumFromat(Integer.parseInt(String.valueOf(aChar))));
+                Drawable drawable = APPLication.getInstance().getApplicationContext().getResources().getDrawable(UserModelUtil.getInstance().giftSendNumFromat(Integer.parseInt(String.valueOf(aChar))));
                 if (null != drawable) {
                     drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
                     ImageSpan imageSpan = new ImageSpan(drawable, ImageSpan.ALIGN_BOTTOM);
@@ -114,7 +117,7 @@ public class SpannableStringUtils {
         try {
             for (char aChar : chars) {
                 SpannableString stringSpannable = new SpannableString(String.valueOf(aChar));
-                Drawable drawable = APPLication.getInstance().getApplicationContext().getResources().getDrawable(UserModelUtil.getDrawNumCount(Integer.parseInt(String.valueOf(aChar))));
+                Drawable drawable = APPLication.getInstance().getApplicationContext().getResources().getDrawable(UserModelUtil.getInstance().getDrawNumCount(Integer.parseInt(String.valueOf(aChar))));
                 if (null != drawable) {
                     drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
                     ImageSpan imageSpan = new ImageSpan(drawable, ImageSpan.ALIGN_BOTTOM);
@@ -211,5 +214,36 @@ public class SpannableStringUtils {
             });
             return drawable;
         }
+    }
+
+    /**
+     * 格式化用户等级
+     * @return
+     */
+    public SpannableString formatUserGradle(String content,int usergGradle) {
+        content="#gradle#"+usergGradle+"#gradle#"+content;
+        SpannableString spannableString = new SpannableString(Html.fromHtml(content));
+        Pattern pattern = Pattern.compile("(" + GRADLE + ")");
+        Matcher matcher = pattern.matcher(spannableString);
+        //遍历整条语句找出匹配的项，替换图片
+        while (matcher.find()) {
+            String gradle = matcher.group(1);
+            //用户等级
+            if (gradle != null) {
+                int start = matcher.start(1);
+                int end = start + gradle.length();
+                //用户等级
+                String substring = gradle.substring(8, gradle.length() - 8);
+                Bitmap bitmap = BitmapFactory.decodeResource(APPLication.getInstance().getApplicationContext().getResources(), UserModelUtil.getInstance().getUserGradleRes(usergGradle));
+                if(null!=bitmap){
+                    // 压缩Bitmap
+                    bitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
+                    // 设置Bitmap
+                    TextImageSpan imageSpan = new TextImageSpan(APPLication.getInstance().getApplicationContext(), bitmap);
+                    spannableString.setSpan(imageSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+            }
+        }
+        return spannableString;
     }
 }

@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.android.gift.R;
 import com.android.gift.bean.GiftItemInfo;
 import com.android.gift.gift.manager.GiftBoardManager;
-import com.android.gift.gift.manager.SpannableStringUtils;
+import com.android.gift.util.SpannableStringUtils;
 import com.android.gift.model.GlideCircleTransform;
 import com.android.gift.util.AppUtils;
 import com.bumptech.glide.Glide;
@@ -72,7 +72,7 @@ public class CountdownGiftView extends LinearLayout {
         if(screenDensity<=300){
             mProgressbar.setProgressLineWidth(6);//进度条宽度
         }else{
-            mProgressbar.setProgressLineWidth(12);//进度条宽度
+            mProgressbar.setProgressLineWidth(10);//进度条宽度
         }
         mProgressbar.setTimeMillis(1000*PROGRESS_DURTION);//一分钟的连击
         mProgressbar.setProgressColor(Color.parseColor("#FB6665"));//进度条颜色

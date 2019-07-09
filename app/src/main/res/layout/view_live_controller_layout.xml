@@ -12,6 +12,12 @@
         android:visibility="visible">
         <!--顶部组件-->
         <include layout="@layout/live_top_tool_bar" android:id="@+id/tool_bar_view" />
+        <!--飘屏弹幕-->
+        <master.flame.danmaku.ui.widget.DanmakuView
+            android:id="@+id/draw_danmakuView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tool_bar_view" />
         <!--礼物、消息展示-->
         <LinearLayout
             android:id="@+id/ll_gift_group"
@@ -32,12 +38,13 @@
                 android:id="@+id/view_bright_conversation"
                 android:layout_width="match_parent"
                 android:layout_height="140dp"
-                android:layout_marginRight="80dp"/>
+                android:layout_marginRight="92dp"/>
             <View
                 android:id="@+id/empty_view"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:visibility="gone"/>
+            <!--底部菜单栏-->
             <LinearLayout
                 android:id="@+id/tool_bottom_bar"
                 android:layout_width="match_parent"
@@ -47,27 +54,28 @@
                 android:paddingBottom="10dp"
                 android:visibility="visible"
                 android:background="@drawable/bg_black_shape_gratien">
-                <!--消息-->
                 <ImageView
                     android:id="@+id/view_btn_menu0"
                     style="@style/LiveRoomControllerTab"
                     android:visibility="visible"
                     android:src="@drawable/btn_live_msg"/>
-                <!--私信-->
                 <ImageView
                     android:id="@+id/view_btn_menu1"
                     style="@style/LiveRoomControllerTab"
                     android:src="@drawable/btn_live_private_chat"/>
-                <!--观众端：礼物 主播端美颜-->
+                <ImageView
+                    android:id="@+id/view_btn_menu2"
+                    style="@style/LiveRoomControllerTab"/>
                 <ImageView
                     android:id="@+id/view_btn_menu4"
                     style="@style/LiveRoomControllerTab"
                     android:src="@drawable/ic_gift_send_icon"/>
-                <!--主播：镜头切换-->
                 <ImageView
                     android:id="@+id/view_btn_menu5"
                     style="@style/LiveRoomControllerTab"/>
-                <!--主播：美颜-->
+                <ImageView
+                    android:id="@+id/view_btn_menu6"
+                    style="@style/LiveRoomControllerTab"/>
                 <ImageView
                     android:id="@+id/view_btn_menu7"
                     style="@style/LiveRoomControllerTab"/>
@@ -88,7 +96,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/view_countdown_view"
         android:layout_gravity="right|bottom"
-        android:layout_marginBottom="86dp"
+        android:layout_marginBottom="66dp"
         android:layout_marginRight="15dp"
         app:count_durtion="60"/>
 </FrameLayout>

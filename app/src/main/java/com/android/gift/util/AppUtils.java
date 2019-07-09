@@ -3,6 +3,8 @@ package com.android.gift.util;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
+
 import com.android.gift.APPLication;
 import com.android.gift.bean.GiftItemInfo;
 import com.android.gift.room.bean.CustomMsgExtra;
@@ -87,7 +89,7 @@ public class AppUtils {
      *
      * @return
      */
-    public static int getScreenHeight(Context context) {
+    public int getScreenHeight(Context context) {
         return context.getResources().getDisplayMetrics().heightPixels;
     }
 
@@ -190,6 +192,14 @@ public class AppUtils {
         //初始化屏幕密度
         DisplayMetrics dm = APPLication.getInstance().getApplicationContext().getResources().getDisplayMetrics();
         return dm.densityDpi;
+    }
+
+    public int dp2pxConvertInt(Context context, float dpValue) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue, context.getResources().getDisplayMetrics());
+    }
+
+    public float sp2px(Context context, float spValue) {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, spValue, context.getResources().getDisplayMetrics());
     }
 
     /**

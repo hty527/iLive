@@ -11,6 +11,8 @@ public class UserInfo {
     private String userid;
     private String nickName;
     private String avatar;
+    //默认男生，1：女生
+    private int userSex;
 
     public String getUserid() {
         return userid;
@@ -34,5 +36,13 @@ public class UserInfo {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public int getUserSex() {
+        return userSex;
+    }
+
+    public void setUserSex(int userSex) {
+        this.userSex = userSex;
     }
 }

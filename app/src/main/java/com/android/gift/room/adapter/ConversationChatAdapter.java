@@ -1,4 +1,4 @@
-package com.android.gift.gift.adapter;
+package com.android.gift.room.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +11,7 @@ import com.android.gift.R;
 import com.android.gift.base.BaseAdapter;
 import com.android.gift.constant.Constants;
 import com.android.gift.room.bean.CustomMsgInfo;
+import com.android.gift.util.SpannableStringUtils;
 
 /**
  * TinyHung@Outlook.com
@@ -35,13 +36,12 @@ public class ConversationChatAdapter extends BaseAdapter<CustomMsgInfo,Conversat
         if(null!=itemData){
             if(!TextUtils.isEmpty(itemData.getMsgContent())){
                 viewHolder.itemContent.setBackgroundResource(R.drawable.bg_shape_room_cacht_content);
-                String content;
                 if(Constants.MSG_CUSTOM_NOTICE.equals(itemData.getChildCmd())){
-                    content="<font color='#FF7575'>"+itemData.getMsgContent()+"</font>";
+                    viewHolder.itemContent.setText(Html.fromHtml("<font color='#FD6A69'>"+itemData.getMsgContent()+"</font>"));
                 }else{
-                    content="<font color='#E0DBDB'>"+itemData.getSendUserName()+"</font>  <font color='#FFF566'>"+itemData.getMsgContent()+"</font>";
+                    String contentStr = " <font color='#B9B9B9'>" + itemData.getSendUserName() + "</font>  <font color='#FFFFFF'>" + itemData.getMsgContent() + "</font>";
+                    viewHolder.itemContent.setText(SpannableStringUtils.getInstance().formatUserGradle(contentStr,itemData.getSendUserGradle()));
                 }
-                viewHolder.itemContent.setText(Html.fromHtml(content));
             }
         }
     }

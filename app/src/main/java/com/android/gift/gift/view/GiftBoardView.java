@@ -189,9 +189,9 @@ public class GiftBoardView extends FrameLayout implements GiftContact.View {
         public GiftBoardLayoutItem(List<GiftItemInfo> giftInfos, int position) {
             mView = View.inflate(getContext(), R.layout.view_gift_board_item, null);
             RecyclerView recyclerView = (RecyclerView) mView.findViewById(R.id.recycler_gift_item);
-            final GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 4, GridLayoutManager.VERTICAL, false);
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 4, GridLayoutManager.VERTICAL, false);
             recyclerView.setLayoutManager(gridLayoutManager);
-            GiftItemAdapter adapter= new GiftItemAdapter(giftInfos,getContext());
+            GiftItemAdapter adapter= new GiftItemAdapter(getContext(),giftInfos);
             adapter.setOnItemClickListener(new GiftItemAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(int poistion, View view, GiftItemInfo giftInfo) {

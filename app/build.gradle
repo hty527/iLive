@@ -10,10 +10,21 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    //构建配置
     buildTypes {
-        release {
-            minifyEnabled false
+        debug {
+            debuggable true
+            signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            debuggable false
+            zipAlignEnabled true
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
     }
 
@@ -48,11 +59,13 @@ dependencies {
     //图片加载
     implementation 'com.github.bumptech.glide:glide:3.7.0'
     implementation 'jp.wasabeef:glide-transformations:2.0.1'
-    implementation 'com.facebook.fresco:fresco:2.0.0'
     implementation 'com.github.yyued:SVGAPlayer-Android:2.3.0'
     androidTestCompile('com.android.support:support-annotations:26.1.0') {
         force = true
     }
     //视频播放器
     implementation 'com.imusic.player:video-player:1.0.7'
+    //飘屏、弹幕
+    implementation 'com.github.ctiao:DanmakuFlameMaster:0.9.16'
+    implementation 'com.github.ctiao:ndkbitmap-armv7a:0.9.16'
 }

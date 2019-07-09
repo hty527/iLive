@@ -17,6 +17,8 @@ public class CustomMsgInfo {
     private String sendUserID;
     private String sendUserName;
     private String sendUserHead;
+    private int sendUserGradle=0;
+    private int sendUserVip=0;
     private String accapGroupID;//接收者群ID
     private String msgContent;
     private String accapUserID;
@@ -42,6 +44,7 @@ public class CustomMsgInfo {
             setSendUserName(UserManager.getInstance().getNickName());
             setSendUserHead(UserManager.getInstance().getAcatar());
             setSendUserID(UserManager.getInstance().getUserId());
+            setSendUserGradle(UserManager.getInstance().getUserGradle());
         }
     }
 
@@ -156,5 +159,21 @@ public class CustomMsgInfo {
 
     public void setGift(GiftItemInfo gift) {
         this.gift = gift;
+    }
+
+    public int getSendUserGradle() {
+        return sendUserGradle;
+    }
+
+    public void setSendUserGradle(int sendUserGradle) {
+        this.sendUserGradle = sendUserGradle;
+    }
+
+    public int getSendUserVip() {
+        return sendUserVip;
+    }
+
+    public void setSendUserVip(int sendUserVip) {
+        this.sendUserVip = sendUserVip;
     }
 }

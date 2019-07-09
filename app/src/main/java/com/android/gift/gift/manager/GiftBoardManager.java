@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import com.android.gift.R;
@@ -65,6 +66,7 @@ public class GiftBoardManager {
     private GiftItemInfo mReceiveGiftItemInfo;
     //礼物中奖后，金币掉落的结束位置
     private int[] mAwardEndLocation;
+    private boolean mAutoSelected;
 
     public static synchronized GiftBoardManager getInstance(){
         synchronized (GiftBoardManager.class){
@@ -188,6 +190,26 @@ public class GiftBoardManager {
             mGiftLayout=new GiftLayout(context);
         }
         return mGiftLayout;
+    }
+
+    /**
+     * 配置礼物面板显示后是否自动选中第一个
+     * @param autoSelected
+     */
+    public void setAutoSelected(boolean autoSelected) {
+        mAutoSelected = autoSelected;
+    }
+
+    public boolean isAutoSelected() {
+        return mAutoSelected;
+    }
+
+    /**
+     * 返回ITEM实例
+     * @return
+     */
+    public View getItemView() {
+        return mSvgaItemView;
     }
 
     /**
@@ -420,5 +442,10 @@ public class GiftBoardManager {
         //还原旧的ITEM为初始状态
         resetItemView();
         mGiftCount=0;
+        if(null!=mSvgaItemView&&null!=mSvgaItemView.getParent()){
+            ViewGroup parent = (ViewGroup) mSvgaItemView.getParent();
+            parent.removeView(mSvgaItemView);
+        }
+        mSvgaItemView=null;
     }
 }

@@ -13,7 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.android.gift.R;
 import com.android.gift.gift.manager.GiftBoardManager;
-import com.android.gift.gift.manager.SpannableStringUtils;
+import com.android.gift.util.SpannableStringUtils;
 import com.android.gift.room.view.GoldWireLayout;
 import com.android.gift.util.AnimationUtil;
 import com.android.gift.util.AppUtils;

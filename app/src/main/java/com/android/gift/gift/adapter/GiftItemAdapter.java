@@ -2,7 +2,6 @@ package com.android.gift.gift.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -10,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.android.gift.R;
+import com.android.gift.base.BaseAdapter;
 import com.android.gift.bean.GiftItemInfo;
 import com.android.gift.util.AppUtils;
 import com.bumptech.glide.Glide;
@@ -21,40 +21,28 @@ import java.util.List;
  * 礼物选择面板适配器
  */
 
-public class GiftItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class GiftItemAdapter extends BaseAdapter<GiftItemInfo,GiftItemAdapter.ViewHolder> {
 
     private static final String TAG = "GiftItemAdapter";
-    private final LayoutInflater mInflater;
-    private final Context mContext;
-    private List<GiftItemInfo> mData;
     private final int mItemHeight;
     private final int mIconWidth,mSvgaIconWidth;
 
-    public GiftItemAdapter(List<GiftItemInfo> data, Context context) {
-        this.mData=data;
-        int screenWidth = AppUtils.getInstance().getScreenWidth(context);
-        this.mContext=context;
-        mInflater = LayoutInflater.from(context);
-        mItemHeight = screenWidth/4;
+    public GiftItemAdapter(Context context,List<GiftItemInfo> data) {
+        super(context,data);
+        mItemHeight = AppUtils.getInstance().getScreenWidth(context)/4;
         mIconWidth = mItemHeight - AppUtils.getInstance().dpToPxInt(context,36f);
         mSvgaIconWidth = mItemHeight - AppUtils.getInstance().dpToPxInt(context,25f);
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder inCreateViewHolder(ViewGroup viewGroup, int viewType) {
         return new ViewHolder(mInflater.inflate(R.layout.item_re_gift_item_layout,null));
     }
 
-    /**
-     * 单条目全部刷新
-     * @param holder
-     * @param position
-     */
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        GiftItemInfo giftInfo = mData.get(position);
-        if(null!=giftInfo){
-            ViewHolder viewHolder= (ViewHolder) holder;
+    public void inBindViewHolder(ViewHolder viewHolder, final int position) {
+        GiftItemInfo itemData = getItemData(position);
+        if(null!=itemData){
             viewHolder.item_view_group.getLayoutParams().height=mItemHeight;
             //ICON
             ViewGroup.LayoutParams layoutParams = viewHolder.ic_item_icon.getLayoutParams();
@@ -63,22 +51,22 @@ public class GiftItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             viewHolder.ic_item_icon.setLayoutParams(layoutParams);
             //SVGA容器
             RelativeLayout.LayoutParams layoutParamsSvga = (RelativeLayout.LayoutParams) viewHolder.view_svga_icon.getLayoutParams();
-            layoutParamsSvga.height=mIconWidth;
-            layoutParamsSvga.width=mIconWidth;
+            layoutParamsSvga.height=mSvgaIconWidth;
+            layoutParamsSvga.width=mSvgaIconWidth;
             viewHolder.view_svga_icon.setLayoutParams(layoutParamsSvga);
 
-            viewHolder.tv_item_title.setText(giftInfo.getTitle());
-            viewHolder.item_tv_price.setText(String.valueOf(giftInfo.getPrice()));
+            viewHolder.tv_item_title.setText(itemData.getTitle());
+            viewHolder.item_tv_price.setText(String.valueOf(itemData.getPrice()));
             viewHolder.item_tag.setVisibility(View.INVISIBLE);
             //普通的ICON设置
             Glide
-                .with(viewHolder.ic_item_icon.getContext().getApplicationContext())
-                .load(giftInfo.getSrc())
-                .error(R.drawable.ic_default_gift_icon)
-                .skipMemoryCache(true)
-                .dontAnimate()
-                .into(viewHolder.ic_item_icon);
-            viewHolder.itemView.setTag(giftInfo);
+                    .with(viewHolder.ic_item_icon.getContext().getApplicationContext())
+                    .load(itemData.getSrc())
+                    .error(R.drawable.ic_default_gift_icon)
+                    .skipMemoryCache(true)
+                    .dontAnimate()
+                    .into(viewHolder.ic_item_icon);
+            viewHolder.itemView.setTag(itemData);
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -88,24 +76,6 @@ public class GiftItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
             });
         }
-    }
-
-    @Override
-    public int getItemCount() {
-        return null==mData?0:mData.size();
-    }
-
-    public List<GiftItemInfo> getData() {
-        return mData;
-    }
-
-    /**
-     * 为适配器设置新的数据
-     * @param data
-     */
-    public synchronized void setNewData(List<GiftItemInfo> data) {
-        mData=data;
-        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

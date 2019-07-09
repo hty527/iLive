@@ -12,7 +12,7 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.animation.LinearInterpolator;
-import com.android.gift.gift.manager.SpannableStringUtils;
+import com.android.gift.util.SpannableStringUtils;
 
 /**
  * TinyHung@Outlook.com

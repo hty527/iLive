@@ -11,6 +11,7 @@ public class UserManager {
     private String mUserId="88888888";
     private String mNickName="周杰伦";
     private String mAcatar="http://img.mp.sohu.com/upload/20170811/eaec0c0513e544adb68c6b2af0fdbb1b_th.png";
+    private int mUserGradle=30;
 
     /**
      * 单例初始化
@@ -47,5 +48,13 @@ public class UserManager {
 
     public void setAcatar(String acatar) {
         mAcatar = acatar;
+    }
+
+    public int getUserGradle() {
+        return mUserGradle;
+    }
+
+    public void setUserGradle(int userGradle) {
+        mUserGradle = userGradle;
     }
 }

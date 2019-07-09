@@ -62,7 +62,10 @@ public class MainActivity extends AppCompatActivity {
         userInfo.setUserid("234353455");
         userInfo.setNickName("刘亦菲");
         userInfo.setAvatar("http://c4.haibao.cn/img/600_0_100_0/1473652712.0005/87c7805c10e60e9a6db94f86d6014de8.jpg");
-        LiveGiftDialog.getInstance(this,userInfo,"er43te5yttrywrer4t").show();
+        LiveGiftDialog instance = LiveGiftDialog.getInstance(this);
+        instance.setSendeeUser(userInfo);
+        instance.setSendeeRoomID("er43te5yttrywrer4t");
+        instance.show();
     }
 
     /**

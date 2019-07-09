@@ -30,7 +30,7 @@ import com.video.player.lib.view.VideoPlayerTrackView;
 /**
  * Created by TinyHung@outlook.com
  * 2019/7/5
- * 直播间
+ * 礼物交互示例直播间
  */
 
 public class LiveRoomActivity extends AppCompatActivity {
@@ -59,6 +59,11 @@ public class LiveRoomActivity extends AppCompatActivity {
 
         //直播间交互控制器
         mControllerView = findViewById(R.id.live_controller);
+        UserInfo userInfo=new UserInfo();
+        userInfo.setUserid("66666666");
+        userInfo.setNickName("刘亦菲");
+        userInfo.setAvatar("http://c2.haibao.cn/img/600_0_100_0/1493267408.0007/7726778833401511649f891023c0ea4b.jpg");
+        mControllerView.setAnchorData(userInfo);
         mControllerView.setFunctionListener(new VideoLiveControllerView.OnLiveRoomFunctionListener() {
             @Override
             public void backPress() {
@@ -66,12 +71,23 @@ public class LiveRoomActivity extends AppCompatActivity {
             }
 
             @Override
-            public void showGift() {
-                UserInfo userInfo = new UserInfo();
-                userInfo.setUserid("234353455");
-                userInfo.setNickName("刘亦菲");
-                mGiftDialog = LiveGiftDialog.getInstance(LiveRoomActivity.this, userInfo, "er43te5yttrywrer4t");
+            public void showGift(UserInfo anchorUser) {
+                if(null==mGiftDialog){
+                    mGiftDialog = LiveGiftDialog.getInstance(LiveRoomActivity.this);
+                    mGiftDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            if(null!=mControllerView){
+                                mControllerView.closeGiftBoard();
+                            }
+                        }
+                    });
+                }
+                mGiftDialog.setAutoSelected(true);
+                mGiftDialog.setSendeeUser(anchorUser);
+                mGiftDialog.setSendeeRoomID("er43te5yttrywrer4t");
                 mGiftDialog.show();
+                mControllerView.showGiftBoard();
             }
 
             @Override
@@ -195,6 +211,7 @@ public class LiveRoomActivity extends AppCompatActivity {
         super.onDestroy();
         VideoPlayerManager.getInstance().onDestroy();
         if(null!=mGiftDialog&&mGiftDialog.isShowing()){
+            mGiftDialog.destroy();
             mGiftDialog.dismiss();
             mGiftDialog=null;
         }

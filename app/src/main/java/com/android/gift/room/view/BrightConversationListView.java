@@ -10,9 +10,10 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import com.android.gift.R;
-import com.android.gift.gift.adapter.ConversationChatAdapter;
+import com.android.gift.room.adapter.ConversationChatAdapter;
 import com.android.gift.model.IndexLinLayoutManager;
 import com.android.gift.room.bean.CustomMsgInfo;
+import com.android.gift.util.AppUtils;
 
 /**
  * TinyHung@Outlook.com
@@ -62,6 +63,9 @@ public class BrightConversationListView extends FrameLayout {
         //消息列表
         mMsgLayoutManager = new IndexLinLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false);
         mMsgLayoutManager.setStackFromEnd(true);
+        recyclerView.setHorizontalFadingEdgeEnabled(true);
+        recyclerView.setVerticalFadingEdgeEnabled(true);
+        recyclerView.setFadingEdgeLength(AppUtils.getInstance().dpToPxInt(20f));
         mMsgLayoutManager.setMsgRecyclerView(recyclerView);
         recyclerView.setLayoutManager(mMsgLayoutManager);
         mChatMsgListAdapter=new ConversationChatAdapter(getContext());

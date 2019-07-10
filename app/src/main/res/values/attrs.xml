@@ -3,7 +3,7 @@
 
     <!--TabLayout字体样式-->
     <style name="TabLayoutTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:textSize">15dp</item>
+        <item name="android:textSize">14dp</item>
         <item name="android:textAllCaps">false</item>
     </style>
 

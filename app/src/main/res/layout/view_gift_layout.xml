@@ -12,17 +12,18 @@
             android:id="@+id/gift_tab_layout"
             android:layout_width="match_parent"
             android:layout_height="39dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             app:tabMode="fixed"
+            app:tabIndicatorColor="#EFA109"
+            app:tabIndicatorHeight="2dp"
             app:tabTextAppearance="@style/TabLayoutTextAppearance"
-            app:tabIndicatorHeight="0dp"
             app:tabTextColor="#808080"
             app:tabSelectedTextColor="#EFA109"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="0.2dp"
-            android:background="#4DEFA109"
+            android:background="#454613"
             android:layout_alignParentBottom="true"/>
         <FrameLayout
             android:layout_width="match_parent"
@@ -34,7 +35,7 @@
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:textSize="11dp"
-                android:textColor="#7A7A7A"
+                android:textColor="#808080"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="点击喜欢的礼物，送给心仪的主播吧~"/>

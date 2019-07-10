@@ -55,16 +55,24 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
     private Context mContext;
     //主播信息
     private UserInfo mAnchorUser;
-    private LiveFansListAdapter mAvatarListAdapter;//在线观众
-    private BrightConversationListView mConversationListView;//会话列表
+    //在线观众
+    private LiveFansListAdapter mAvatarListAdapter;
+    //会话列表
+    private BrightConversationListView mConversationListView;
+    //礼物交互面板容器
     private LiveGiftDialog mFragment;
     //主播端
-    private long SECOND=0;//直播、观看时长
-    private TextView mOnlineNumber;//直播间在线人数
+    //直播、观看时长
+    private long SECOND=0;
+    //直播间在线人数
+    private TextView mOnlineNumber;
     private Handler mHandler;
-    private LikeHeartLayout mHeartLayout;//飘心
-    private CountdownGiftView mCountdownGiftView;//连击赠送礼物
-    private GiftRoomGroupManager mGiftGroupManager;//普通礼物
+    //飘心
+    private LikeHeartLayout mHeartLayout;
+    //连击赠送礼物
+    private CountdownGiftView mCountdownGiftView;
+    //普通礼物
+    private GiftRoomGroupManager mGiftGroupManager;
     private View mEmptyView;
     private View mTopBar;
     //飘屏、中奖动画
@@ -146,7 +154,6 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
                 }
             }
         });
-
     }
 
     /**
@@ -192,6 +199,9 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
         mAvatarListAdapter.setNewData(userInfos);
     }
 
+    /**
+     * 礼物动画交互栈开始运行
+     */
     private void startGiftTask() {
         if(null!=mGiftGroupManager){
             mGiftGroupManager.startPlayTask();

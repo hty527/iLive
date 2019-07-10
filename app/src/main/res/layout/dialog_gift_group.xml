@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#E6161616">
+    android:background="#E6000000">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,12 +41,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:textColor="#FFFFFF"
+                    android:textColor="#EFA109"
                     android:textSize="13dp" />
                 <com.android.gift.view.ShapeTextView
                     android:id="@+id/dig_btn_sned"
                     android:layout_width="58dp"
-                    android:layout_height="30dp"
+                    android:layout_height="28dp"
                     android:layout_centerVertical="true"
                     android:layout_margin="8dp"
                     android:layout_alignParentRight="true"
@@ -56,7 +56,7 @@
                     app:shapeBackgroundColor="#FFFF6666"
                     app:shapeBackgroundSelectorColor="#fa9090"
                     android:textColor="#FFFFFF"
-                    android:textSize="13dp"
+                    android:textSize="15dp"
                     android:gravity="center"
                     android:text="赠送"/>
             </RelativeLayout>

@@ -30,7 +30,7 @@ public class GiftItemAdapter extends BaseAdapter<GiftItemInfo,GiftItemAdapter.Vi
     public GiftItemAdapter(Context context,List<GiftItemInfo> data) {
         super(context,data);
         mItemHeight = AppUtils.getInstance().getScreenWidth(context)/4;
-        mIconWidth = mItemHeight - AppUtils.getInstance().dpToPxInt(context,36f);
+        mIconWidth = mItemHeight - AppUtils.getInstance().dpToPxInt(context,38f);
         mSvgaIconWidth = mItemHeight - AppUtils.getInstance().dpToPxInt(context,25f);
     }
 
@@ -57,7 +57,6 @@ public class GiftItemAdapter extends BaseAdapter<GiftItemInfo,GiftItemAdapter.Vi
 
             viewHolder.tv_item_title.setText(itemData.getTitle());
             viewHolder.item_tv_price.setText(String.valueOf(itemData.getPrice()));
-            viewHolder.item_tag.setVisibility(View.INVISIBLE);
             //普通的ICON设置
             Glide
                     .with(viewHolder.ic_item_icon.getContext().getApplicationContext())
@@ -84,7 +83,6 @@ public class GiftItemAdapter extends BaseAdapter<GiftItemInfo,GiftItemAdapter.Vi
         private ImageView ic_item_icon;
         private TextView tv_item_title;
         private TextView item_tv_price;
-        private TextView item_tag;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -93,7 +91,6 @@ public class GiftItemAdapter extends BaseAdapter<GiftItemInfo,GiftItemAdapter.Vi
             ic_item_icon=itemView.findViewById(R.id.gift_item_ic_icon);
             tv_item_title=itemView.findViewById(R.id.gift_item_tv_title);
             item_tv_price=itemView.findViewById(R.id.gift_item_tv_price);
-            item_tag=itemView.findViewById(R.id.gift_item_tag);
         }
     }
 

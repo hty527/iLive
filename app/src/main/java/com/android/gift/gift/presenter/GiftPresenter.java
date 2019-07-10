@@ -8,7 +8,7 @@ import com.android.gift.bean.ResultData;
 import com.android.gift.bean.ResultList;
 import com.android.gift.gift.contract.GiftContact;
 import com.android.gift.gift.manager.GiftBoardManager;
-import com.android.gift.model.GiftEngin;
+import com.android.gift.gift.model.GiftEngin;
 import com.android.gift.net.OkHttpUtils;
 import com.android.gift.net.OnResultCallBack;
 import java.util.ArrayList;

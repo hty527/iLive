@@ -43,7 +43,6 @@ public class GiftRoomItemView extends FrameLayout {
     private Map<String,Integer> mGiftCountBadge =null;//礼物数量cache标记,用来记录当前正在播放的动画是否在20秒内连击送出的缓存数量；如果是，累加数量
     private boolean isCleaning=false;//是否正处入清除View状态
     private long CLEAN_MILLIS =3000;//3秒后清除自己
-    private int mApiType;
 
     public GiftRoomItemView(Context context) {
        super(context);
@@ -67,14 +66,6 @@ public class GiftRoomItemView extends FrameLayout {
        mItemNumScale = AnimatorInflater.loadAnimator(context, R.animator.gift_room_lite_num_scalex);
        mItemNumScale.setInterpolator(new LinearInterpolator());
    }
-
-    /**
-     * 应用场景
-     * @param apiType
-     */
-    public void setApiType(int apiType) {
-        mApiType = apiType;
-    }
 
    /**
     * 设置自动清空时间

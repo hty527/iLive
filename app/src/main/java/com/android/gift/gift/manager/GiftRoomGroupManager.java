@@ -9,11 +9,13 @@ import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import com.android.gift.bean.GiftItemInfo;
 import com.android.gift.gift.view.GiftRoomItemView;
+import com.android.gift.manager.UserManager;
 import com.android.gift.room.bean.CustomMsgInfo;
 import com.android.gift.util.AppUtils;
 import com.android.gift.util.Logger;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
@@ -92,70 +94,79 @@ public class GiftRoomGroupManager extends LinearLayout {
     }
 
     /**
-     * 添加一个普通礼物动画
+     * 添加一个普通礼物动画,自己赠送的礼物显示出来优先级最高
      * @param data 礼物数据
-     * 如果是自己赠送的礼物，优先展示
      */
     public synchronized void addGiftAnimationItem(CustomMsgInfo data){
         if(null==mRoomGiftItemView||null==data) return;
         GiftItemInfo giftInfo = data.getGift();
-        if(null==giftInfo) return;
+        if(null==giftInfo){
+            return;
+        }
+        if(null==mGroupGiftQueue){
+            mGroupGiftQueue=new ArrayDeque<>();
+        }
         String tagID=data.getSendUserID()+giftInfo.getId()+data.getAccapUserID();
-        //1.该礼物已经在前台队列中
+        //1.检查礼物是否在正在显示的ITEM中
         for (int i = 0; i < mRoomGiftItemView.length; i++) {
             GiftRoomItemView frameLayout = mRoomGiftItemView[i];
             //当前队列正在显示的View属性与新动画相符
             if(null != frameLayout.getTag() && TextUtils.equals(tagID, (String) frameLayout.getTag())){
-                Logger.d(TAG,"前台存在此任务："+tagID);
+                Logger.d(TAG,"addGiftAnimationItem-->属于前台礼物："+tagID);
                 addTask(data,i);
                 return;
             }
         }
-        Logger.d(TAG,"新礼物："+tagID);
+        //2.如果是自己赠送的，优先级最高
+        if(data.getSendUserID().equals(UserManager.getInstance().getUserId())){
+            Logger.d(TAG,"addGiftAnimationItem-->自己赠送的");
+            mGroupGiftQueue.add(data);
+            return;
+        }
+        Logger.d(TAG,"addGiftAnimationItem-->新礼物");
+        //3.添加到总队列中待分发
         //新礼物 添加至总队任务队列，等待空闲子队列产生
-        if(null==mGroupGiftQueue) mGroupGiftQueue=new ArrayDeque<>();
         mGroupGiftQueue.add(data);
     }
-
 
     /**
      * 开始普通礼物的播放逻辑
      */
     private synchronized void playGiftAnimation() {
-        if(null==mRoomGiftItemView) return;
-        //先分配一把
-
-        if(null!=mGroupGiftQueue&&mGroupGiftQueue.size()>0){
-            ///取出最前面一个元素但不擦除源数据
-            CustomMsgInfo peekInfo = mGroupGiftQueue.peek();
-            if(null!=peekInfo&&null!=peekInfo.getGift()){
-                String tagID=peekInfo.getSendUserID()+peekInfo.getGift().getId()+peekInfo.getAccapUserID();
-                //分配任务
-                out: for (int i = 0; i < mRoomGiftItemView.length; i++) {
-                    GiftRoomItemView frameLayout = mRoomGiftItemView[i];
-                    //当前列表展示的属性和新的分配的相符
-                    if(null!=frameLayout.getTag()&&TextUtils.equals(tagID, (String) frameLayout.getTag())){
-                        addTask(mGroupGiftQueue.poll(),i);
-                        Logger.d(TAG,"跳出循环1");
-                        break out;
-                    }else{
-                        //新的动画任务
-                        if(null==frameLayout.getTag()){
+        if(null!=mRoomGiftItemView){
+            //先分配一把
+            if(null!=mGroupGiftQueue&&mGroupGiftQueue.size()>0){
+                ///取出最前面一个元素但不擦除源数据
+                CustomMsgInfo peekInfo = mGroupGiftQueue.peek();
+                if(null!=peekInfo&&null!=peekInfo.getGift()){
+                    String tagID=peekInfo.getSendUserID()+peekInfo.getGift().getId()+peekInfo.getAccapUserID();
+                    //分循环数组分配任务到对应、空闲的通道队列中
+                    out: for (int i = 0; i < mRoomGiftItemView.length; i++) {
+                        GiftRoomItemView frameLayout = mRoomGiftItemView[i];
+                        //当前列表展示的属性和新的分配的相符
+                        if(null!=frameLayout.getTag()&&TextUtils.equals(tagID, (String) frameLayout.getTag())){
                             addTask(mGroupGiftQueue.poll(),i);
-                            Logger.d(TAG,"跳出循环2：index:"+i);
+                            Logger.d(TAG,"已添加至对应通道队列，跳出循环继续,index:"+i);
                             break out;
+                        }else{
+                            //新的动画任务
+                            if(null==frameLayout.getTag()){
+                                addTask(mGroupGiftQueue.poll(),i);
+                                Logger.d(TAG,"添加至空闲的通道队列中：index:"+i);
+                                break out;
+                            }
                         }
                     }
                 }
             }
-        }
-        if(null!=mQueues){
-            //检查礼物动画待播放队列
-            for (int i = 0; i < mQueues.size(); i++) {
-                Queue<CustomMsgInfo> customMsgInfos = mQueues.get(i);
-                //判断是否播放礼物动画,若有数据，同步播放礼物动画
-                if(null!=customMsgInfos&&customMsgInfos.size()>0){
-                    addGiftItemView(customMsgInfos.poll(),i);
+            if(null!=mQueues){
+                //检查礼物动画待播放队列
+                for (int i = 0; i < mQueues.size(); i++) {
+                    Queue<CustomMsgInfo> customMsgInfos = mQueues.get(i);
+                    //判断是否播放礼物动画,若有数据，同步播放礼物动画
+                    if(null!=customMsgInfos&&customMsgInfos.size()>0){
+                        addGiftItemView(customMsgInfos.poll(),i);
+                    }
                 }
             }
         }

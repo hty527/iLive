@@ -10,6 +10,7 @@ import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 import com.android.gift.R;
 import com.android.gift.bean.UserInfo;
 import com.android.gift.constant.Constants;
@@ -17,10 +18,14 @@ import com.android.gift.gift.dialog.LiveGiftDialog;
 import com.android.gift.gift.manager.GiftBoardManager;
 import com.android.gift.room.bean.CustomMsgExtra;
 import com.android.gift.room.bean.CustomMsgInfo;
+import com.android.gift.room.bean.RoomItem;
 import com.android.gift.room.doalog.InputKeyBoardDialog;
 import com.android.gift.room.view.VideoLiveControllerView;
 import com.android.gift.util.AppUtils;
+import com.android.gift.util.Logger;
 import com.android.gift.util.ScreenLayoutChangedHelp;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.video.player.lib.constants.VideoConstants;
 import com.video.player.lib.controller.DefaultCoverController;
 import com.video.player.lib.listener.OnVideoEventListener;
@@ -55,15 +60,16 @@ public class LiveRoomActivity extends AppCompatActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
         }
+        RoomItem roomItem = getIntent().getParcelableExtra("roomItem");
+        if(null==roomItem){
+            Toast.makeText(this,"参数错误",Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
         setContentView(R.layout.activity_live_room);
-
         //直播间交互控制器
         mControllerView = findViewById(R.id.live_controller);
-        UserInfo userInfo=new UserInfo();
-        userInfo.setUserid("66666666");
-        userInfo.setNickName("刘亦菲");
-        userInfo.setAvatar("http://c2.haibao.cn/img/600_0_100_0/1493267408.0007/7726778833401511649f891023c0ea4b.jpg");
-        mControllerView.setAnchorData(userInfo);
+        mControllerView.setAnchorData(roomItem.getAnchor());
         mControllerView.setFunctionListener(new VideoLiveControllerView.OnLiveRoomFunctionListener() {
             @Override
             public void backPress() {
@@ -101,17 +107,22 @@ public class LiveRoomActivity extends AppCompatActivity {
         VideoPlayerTrackView playerTrackView = (VideoPlayerTrackView) findViewById(R.id.video_track);
         DefaultCoverController coverController = playerTrackView.getCoverController();
         if(null!=coverController){
-            //http://ht.tn990.com/uploads/appupload/y44fbnxmsfp8Qci4rf_1548388204.jpg
-            coverController.mVideoCover.setImageResource(R.drawable.cover_video);
+            Glide.with(this)
+                    .load(roomItem.getRoom_front())
+                    .error(R.drawable.ic_video_default_cover)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .centerCrop()
+                    .dontAnimate()
+                    .into(coverController.mVideoCover);
         }
         //视频播放状态监听
         playerTrackView.setOnVideoEventListener(new OnVideoEventListener() {
             @Override
             public void onPlayerStatus(int videoPlayerState) {
-
+                Logger.d(TAG,"onPlayerStatus-->videoPlayerState:"+videoPlayerState);
             }
         });
-        playerTrackView.startPlayVideo("http://s.tn990.com/zb/video/9d0ba1260e72b0c856d471644473def0.mp4","测试");
+        playerTrackView.startPlayVideo(roomItem.getStream_url(),"");
 
         //在聊天列表中增加一条本地系统消息
         CustomMsgExtra sysMsg=new CustomMsgExtra();

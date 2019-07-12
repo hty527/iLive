@@ -4,17 +4,23 @@
     "list": [
       {
         "itemType":2,
+        "width":"640",
+        "height":"368",
         "banners":[
           {
-            "icon":"http://c2.haibao.cn/img/600_0_100_0/1498033350.5864/17460e94710f5cba57fa6f6009119347.jpg",
+            "icon":"http://cms-bucket.nosdn.127.net/85c09a8ff3ba470c9c5e5700b2d6f36620180111162936.jpeg",
             "jump_url":""
           },
           {
-            "icon":"http://c2.haibao.cn/img/600_0_100_0/1498033350.5864/17460e94710f5cba57fa6f6009119347.jpg",
+            "icon":"http://cms-bucket.nosdn.127.net/5f6864530405442ba4c46c082dd6b20820180111162936.jpeg",
             "jump_url":""
           },
           {
-            "icon":"http://c2.haibao.cn/img/600_0_100_0/1498033350.5864/17460e94710f5cba57fa6f6009119347.jpg",
+            "icon":"http://cms-bucket.nosdn.127.net/fc7c6dca01bc43c9bb2877a083b9b66020180111162937.jpeg",
+            "jump_url":""
+          },
+          {
+            "icon":"https://gss3.bdstatic.com/7Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=7219dd494e166d222c7a1dc6274a6292/48540923dd54564eb5babebbbede9c82d0584f50.jpg",
             "jump_url":""
           }
         ]
@@ -24,8 +30,8 @@
         "roomid": "88888888",
         "room_front": "http://vi.nq6.com/Cover/1146510/005c9338057e861b2ded3f0119b8ab18?x-oss-process=image/resize,m_lfit,h_400,w_400",
         "stream_url": "http://s.tn990.com/zb/video/293f318c4b5e4eca9719cc8a29293152.mov",
-        "stream_width": "480",
-        "stream_height": "864",
+        "width": "480",
+        "height": "864",
         "anchor":{
           "userid":"66666666",
           "nickName":"Decadent℡",
@@ -48,8 +54,8 @@
         "roomid": "88888888",
         "room_front": "http://vi.nq6.com/Cover/1146510/005c9338057e861b2ded3f0119b8ab18?x-oss-process=image/resize,m_lfit,h_400,w_400",
         "stream_url": "http://vi.nq6.com/Video/805b2170d704f249900e4509cad5f745.mp4",
-        "stream_width": "720",
-        "stream_height": "960",
+        "width": "720",
+        "height": "960",
         "anchor":{
           "userid":"66666666",
           "nickName":"情定无名指",
@@ -72,8 +78,8 @@
         "roomid": "88888888",
         "room_front": "http://vi.nq6.com/Cover/1375992/35830b3fe3960dea5516e7e2e2850744?x-oss-process=image/resize,m_lfit,h_400,w_400",
         "stream_url": "http://vi.nq6.com/Video/852097f5aabf9abb6be3b87e06a53044.mp4",
-        "stream_width": "544",
-        "stream_height": "960",
+        "width": "544",
+        "height": "960",
         "anchor":{
           "userid":"66666666",
           "nickName":"微凉离别意",
@@ -96,8 +102,8 @@
         "roomid": "88888888",
         "room_front": "http://vi.nq6.com/Cover/1476085/644a881a8197ba7faec1b76df6d4ef6c?x-oss-process=image/resize,m_lfit,h_400,w_400",
         "stream_url": "http://vi.nq6.com/Video/53901d6b619d4cf50a905960900f8ad0.mp4",
-        "stream_width": "512",
-        "stream_height": "912",
+        "width": "512",
+        "height": "912",
         "anchor":{
           "userid":"66666666",
           "nickName":"孤心",
@@ -120,8 +126,8 @@
         "roomid": "88888888",
         "room_front": "http://vi.nq6.com/Cover/1492318/5bd71639cb8637147b511e57b31f7b36?x-oss-process=image/resize,m_lfit,h_400,w_400",
         "stream_url": "http://vi.nq6.com/Video/1d2ce008f0a17558941d74290f525d4d.mp4",
-        "stream_width": "720",
-        "stream_height": "1280",
+        "width": "720",
+        "height": "1280",
         "anchor":{
           "userid":"66666666",
           "nickName":"亦久亦旧",
@@ -144,8 +150,8 @@
         "roomid": "88888888",
         "room_front": "http://vi.nq6.com/Cover/1504768/cc764d577cb848156ab4a1e8dbb220a5?x-oss-process=image/resize,m_lfit,h_400,w_400",
         "stream_url": "http://vi.nq6.com/Video/62c55313a264027856e9a904e704a53f.mp4",
-        "stream_width": "720",
-        "stream_height": "1280",
+        "width": "720",
+        "height": "1280",
         "anchor":{
           "userid":"66666666",
           "nickName":"迷糊",
@@ -168,8 +174,8 @@
         "roomid": "88888888",
         "room_front": "http://vi.nq6.com/Cover/1464309/c907c43801c73aa565bf20bb1f4d1ea2?x-oss-process=image/resize,m_lfit,h_400,w_400",
         "stream_url": "http://vi.nq6.com/Video/fec927bf1ce0dddbb1fd4190d4ac5fc.mp4",
-        "stream_width": "368",
-        "stream_height": "640",
+        "width": "368",
+        "height": "640",
         "anchor":{
             "userid":"66666666",
             "nickName":"纸短情长",
@@ -192,8 +198,8 @@
         "roomid": "88888888",
         "room_front": "http://vi.nq6.com/Cover/1325903/7df8d2e6ec8759d445000632eb99d8f6?x-oss-process=image/resize,m_lfit,h_400,w_400",
         "stream_url": "http://vi.nq6.com/Video/61b99a12caa396ddd775ae3502f670ab.mp4",
-        "stream_width": "720",
-        "stream_height": "1280",
+        "width": "720",
+        "height": "1280",
         "anchor":{
             "userid":"66666666",
             "nickName":"可爱兔",
@@ -216,8 +222,8 @@
         "roomid": "88888888",
         "room_front": "http://vi.nq6.com/Cover/1430436/163ca177d63bdd7d741740d9064bb3ca?x-oss-process=image/resize,m_lfit,h_400,w_400",
         "stream_url": "http://vi.nq6.com/Video/a5524243c0b4b8ca44088d13d0467804.mp4",
-        "stream_width": "512",
-        "stream_height": "912",
+        "width": "512",
+        "height": "912",
         "anchor":{
           "userid":"66666666",
           "nickName":"装腔作势去爱",

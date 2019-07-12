@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements RoomContact.View 
             e.printStackTrace();
             Logger.d(TAG,"INIT CACHE ERROR:"+e.getMessage());
         }
+        //礼物模块初始化及赠送监听
         GiftBoardManager.getInstance()
                 //初始化礼物交互面板
                 .init(this)
@@ -101,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements RoomContact.View 
         });
         recyclerView.setAdapter(mAdapter);
         mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
-        mRefreshLayout.setProgressViewOffset(false,0,150);
+        mRefreshLayout.setProgressViewOffset(false,0,180);
         mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this,R.color.colorAccent));
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -113,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements RoomContact.View 
         });
 
         OkHttpUtils.DEBUG=true;
+        //获取在线直播间列表
         mPresenter = new RoomPresenter();
         mPresenter.attachView(this);
         mPresenter.getRooms(getApplicationContext());
@@ -141,11 +143,6 @@ public class MainActivity extends AppCompatActivity implements RoomContact.View 
         startActivity(new Intent(this,LiveRoomActivity.class));
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        GiftBoardManager.getInstance().onDestroy();
-    }
 
     @Override
     public void showLoading() {
@@ -188,5 +185,28 @@ public class MainActivity extends AppCompatActivity implements RoomContact.View 
             });
         }
         Toast.makeText(MainActivity.this,errMsg,Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(null!=mAdapter){
+            mAdapter.onResume();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(null!=mAdapter){
+            mAdapter.onPause();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        GiftBoardManager.getInstance().onDestroy();
     }
 }

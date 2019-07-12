@@ -21,38 +21,18 @@ public class RoomItem implements Parcelable {
     private String roomid;
     private String room_front;
     private String stream_url;
-    private String stream_width;
-    private String stream_height;
+    //BANNER、封面 宽
+    private String width;
+    //BANNER、封面 高
+    private String height;
+    //主播信息
     private UserInfo anchor;
+    //主播封面
     private List<ImageInfo> images;
+    //广告
     private List<BannerInfo> banners;
 
     public RoomItem(){}
-
-
-    protected RoomItem(Parcel in) {
-        itemType = in.readInt();
-        roomid = in.readString();
-        room_front = in.readString();
-        stream_url = in.readString();
-        stream_width = in.readString();
-        stream_height = in.readString();
-        anchor = in.readParcelable(UserInfo.class.getClassLoader());
-        images = in.createTypedArrayList(ImageInfo.CREATOR);
-        banners = in.createTypedArrayList(BannerInfo.CREATOR);
-    }
-
-    public static final Creator<RoomItem> CREATOR = new Creator<RoomItem>() {
-        @Override
-        public RoomItem createFromParcel(Parcel in) {
-            return new RoomItem(in);
-        }
-
-        @Override
-        public RoomItem[] newArray(int size) {
-            return new RoomItem[size];
-        }
-    };
 
     public int getItemType() {
         return itemType;
@@ -86,22 +66,6 @@ public class RoomItem implements Parcelable {
         this.stream_url = stream_url;
     }
 
-    public String getStream_width() {
-        return stream_width;
-    }
-
-    public void setStream_width(String stream_width) {
-        this.stream_width = stream_width;
-    }
-
-    public String getStream_height() {
-        return stream_height;
-    }
-
-    public void setStream_height(String stream_height) {
-        this.stream_height = stream_height;
-    }
-
     public UserInfo getAnchor() {
         return anchor;
     }
@@ -127,20 +91,45 @@ public class RoomItem implements Parcelable {
         this.banners = banners;
     }
 
-    @Override
-    public String toString() {
-        return "RoomItem{" +
-                "itemType=" + itemType +
-                ", roomid='" + roomid + '\'' +
-                ", room_front='" + room_front + '\'' +
-                ", stream_url='" + stream_url + '\'' +
-                ", stream_width='" + stream_width + '\'' +
-                ", stream_height='" + stream_height + '\'' +
-                ", anchor=" + anchor +
-                ", images=" + images +
-                ", banners=" + banners +
-                '}';
+    public String getWidth() {
+        return width;
     }
+
+    public void setWidth(String width) {
+        this.width = width;
+    }
+
+    public String getHeight() {
+        return height;
+    }
+
+    public void setHeight(String height) {
+        this.height = height;
+    }
+
+    protected RoomItem(Parcel in) {
+        itemType = in.readInt();
+        roomid = in.readString();
+        room_front = in.readString();
+        stream_url = in.readString();
+        width = in.readString();
+        height = in.readString();
+        anchor = in.readParcelable(UserInfo.class.getClassLoader());
+        images = in.createTypedArrayList(ImageInfo.CREATOR);
+        banners = in.createTypedArrayList(BannerInfo.CREATOR);
+    }
+
+    public static final Creator<RoomItem> CREATOR = new Creator<RoomItem>() {
+        @Override
+        public RoomItem createFromParcel(Parcel in) {
+            return new RoomItem(in);
+        }
+
+        @Override
+        public RoomItem[] newArray(int size) {
+            return new RoomItem[size];
+        }
+    };
 
     @Override
     public int describeContents() {
@@ -153,10 +142,25 @@ public class RoomItem implements Parcelable {
         dest.writeString(roomid);
         dest.writeString(room_front);
         dest.writeString(stream_url);
-        dest.writeString(stream_width);
-        dest.writeString(stream_height);
+        dest.writeString(width);
+        dest.writeString(height);
         dest.writeParcelable(anchor, flags);
         dest.writeTypedList(images);
         dest.writeTypedList(banners);
+    }
+
+    @Override
+    public String toString() {
+        return "RoomItem{" +
+                "itemType=" + itemType +
+                ", roomid='" + roomid + '\'' +
+                ", room_front='" + room_front + '\'' +
+                ", stream_url='" + stream_url + '\'' +
+                ", width='" + width + '\'' +
+                ", height='" + height + '\'' +
+                ", anchor=" + anchor +
+                ", images=" + images +
+                ", banners=" + banners +
+                '}';
     }
 }

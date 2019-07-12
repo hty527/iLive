@@ -22,13 +22,11 @@ import com.android.gift.room.bean.RoomItem;
 import com.android.gift.room.doalog.InputKeyBoardDialog;
 import com.android.gift.room.view.VideoLiveControllerView;
 import com.android.gift.util.AppUtils;
-import com.android.gift.util.Logger;
 import com.android.gift.util.ScreenLayoutChangedHelp;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.video.player.lib.constants.VideoConstants;
 import com.video.player.lib.controller.DefaultCoverController;
-import com.video.player.lib.listener.OnVideoEventListener;
 import com.video.player.lib.manager.VideoPlayerManager;
 import com.video.player.lib.view.VideoPlayerTrackView;
 
@@ -60,6 +58,7 @@ public class LiveRoomActivity extends AppCompatActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
         }
+        //直播间入参
         RoomItem roomItem = getIntent().getParcelableExtra("roomItem");
         if(null==roomItem){
             Toast.makeText(this,"参数错误",Toast.LENGTH_SHORT).show();
@@ -115,13 +114,6 @@ public class LiveRoomActivity extends AppCompatActivity {
                     .dontAnimate()
                     .into(coverController.mVideoCover);
         }
-        //视频播放状态监听
-        playerTrackView.setOnVideoEventListener(new OnVideoEventListener() {
-            @Override
-            public void onPlayerStatus(int videoPlayerState) {
-                Logger.d(TAG,"onPlayerStatus-->videoPlayerState:"+videoPlayerState);
-            }
-        });
         playerTrackView.startPlayVideo(roomItem.getStream_url(),"");
 
         //在聊天列表中增加一条本地系统消息
@@ -204,8 +196,10 @@ public class LiveRoomActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        //视频播放开始
         VideoPlayerManager.getInstance().onResume();
         if(null!=mGiftDialog&&mGiftDialog.isShowing()){
+            //礼物动画开始
             GiftBoardManager.getInstance().onResume();
         }
     }
@@ -213,19 +207,23 @@ public class LiveRoomActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        //视频播放暂停
         VideoPlayerManager.getInstance().onPause();
+        //礼物动画暂停
         GiftBoardManager.getInstance().onPause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        //视频播放销毁
         VideoPlayerManager.getInstance().onDestroy();
         if(null!=mGiftDialog&&mGiftDialog.isShowing()){
             mGiftDialog.destroy();
             mGiftDialog.dismiss();
             mGiftDialog=null;
         }
+        //控制器机内部销毁，礼物动画回收也在此方法内部进行
         if(null!=mControllerView){
             mControllerView.onDestroy();
             mControllerView=null;

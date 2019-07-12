@@ -198,6 +198,12 @@
     public *;
 }
 
+# banner 的混淆代码
+-keep class com.youth.banner.** {
+    *;
+ }
+
+
 #bean对象
 -keep class com.android.gift.bean.**{*;}
 -keep class com.android.gift.room.bean.**{*;}

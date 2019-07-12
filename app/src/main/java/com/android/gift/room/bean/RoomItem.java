@@ -3,6 +3,7 @@ package com.android.gift.room.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.android.gift.bean.UserInfo;
+import java.util.List;
 
 /**
  * Created by TinyHung@outlook.com
@@ -11,24 +12,34 @@ import com.android.gift.bean.UserInfo;
 
 public class RoomItem implements Parcelable {
 
+    //未知的
+    public static final int ITEM_TYPE_UNKNOWN = 0;
+    public static final int ITEM_TYPE_ROOM = 1;
+    public static final int ITEM_TYPE_BANNER = 2;
+
+    private int itemType;
     private String roomid;
     private String room_front;
     private String stream_url;
     private String stream_width;
     private String stream_height;
     private UserInfo anchor;
+    private List<ImageInfo> images;
+    private List<BannerInfo> banners;
 
-    public RoomItem(){
+    public RoomItem(){}
 
-    }
 
     protected RoomItem(Parcel in) {
+        itemType = in.readInt();
         roomid = in.readString();
         room_front = in.readString();
         stream_url = in.readString();
         stream_width = in.readString();
         stream_height = in.readString();
         anchor = in.readParcelable(UserInfo.class.getClassLoader());
+        images = in.createTypedArrayList(ImageInfo.CREATOR);
+        banners = in.createTypedArrayList(BannerInfo.CREATOR);
     }
 
     public static final Creator<RoomItem> CREATOR = new Creator<RoomItem>() {
@@ -42,6 +53,14 @@ public class RoomItem implements Parcelable {
             return new RoomItem[size];
         }
     };
+
+    public int getItemType() {
+        return itemType;
+    }
+
+    public void setItemType(int itemType) {
+        this.itemType = itemType;
+    }
 
     public String getRoomid() {
         return roomid;
@@ -91,15 +110,35 @@ public class RoomItem implements Parcelable {
         this.anchor = anchor;
     }
 
+    public List<ImageInfo> getImages() {
+        return images;
+    }
+
+    public void setImages(List<ImageInfo> images) {
+        this.images = images;
+    }
+
+
+    public List<BannerInfo> getBanners() {
+        return banners;
+    }
+
+    public void setBanners(List<BannerInfo> banners) {
+        this.banners = banners;
+    }
+
     @Override
     public String toString() {
         return "RoomItem{" +
-                "roomid='" + roomid + '\'' +
+                "itemType=" + itemType +
+                ", roomid='" + roomid + '\'' +
                 ", room_front='" + room_front + '\'' +
                 ", stream_url='" + stream_url + '\'' +
                 ", stream_width='" + stream_width + '\'' +
                 ", stream_height='" + stream_height + '\'' +
                 ", anchor=" + anchor +
+                ", images=" + images +
+                ", banners=" + banners +
                 '}';
     }
 
@@ -110,11 +149,14 @@ public class RoomItem implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(itemType);
         dest.writeString(roomid);
         dest.writeString(room_front);
         dest.writeString(stream_url);
         dest.writeString(stream_width);
         dest.writeString(stream_height);
         dest.writeParcelable(anchor, flags);
+        dest.writeTypedList(images);
+        dest.writeTypedList(banners);
     }
 }

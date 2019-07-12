@@ -1,23 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<LinearLayout android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <ImageView
-        android:id="@+id/item_iv_icon"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.android.gift.room.view.IndexRoomItemLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="fitXY" />
-    <com.android.gift.view.ShapeTextView
-        android:layout_width="45dp"
-        android:layout_height="18dp"
-        android:layout_alignParentRight="true"
-        android:layout_margin="6dp"
-        android:textSize="10dp"
-        android:text="直播中"
-        android:gravity="center"
-        android:textColor="#FFFFFF"
-        app:shapeBackgroundColor="#4D000000"
-        app:shapeBackgroundSelectorColor="#F2000000"
-        app:shapeRadius="9dp"/>
-</RelativeLayout>
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:id="@+id/coord_root_view"/>
+</LinearLayout>

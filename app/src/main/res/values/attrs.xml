@@ -72,4 +72,20 @@
         <attr name="bezierFactor" format="integer" />
         <attr name="anim_duration" format="integer" />
     </declare-styleable>
+    <!--自定义圆角ImageView-->
+    <declare-styleable name="RoundImageView">
+        <attr name="roundShape" format="enum">
+            <enum name="rect" value="1"/>
+            <enum name="circle" value="2"/>
+            <enum name="oval" value="3"/>
+        </attr>
+        <attr name="roundRadius" format="dimension"/>
+        <attr name="roundBorderSize" format="dimension"/>
+        <attr name="roundBorderColor" format="color"/>
+        <attr name="roundScaleType" format="enum">
+            <enum name="centerInside" value="1"/>
+            <enum name="centerCrop" value="2"/>
+            <enum name="fitXY" value="3"/>
+        </attr>
+    </declare-styleable>
 </resources>

@@ -68,4 +68,6 @@ dependencies {
     //飘屏、弹幕
     implementation 'com.github.ctiao:DanmakuFlameMaster:0.9.16'
     implementation 'com.github.ctiao:ndkbitmap-armv7a:0.9.16'
+    //Banner
+    compile 'com.youth.banner:banner:1.4.10'
 }

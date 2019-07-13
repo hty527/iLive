@@ -6,6 +6,7 @@ import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
 import com.android.gift.APPLication;
+import com.android.gift.BuildConfig;
 import com.android.gift.bean.GiftItemInfo;
 import com.android.gift.room.bean.CustomMsgExtra;
 import com.android.gift.room.bean.CustomMsgInfo;
@@ -293,5 +294,21 @@ public class AppUtils {
             return content;
         }
         return content.substring(0, count);
+    }
+
+    /**
+     * 获取内部版本号
+     * @return
+     */
+    public int getVersionCode() {
+        return BuildConfig.VERSION_CODE;
+    }
+
+    /**
+     * 获取版本号
+     * @return
+     */
+    public String getVersion() {
+        return BuildConfig.VERSION_NAME;
     }
 }

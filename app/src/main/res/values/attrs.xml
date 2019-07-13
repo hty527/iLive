@@ -88,4 +88,17 @@
             <enum name="fitXY" value="3"/>
         </attr>
     </declare-styleable>
+    <!--Title-->
+    <declare-styleable name="CommentTitleView">
+        <attr name="commentTitle" format="string" />
+        <attr name="commentTitleColor" format="color" />
+        <attr name="commentTitleSize" format="dimension"></attr>
+        <attr name="commentSubTitle" format="string" />
+        <attr name="commentSubTitleColor" format="color" />
+        <attr name="commentSubTitleSize" format="dimension"></attr>
+        <attr name="commentBackRes" format="reference" />
+        <attr name="commentMenuRes" format="reference" />
+        <!--标题栏风格，状态栏 0：白底黑字 1：彩底白字-->
+        <attr name="commentTitleStyle" format="integer" />
+    </declare-styleable>
 </resources>

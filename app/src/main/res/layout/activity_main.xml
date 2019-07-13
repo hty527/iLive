@@ -2,17 +2,31 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#F5F7FA">
-    <android.support.v4.widget.SwipeRefreshLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/swipe_refresh">
-        <android.support.v7.widget.RecyclerView
+        android:orientation="vertical">
+        <com.android.gift.view.CommentTitleView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:commentTitle="iLive"
+            app:commentTitleStyle="1"
+            app:commentShowBack="false"
+            app:commentBackGroundRes="@drawable/bg_title"
+            android:id="@+id/title_view"/>
+        <android.support.v4.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:overScrollMode="never"
-            android:id="@+id/recycler_view"/>
-    </android.support.v4.widget.SwipeRefreshLayout>
+            android:id="@+id/swipe_refresh">
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                android:id="@+id/recycler_view"/>
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </LinearLayout>
     <!--占位BTN-->
     <RelativeLayout
         android:layout_width="match_parent"
@@ -40,7 +54,6 @@
             android:src="@drawable/ic_direction_top"
             android:scaleType="center"
             android:layout_above="@id/globe_view"
-            android:layout_marginBottom="10dp"
             android:layout_centerHorizontal="true"/>
         <ImageView
             android:id="@+id/btn_right"
@@ -66,8 +79,8 @@
     <!--圆形菜单-->
     <com.android.gift.room.view.RoundGlobeView
         android:id="@+id/btn_move_view"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@drawable/arice_dot_style"
+        android:layout_width="53dp"
+        android:layout_height="53dp"
+        android:background="@drawable/arice_dot_red"
         android:visibility="invisible"/>
 </FrameLayout>

@@ -97,6 +97,8 @@
         <attr name="commentSubTitleColor" format="color" />
         <attr name="commentSubTitleSize" format="dimension"></attr>
         <attr name="commentBackRes" format="reference" />
+        <attr name="commentBackGroundRes" format="reference" />
+        <attr name="commentShowBack" format="boolean" />
         <attr name="commentMenuRes" format="reference" />
         <!--标题栏风格，状态栏 0：白底黑字 1：彩底白字-->
         <attr name="commentTitleStyle" format="integer" />

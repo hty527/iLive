@@ -32,6 +32,7 @@ public class CommentTitleView extends LinearLayout implements View.OnClickListen
     private TextView mTitleView,mSubTitle;
     private long[] clickCount = new long[2];
     private int mTitleStyle=STYLE_LIGHT;
+    private Drawable mBackGround;
 
     public CommentTitleView(Context context) {
         super(context);
@@ -54,6 +55,12 @@ public class CommentTitleView extends LinearLayout implements View.OnClickListen
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CommentTitleView);
             Drawable backDrawable = typedArray.getDrawable(R.styleable.CommentTitleView_commentBackRes);
             Drawable menuDrawable = typedArray.getDrawable(R.styleable.CommentTitleView_commentMenuRes);
+            mBackGround = typedArray.getDrawable(R.styleable.CommentTitleView_commentBackGroundRes);
+            if(null!=mBackGround){
+                findViewById(R.id.root_top_bar).setBackground(mBackGround);
+            }
+            boolean showBack = typedArray.getBoolean(R.styleable.CommentTitleView_commentShowBack,true);
+            btnback.setVisibility(showBack?VISIBLE:GONE);
             if(null!=backDrawable){
                 btnback.setImageDrawable(backDrawable);
             }
@@ -94,7 +101,6 @@ public class CommentTitleView extends LinearLayout implements View.OnClickListen
             mTitleView.setTextColor(Color.parseColor("#333333"));
             btnback.setColorFilter(Color.parseColor("#666666"));
             btnMenu.setColorFilter(Color.parseColor("#666666"));
-            findViewById(R.id.root_top_bar).setBackgroundColor(Color.parseColor("#FFFFFF"));
             StatusUtils.setStatusTextColor1(true,(Activity) getContext());//白色背景，黑色字体
             return;
         }
@@ -110,25 +116,18 @@ public class CommentTitleView extends LinearLayout implements View.OnClickListen
         ImageView btnMenu = (ImageView) findViewById(R.id.view_btn_menu);
         TextView titleView = (TextView) findViewById(R.id.view_title);
         TextView viewSubTitle = (TextView) findViewById(R.id.view_sub_title);
-        View rootView = findViewById(R.id.root_top_bar);
-        Drawable drawable=null;
         if(titleStyle==STYLE_LIGHT){//白底黑字
             if(null!=btnback) btnback.setImageResource(R.drawable.btn_nav_menu_back_selector_black);
             if(null!=btnMenu) btnMenu.setColorFilter(Color.parseColor("#666666"));
             if(null!=titleView) titleView.setTextColor(Color.parseColor("#333333"));
             if(null!=viewSubTitle) viewSubTitle.setTextColor(Color.parseColor("#666666"));
-            drawable= getResources().getDrawable(android.R.color.white);
             StatusUtils.setStatusTextColor1(true,(Activity) getContext());//白色背景，黑色字体
         }else if(titleStyle==STYLE_COLOR){//彩底白字
             if(null!=btnback) btnback.setImageResource(R.drawable.btn_nav_menu_back_selector_white);
             if(null!=btnMenu) btnMenu.setColorFilter(Color.parseColor("#DDDDDD"));
             if(null!=titleView) titleView.setTextColor(Color.parseColor("#FFFFFF"));
             if(null!=viewSubTitle) viewSubTitle.setTextColor(Color.parseColor("#DDDDDD"));
-            drawable= getResources().getDrawable(R.color.colorAccent);
             StatusUtils.setStatusTextColor1(false,(Activity) getContext());//透明背景，白色字体
-        }
-        if(null!=drawable){
-            rootView.setBackground(drawable);
         }
         this.mTitleStyle=titleStyle;
     }

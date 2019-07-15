@@ -70,12 +70,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="松手打开礼物面板"
-        android:textColor="#FFFFFF"
-        android:textSize="18dp"
+        android:textColor="#FF0000"
+        android:textSize="17dp"
         android:background="@drawable/tip_game"
         android:layout_gravity="center"
-        android:textStyle="bold"
-        android:visibility="gone"/>
+        android:visibility="invisible"/>
     <!--圆形菜单-->
     <com.android.gift.room.view.RoundGlobeView
         android:id="@+id/btn_move_view"

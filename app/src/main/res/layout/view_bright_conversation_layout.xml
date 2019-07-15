@@ -6,8 +6,8 @@
         android:id="@+id/view_recycler_msg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:overScrollFooter="@android:color/transparent"
-        android:overScrollHeader="@android:color/transparent"
+        android:overScrollFooter="#00000000"
+        android:overScrollHeader="#00000000"
         android:scrollbars="none"/>
     <TextView
         android:id="@+id/view_btn_newmsg"

@@ -5,18 +5,26 @@
       {
         "itemType":2,
         "width":"1080",
-        "height":"432",
+        "height":"404",
         "banners":[
+		  {
+            "icon":"http://sta-op.douyucdn.cn/douyu-vrp-admin/2019/04/17/e63c5563968b8438b6f70e1c6a309cf5.jpg",
+            "jump_url":""
+          },
+          {
+            "icon":"http://sta-op.douyucdn.cn/adxdsp/2019/06/11/04c6f32c57c55b8a2ced35d857836ce2.jpg",
+            "jump_url":""
+          },
           {
             "icon":"http://cms-bucket.nosdn.127.net/85c09a8ff3ba470c9c5e5700b2d6f36620180111162936.jpeg",
             "jump_url":""
           },
           {
-            "icon":"http://cms-bucket.nosdn.127.net/5f6864530405442ba4c46c082dd6b20820180111162936.jpeg",
+            "icon":"http://sta-op.douyucdn.cn/adxdsp/2019/05/21/5f6137a80f939cec0da616b36b99def4.jpg",
             "jump_url":""
           },
           {
-            "icon":"http://cms-bucket.nosdn.127.net/fc7c6dca01bc43c9bb2877a083b9b66020180111162937.jpeg",
+            "icon":"http://sta-op.douyucdn.cn/adxdsp/2019/04/29/51d2b4c2a1c2421ee3dbd835c9cd4ef8.jpg",
             "jump_url":""
           },
           {
@@ -28,10 +36,10 @@
       {
         "itemType":1,
         "roomid": "88888888",
-        "room_front": "http://vi.nq6.com/Cover/1146510/005c9338057e861b2ded3f0119b8ab18?x-oss-process=image/resize,m_lfit,h_400,w_400",
-        "stream_url": "http://s.tn990.com/zb/video/293f318c4b5e4eca9719cc8a29293152.mov",
+        "room_front": "http://vi.nq6.com/Cover/1375992/033ae513278cbeab6c86df92b6cff424?x-oss-process=image/resize,m_lfit,h_400,w_400",
+        "stream_url": "http://vi.nq6.com/Video/405fa17ced3a8f13611b1e13c6390d2a.mp4",
         "width": "480",
-        "height": "864",
+        "height": "852",
         "anchor":{
           "userid":"66666666",
           "nickName":"Decadent℡",

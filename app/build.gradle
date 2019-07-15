@@ -64,7 +64,7 @@ dependencies {
         force = true
     }
     //视频播放器
-    implementation 'com.imusic.player:video-player:1.0.7'
+    implementation 'com.imusic.player:video-player:1.0.71'
     //飘屏、弹幕
     implementation 'com.github.ctiao:DanmakuFlameMaster:0.9.16'
     implementation 'com.github.ctiao:ndkbitmap-armv7a:0.9.16'

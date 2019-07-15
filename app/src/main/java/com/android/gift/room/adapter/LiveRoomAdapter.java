@@ -33,7 +33,7 @@ public class LiveRoomAdapter extends BaseAdapter<RoomItem,RecyclerView.ViewHolde
 
     public LiveRoomAdapter(Context context) {
         super(context);
-        mItemWidth = (AppUtils.getInstance().getScreenWidth(context) - AppUtils.getInstance().dpToPxInt(context, 32f));
+        mItemWidth = (AppUtils.getInstance().getScreenWidth(context) - AppUtils.getInstance().dpToPxInt(context, 20f));
     }
 
     @Override
@@ -62,17 +62,17 @@ public class LiveRoomAdapter extends BaseAdapter<RoomItem,RecyclerView.ViewHolde
                 viewHolder.itemView.setTag(itemData);
                 roomHolder.mIndexRoomItemLayout.getLayoutParams().height=mItemWidth;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    roomHolder.mIndexRoomItemLayout.setOutlineProvider(new LayoutProvider(AppUtils.getInstance().dpToPxInt(8f)));
+                    roomHolder.mIndexRoomItemLayout.setOutlineProvider(new LayoutProvider(AppUtils.getInstance().dpToPxInt(6f)));
                 }
                 roomHolder.mIndexRoomItemLayout.setData(itemData);
             //Banner广告
             }else if(itemViewType==RoomItem.ITEM_TYPE_BANNER){
                 BannerViewHolder bannerHolder= (BannerViewHolder) viewHolder;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    bannerHolder.mBanner.setOutlineProvider(new LayoutProvider(AppUtils.getInstance().dpToPxInt(8f)));
-                }
                 LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) bannerHolder.mBanner.getLayoutParams();
                 layoutParams.width=mItemWidth;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    bannerHolder.mBanner.setOutlineProvider(new LayoutProvider(AppUtils.getInstance().dpToPxInt(6f)));
+                }
                 try {
                     int itemHeight=mItemWidth*Integer.parseInt(itemData.getHeight())/Integer.parseInt(itemData.getWidth());
                     layoutParams.height=itemHeight;

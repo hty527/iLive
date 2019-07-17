@@ -1,14 +1,15 @@
 package com.android.gift.room.presenter;
 
-import android.content.Context;
 import com.android.gift.base.BasePresenter;
 import com.android.gift.bean.ResultData;
 import com.android.gift.bean.ResultList;
 import com.android.gift.net.OkHttpUtils;
 import com.android.gift.net.OnResultCallBack;
+import com.android.gift.room.bean.InkeRoomData;
 import com.android.gift.room.bean.RoomItem;
 import com.android.gift.room.contract.RoomContact;
 import com.android.gift.room.model.RoomEngin;
+import com.android.gift.util.Logger;
 
 /**
  * TinyHung@outlook.com
@@ -24,20 +25,49 @@ public class RoomPresenter extends BasePresenter<RoomContact.View,RoomEngin> imp
     }
 
     /**
-     * 获取直播间
-     * @param context 全局上下文
+     * 获取在线直播间
      */
     @Override
-    public void getRooms(Context context) {
+    public void getRooms(int offset) {
         if(null!=mViewRef&&null!=mViewRef.get()){
-            mViewRef.get().showLoading();
-            getNetEngin().get().getGiftRooms(context, new OnResultCallBack<ResultData<ResultList<RoomItem>>>() {
+            mViewRef.get().showLoading(offset);
+            getNetEngin().get().getGiftRooms(offset,new OnResultCallBack<InkeRoomData>() {
+
+                @Override
+                public void onResponse(InkeRoomData data) {
+                    if(null!=mViewRef&&null!=mViewRef.get()){
+                        if(null!=data.getCards()&&data.getCards().size()>0){
+                            mViewRef.get().showRooms(data);
+                        }else{
+                            mViewRef.get().showRoomsError(OkHttpUtils.ERROR_EMPTY,"暂无直播间列表");
+                        }
+                    }
+                }
+
+                @Override
+                public void onError(int code, String errorMsg) {
+                    if(null!=mViewRef&&null!=mViewRef.get()){
+                        mViewRef.get().showRoomsError(code,errorMsg);
+                    }
+                }
+            });
+        }
+    }
+
+    /**
+     * 获取在线1V1主播列表
+     */
+    @Override
+    public void getPrivateRooms() {
+        if(null!=mViewRef&&null!=mViewRef.get()){
+            mViewRef.get().showLoading(0);
+            getNetEngin().get().getPrivateGiftRooms(new OnResultCallBack<ResultData<ResultList<RoomItem>>>() {
 
                 @Override
                 public void onResponse(ResultData<ResultList<RoomItem>> data) {
                     if(null!=mViewRef&&null!=mViewRef.get()){
                         if(null!=data.getData()&&null!=data.getData().getList()&&data.getData().getList().size()>0){
-                            mViewRef.get().showRooms(data.getData().getList());
+                            mViewRef.get().showPrivateRooms(data.getData().getList());
                         }else{
                             mViewRef.get().showRoomsError(OkHttpUtils.ERROR_EMPTY,"暂无直播间列表");
                         }

@@ -8,8 +8,12 @@ import android.util.TypedValue;
 import com.android.gift.APPLication;
 import com.android.gift.BuildConfig;
 import com.android.gift.bean.GiftItemInfo;
+import com.android.gift.room.bean.BannerInfo;
 import com.android.gift.room.bean.CustomMsgExtra;
 import com.android.gift.room.bean.CustomMsgInfo;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -310,5 +314,54 @@ public class AppUtils {
      */
     public String getVersion() {
         return BuildConfig.VERSION_NAME;
+    }
+
+    /**
+     * 初始化一组广告Banners
+     * @return
+     */
+    public List<BannerInfo> createBanners() {
+        List<BannerInfo> bannerInfos=new ArrayList<>();
+        String content="[\n" +
+                "\t\t  {\n" +
+                "            \"icon\":\"http://sta-op.douyucdn.cn/douyu-vrp-admin/2019/04/17/e63c5563968b8438b6f70e1c6a309cf5.jpg\",\n" +
+                "            \"jump_url\":\"\"\n" +
+                "          },\n" +
+                "          {\n" +
+                "            \"icon\":\"http://sta-op.douyucdn.cn/adxdsp/2019/06/11/04c6f32c57c55b8a2ced35d857836ce2.jpg\",\n" +
+                "            \"jump_url\":\"\"\n" +
+                "          },\n" +
+                "          {\n" +
+                "            \"icon\":\"http://cms-bucket.nosdn.127.net/85c09a8ff3ba470c9c5e5700b2d6f36620180111162936.jpeg\",\n" +
+                "            \"jump_url\":\"\"\n" +
+                "          },\n" +
+                "          {\n" +
+                "            \"icon\":\"http://sta-op.douyucdn.cn/adxdsp/2019/05/21/5f6137a80f939cec0da616b36b99def4.jpg\",\n" +
+                "            \"jump_url\":\"\"\n" +
+                "          },\n" +
+                "          {\n" +
+                "            \"icon\":\"http://sta-op.douyucdn.cn/adxdsp/2019/04/29/51d2b4c2a1c2421ee3dbd835c9cd4ef8.jpg\",\n" +
+                "            \"jump_url\":\"\"\n" +
+                "          },\n" +
+                "          {\n" +
+                "            \"icon\":\"https://gss3.bdstatic.com/7Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=7219dd494e166d222c7a1dc6274a6292/48540923dd54564eb5babebbbede9c82d0584f50.jpg\",\n" +
+                "            \"jump_url\":\"\"\n" +
+                "          }\n" +
+                "        ]";
+        List<BannerInfo> infoList = new Gson().fromJson(content, new TypeToken<List<BannerInfo>>() {}.getType());
+        return infoList;
+    }
+
+    /**
+     * 将映客的直播流地址后面的参数去掉
+     * @param streamUrl
+     * @return
+     */
+    public String formatRoomStream(String streamUrl) {
+        if(!TextUtils.isEmpty(streamUrl)){
+            int endIndex = streamUrl.indexOf("?");
+            return streamUrl.substring(0,endIndex);
+        }
+        return null;
     }
 }

@@ -1,4 +1,4 @@
-package com.android.gift.room.adapter;
+package com.android.gift.index.adapter;
 
 import android.content.Context;
 import android.os.Build;
@@ -11,7 +11,7 @@ import com.android.gift.base.BaseAdapter;
 import com.android.gift.model.GlideImageLoader;
 import com.android.gift.room.bean.BannerInfo;
 import com.android.gift.room.bean.RoomItem;
-import com.android.gift.room.view.IndexRoomItemLayout;
+import com.android.gift.index.view.IndexRoomItemLayout;
 import com.android.gift.util.AppUtils;
 import com.android.gift.view.LayoutProvider;
 import com.youth.banner.Banner;
@@ -24,14 +24,14 @@ import java.util.List;
 /**
  * Created by TinyHung@outlook.com
  * 2019/7/10
- * 示例直播间列表
+ * 示例在线1v1直播间列表
  */
 
-public class LiveRoomAdapter extends BaseAdapter<RoomItem,RecyclerView.ViewHolder> {
+public class LivePrivateRoomAdapter extends BaseAdapter<RoomItem,RecyclerView.ViewHolder> {
 
     private final int mItemWidth;
 
-    public LiveRoomAdapter(Context context) {
+    public LivePrivateRoomAdapter(Context context) {
         super(context);
         mItemWidth = (AppUtils.getInstance().getScreenWidth(context) - AppUtils.getInstance().dpToPxInt(context, 20f));
     }
@@ -44,9 +44,9 @@ public class LiveRoomAdapter extends BaseAdapter<RoomItem,RecyclerView.ViewHolde
     @Override
     public RecyclerView.ViewHolder inCreateViewHolder(ViewGroup viewGroup, int viewType) {
         if(viewType==RoomItem.ITEM_TYPE_ROOM){
-            return new RoomViewHolder(mInflater.inflate(R.layout.item_live_room_item, null));
+            return new RoomViewHolder(mInflater.inflate(R.layout.item_live_private_room_item, null));
         }else if(viewType==RoomItem.ITEM_TYPE_BANNER){
-            return new BannerViewHolder(mInflater.inflate(R.layout.item_live_banner_item, null));
+            return new BannerViewHolder(mInflater.inflate(R.layout.item_live_private_banner_item, null));
         }
         return new UnknownViewHolder(mInflater.inflate(R.layout.item_unknown, null));
     }
@@ -105,6 +105,9 @@ public class LiveRoomAdapter extends BaseAdapter<RoomItem,RecyclerView.ViewHolde
         }
     }
 
+    /**
+     * 直播间Holder
+     */
     public class RoomViewHolder extends RecyclerView.ViewHolder{
         private IndexRoomItemLayout mIndexRoomItemLayout;
 
@@ -114,6 +117,9 @@ public class LiveRoomAdapter extends BaseAdapter<RoomItem,RecyclerView.ViewHolde
         }
     }
 
+    /**
+     * 广告Holder
+     */
     private Banner mBanner;
     public class BannerViewHolder extends RecyclerView.ViewHolder{
 
@@ -122,7 +128,7 @@ public class LiveRoomAdapter extends BaseAdapter<RoomItem,RecyclerView.ViewHolde
         public BannerViewHolder(View itemView) {
             super(itemView);
             mBanner = (Banner) itemView.findViewById(R.id.item_banner);
-            LiveRoomAdapter.this.mBanner=this.mBanner;
+            LivePrivateRoomAdapter.this.mBanner=this.mBanner;
             mBanner.setBannerAnimation(Transformer.Default);
             mBanner.setImageLoader(new GlideImageLoader()).setDelayTime(5000);
             mBanner.setIndicatorGravity(BannerConfig.RIGHT);

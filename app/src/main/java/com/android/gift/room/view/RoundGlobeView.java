@@ -14,7 +14,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import com.android.gift.util.AppUtils;
-import com.android.gift.util.Logger;
 
 /**
  * Created by TinyHung@outlook.com
@@ -24,7 +23,6 @@ import com.android.gift.util.Logger;
 
 public class RoundGlobeView extends AppCompatButton {
 
-    private static final String TAG = "RoundGlobeView";
     private Context mContext;
     private int mScreenWidth;
     private int mScreenHeight;
@@ -110,7 +108,6 @@ public class RoundGlobeView extends AppCompatButton {
                         } else {
                             //手持从某个View的区域离开了
                             if(null!=mTag&&null!=mOnGlobeMoveListener){
-                                Logger.d(TAG,"离开了某个View");
                                 mOnGlobeMoveListener.boxOutView(mTag,false);
                             }
                             mIsVivrate = false;

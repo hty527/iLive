@@ -1,14 +1,21 @@
 apply plugin: 'com.android.application'
 
+def minSdk = android.defaultConfig.minSdkVersion
+
 android {
-    compileSdkVersion 26
+
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
     defaultConfig {
-        applicationId "com.android.gift"
-        minSdkVersion 16
-        targetSdkVersion 26
-        versionCode 100001
-        versionName "1.0.01"
+        applicationId rootProject.ext.app.applicationId
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.app.versionCode
+        versionName rootProject.ext.app.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters 'armeabi'
+        }
     }
 
     //构建配置
@@ -42,10 +49,36 @@ android {
             keyPassword "123456"
         }
     }
+    //项目打包配置，APP级别
+    flavorDimensions "app", "type"
+    productFlavors {
+        //iMusic
+        ilive {
+            manifestPlaceholders = [
+                    scheme  : "gift"
+            ]
+            applicationId rootProject.ext.app.applicationId
+            signingConfig signingConfigs.debug
+            versionCode rootProject.ext.app.versionCode
+            versionName rootProject.ext.app.versionName
+            dimension "app"
+        }
+        //开发版
+        develop {
+            dimension "type"
+            minSdkVersion minSdk
+        }
+        //正式版
+        publish{
+            dimension "type"
+            minSdkVersion minSdk
+        }
+        //更多包名、属性...
+    }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     testImplementation 'junit:junit:4.12'
@@ -63,8 +96,8 @@ dependencies {
     androidTestCompile('com.android.support:support-annotations:26.1.0') {
         force = true
     }
-    //视频播放器
-    implementation 'com.imusic.player:video-player:1.0.71'
+    //直播流、视频播放器
+    implementation project(':live-player-lib')
     //飘屏、弹幕
     implementation 'com.github.ctiao:DanmakuFlameMaster:0.9.16'
     implementation 'com.github.ctiao:ndkbitmap-armv7a:0.9.16'

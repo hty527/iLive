@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <item>
+        <scale
+            android:scaleWidth="30%"
+            android:scaleHeight="30%"
+            android:scaleGravity="center"
+            android:level="1"
+            tools:ignore="UnusedAttribute">
+            <aapt:attr name="android:drawable">
+                <shape android:shape="oval">
+                    <size
+                        android:width="100dp"
+                        android:height="100dp" />
+                    <solid android:color="#4DFFFFFF" />
+                </shape>
+            </aapt:attr>
+        </scale>
+    </item>
+    <item
+        android:left="25dp"
+        android:top="25dp"
+        android:right="25dp"
+        android:bottom="25dp">
+        <shape android:shape="oval">
+            <solid android:color="#FF0000" />
+        </shape>
+    </item>
+</layer-list>

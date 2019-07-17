@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--封面-->
+    <item name="view_video_cover" type="id"></item>
+    <!--渲染图层-->
+    <item name="view_textureview" type="id"></item>
+    <!--控制器-->
+    <item name="view_controller" type="id"></item>
+</resources>

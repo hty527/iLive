@@ -11,15 +11,16 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"/>
     <com.android.gift.view.ShapeTextView
+        android:id="@+id/view_state"
         android:layout_width="45dp"
         android:layout_height="18dp"
         android:layout_margin="10dp"
         android:textSize="10dp"
-        android:text="直播中"
+        android:text="在线"
         android:gravity="center"
         android:textColor="#FFFFFF"
-        app:shapeBackgroundColor="#33141433"
-        app:shapeBackgroundSelectorColor="#33141433"
+        app:shapeBackgroundColor="#4D141433"
+        app:shapeBackgroundSelectorColor="#4D141433"
         app:shapeRadius="3dp"/>
     <RelativeLayout
         android:layout_width="match_parent"

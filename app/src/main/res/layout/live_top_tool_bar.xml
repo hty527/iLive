@@ -16,9 +16,9 @@
         android:layout_width="match_parent"
         android:layout_height="38dp"
         android:orientation="horizontal"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp">
         <!--左边用户信息-->
         <RelativeLayout
             android:id="@+id/rl_anchorInfo"
@@ -107,7 +107,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/top_room_data"
         android:layout_marginTop="6dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="12dp"
         android:textColor="#FFFFFF"
         android:textSize="10dp"
         android:paddingLeft="6dp"

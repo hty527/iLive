@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".room.activity.MainActivity"
+        <activity android:name=".index.ui.activity.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,7 +26,7 @@
         <activity android:name=".room.activity.LiveRoomActivity"
             android:screenOrientation="portrait"/>
         <!--关于-->
-        <activity android:name=".room.activity.AboutActivity"
+        <activity android:name=".index.ui.activity.AboutActivity"
             android:screenOrientation="portrait"/>
     </application>
 

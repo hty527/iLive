@@ -21,7 +21,6 @@ public class UserInfo implements Parcelable{
 
     }
 
-
     protected UserInfo(Parcel in) {
         userid = in.readString();
         nickName = in.readString();

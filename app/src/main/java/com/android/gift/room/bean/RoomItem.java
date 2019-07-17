@@ -22,9 +22,9 @@ public class RoomItem implements Parcelable {
     private String room_front;
     private String stream_url;
     //BANNER、封面 宽
-    private String width;
+    private String width="1080";
     //BANNER、封面 高
-    private String height;
+    private String height="404";
     //主播信息
     private UserInfo anchor;
     //主播封面

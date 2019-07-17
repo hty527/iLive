@@ -23,8 +23,9 @@ public interface BaseContract {
 
         /**
          * 开始加载中
+         * @param offset 数据集起始偏移位置
          */
-        void showLoading();
+        void showLoading(int offset);
 
         /**
          * 错误、为空回调

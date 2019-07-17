@@ -1,0 +1,15 @@
+ext {
+    android = [
+         compileSdkVersion : 26,
+         buildToolsVersion : "26.0.2",
+         minSdkVersion     : 16,
+         targetSdkVersion  : 26,
+         devMinSdk         : 16,
+         supportLibVersion : "26.1.0"
+    ]
+    app=[
+         applicationId  : "com.android.gift",
+         versionCode    : 100001,
+         versionName    : "1.0.01"
+    ]
+}

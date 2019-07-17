@@ -1,19 +1,22 @@
-package com.android.gift.room.activity;
+package com.android.gift.index.ui.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.net.http.HttpResponseCache;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -23,23 +26,23 @@ import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.android.gift.R;
+import com.android.gift.adapter.AppFragmentPagerAdapter;
 import com.android.gift.bean.GiftItemInfo;
 import com.android.gift.bean.UserInfo;
 import com.android.gift.gift.listener.OnGiveGiftListener;
 import com.android.gift.gift.manager.GiftBoardManager;
 import com.android.gift.gift.dialog.LiveGiftDialog;
-import com.android.gift.listener.OnItemClickListener;
-import com.android.gift.model.IndexLinLayoutManager;
+import com.android.gift.index.ui.fragment.IndexPrivateRoomFragment;
+import com.android.gift.index.ui.fragment.IndexPublicRoomFragment;
 import com.android.gift.net.OkHttpUtils;
-import com.android.gift.room.adapter.LiveRoomAdapter;
 import com.android.gift.room.bean.BoxPixInfo;
-import com.android.gift.room.bean.RoomItem;
-import com.android.gift.room.contract.RoomContact;
-import com.android.gift.room.presenter.RoomPresenter;
 import com.android.gift.room.view.RoundGlobeView;
+import com.android.gift.util.AppUtils;
 import com.android.gift.util.Logger;
+import com.android.gift.util.StatusUtils;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -51,19 +54,17 @@ import java.util.TreeMap;
  * 主页示例
  */
 
-public class MainActivity extends AppCompatActivity implements RoomContact.View, RoundGlobeView.OnGlobeMoveListener {
+public class MainActivity extends AppCompatActivity implements RoundGlobeView.OnGlobeMoveListener {
 
     private static final String TAG = "MainActivity";
     public static final String ITEM_GIFT  = "GIFT";
     public static final String ITEM_ABOUT = "ABOUT";
     public static final String ITEM_HOME  = "HOME";
-    private LiveRoomAdapter mAdapter;
-    private RoomPresenter mPresenter;
-    private SwipeRefreshLayout mRefreshLayout;
     private RoundGlobeView mGlobeView;
     private Map<String,BoxPixInfo> mPixInfoTreeMap = new TreeMap<>();
     private TextView mTextTips;
 
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,14 +76,20 @@ public class MainActivity extends AppCompatActivity implements RoomContact.View,
             window.setStatusBarColor(Color.TRANSPARENT);
         }
         setContentView(R.layout.activity_main);
-        
+        StatusUtils.setStatusTextColor1(true,this);//白色背景，黑色字体
+        int statusBarHeight = AppUtils.getInstance().getStatusBarHeight(this);
+        findViewById(R.id.view_status).getLayoutParams().height= statusBarHeight;
+        //CollapsingToolbarLayout距离屏幕顶端最小停靠距离
+        CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
+        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar_layout);
+        collapsingToolbarLayout.setMinimumHeight(statusBarHeight);
+        appBarLayout.setMinimumHeight(statusBarHeight);
         //配置SVGA缓存
         File cacheDir = new File(this.getApplicationContext().getCacheDir(), "http");
         try {
             HttpResponseCache.install(cacheDir, 1024 * 1024 * 128);
         } catch (IOException e) {
             e.printStackTrace();
-            Logger.d(TAG,"INIT CACHE ERROR:"+e.getMessage());
         }
         //礼物模块初始化及赠送监听
         GiftBoardManager.getInstance()
@@ -132,38 +139,79 @@ public class MainActivity extends AppCompatActivity implements RoomContact.View,
         putLocation(findViewById(R.id.btn_left),ITEM_ABOUT);
         putLocation(findViewById(R.id.btn_top),ITEM_GIFT);
         putLocation(findViewById(R.id.btn_right),ITEM_HOME);
-        //直播间列表
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new IndexLinLayoutManager(this,IndexLinLayoutManager.VERTICAL,false));
-        mAdapter = new LiveRoomAdapter(this);
-        mAdapter.setOnItemClickListener(new OnItemClickListener() {
+
+        OkHttpUtils.DEBUG=false;
+        //界面初始化
+        ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        //选中监听，字体大小改变
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onItemClick(View view, int position, long itemId) {
-                if(null!=view.getTag()){
-                    RoomItem roomItem= (RoomItem) view.getTag();
-                    Intent intent=new Intent(MainActivity.this,LiveRoomActivity.class);
-                    intent.putExtra("roomItem",roomItem);
-                    startActivity(intent);
+            public void onTabSelected(TabLayout.Tab tab) {
+                if(null!=tab&&null!=tab.getCustomView()){
+                    TextView textView = (TextView) tab.getCustomView().findViewById(R.id.tv_item_title);
+                    textView.setTextSize(18f);
+                    textView.getPaint().setFakeBoldText(true);
                 }
             }
-        });
-        recyclerView.setAdapter(mAdapter);
-        mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
-        mRefreshLayout.setProgressViewOffset(false,0,180);
-        mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this,R.color.colorAccent));
-        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
             @Override
-            public void onRefresh() {
-                if(null!=mPresenter&&!mPresenter.isRequsting()){
-                    mPresenter.getRooms(getApplicationContext());
+            public void onTabUnselected(TabLayout.Tab tab) {
+                if(null!=tab&&null!=tab.getCustomView()){
+                    TextView textView = (TextView) tab.getCustomView().findViewById(R.id.tv_item_title);
+                    textView.setTextSize(14f);
+                    textView.getPaint().setFakeBoldText(false);
                 }
             }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {}
         });
-        OkHttpUtils.DEBUG=true;
-        //获取在线直播间列表
-        mPresenter = new RoomPresenter();
-        mPresenter.attachView(this);
-        mPresenter.getRooms(getApplicationContext());
+        viewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        List<Fragment> fragments=new ArrayList<>();
+        fragments.add(new IndexPublicRoomFragment());
+        fragments.add(new IndexPrivateRoomFragment());
+        String[] titls=new String[]{"直播","私聊"};
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabLayout.setupWithViewPager(viewPager);
+        AppFragmentPagerAdapter adapter = new AppFragmentPagerAdapter(getSupportFragmentManager(), fragments,titls);
+        viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(1);
+        //使用自定义TAB VIEW
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            TabLayout.Tab tab = tabLayout.getTabAt(i);
+            if (tab != null) {
+                View tabView = getTabView(i,titls,0);
+                if(null!=tabView) tab.setCustomView(tabView);
+            }
+        }
+    }
+
+    /**
+     * 充气自定义View
+     * @param index 位置
+     * @param mTitles titles
+     * @param showIndex 默认显示的INDEX
+     * @return
+     */
+    private View getTabView(int index, String[] mTitles, int showIndex) {
+        if(null!=mTitles&&mTitles.length>index){
+            View inflate = View.inflate(MainActivity.this, R.layout.view_tab_item, null);
+            TextView tvItemTitle = (TextView) inflate.findViewById(R.id.tv_item_title);
+            tvItemTitle.setText(mTitles[index]);
+            if(showIndex==index){
+                //默认选中的项高亮
+                tvItemTitle.setSelected(true);
+                tvItemTitle.setTextSize(18f);
+                tvItemTitle.getPaint().setFakeBoldText(true);
+            }else{
+                tvItemTitle.setSelected(false);
+                tvItemTitle.setTextSize(14f);
+                tvItemTitle.getPaint().setFakeBoldText(false);
+            }
+            return inflate;
+        }
+        return null;
     }
 
     /**
@@ -340,66 +388,6 @@ public class MainActivity extends AppCompatActivity implements RoomContact.View,
             }
         });
         objectAnimator.start();
-    }
-
-    @Override
-    public void showLoading() {
-        if(null!=mRefreshLayout&&!mRefreshLayout.isShown()){
-            mRefreshLayout.post(new Runnable() {
-                @Override
-                public void run() {
-                    mRefreshLayout.setRefreshing(true);
-                }
-            });
-        }
-    }
-
-    @Override
-    public void showError(int code, String errorMsg) {}
-
-    @Override
-    public void showRooms(List<RoomItem> data) {
-        if(null!=mRefreshLayout&&mRefreshLayout.isShown()){
-            mRefreshLayout.post(new Runnable() {
-                @Override
-                public void run() {
-                    mRefreshLayout.setRefreshing(false);
-                }
-            });
-        }
-        if(null!=mAdapter){
-            mAdapter.setNewData(data);
-        }
-    }
-
-    @Override
-    public void showRoomsError(int code, String errMsg) {
-        if(null!=mRefreshLayout&&mRefreshLayout.isShown()){
-            mRefreshLayout.post(new Runnable() {
-                @Override
-                public void run() {
-                    mRefreshLayout.setRefreshing(false);
-                }
-            });
-        }
-        Toast.makeText(MainActivity.this,errMsg,Toast.LENGTH_SHORT).show();
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(null!=mAdapter){
-            mAdapter.onResume();
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if(null!=mAdapter){
-            mAdapter.onPause();
-        }
     }
 
     @Override

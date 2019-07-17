@@ -1,4 +1,4 @@
-package com.android.gift.room.activity;
+package com.android.gift.index.ui.activity;
 
 import android.content.Intent;
 import android.net.Uri;

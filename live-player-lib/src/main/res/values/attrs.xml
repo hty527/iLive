@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BaseVideoPlayer">
+        <!--播放器默认背景-->
+        <attr name="videoPlayerBackgroundDrawable" format="reference"></attr>
+        <!--播放器默认背景-->
+        <attr name="videoPlayerBackgroundColor" format="color"></attr>
+        <!--是否创建默认的控制器-->
+        <attr name="videoPlayerCreateDefaultController" format="boolean"></attr>
+    </declare-styleable>
+</resources>

@@ -22,13 +22,10 @@ import com.android.gift.room.bean.RoomItem;
 import com.android.gift.room.doalog.InputKeyBoardDialog;
 import com.android.gift.room.view.VideoLiveControllerView;
 import com.android.gift.util.AppUtils;
+import com.android.gift.util.Logger;
 import com.android.gift.util.ScreenLayoutChangedHelp;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.video.player.lib.constants.VideoConstants;
-import com.video.player.lib.controller.DefaultCoverController;
-import com.video.player.lib.manager.VideoPlayerManager;
-import com.video.player.lib.view.VideoPlayerTrackView;
+import com.android.live.player.lib.manager.VideoPlayerManager;
+import com.android.live.player.lib.view.VideoPlayerTrack;
 
 /**
  * Created by TinyHung@outlook.com
@@ -47,6 +44,7 @@ public class LiveRoomActivity extends AppCompatActivity {
     private InputKeyBoardDialog mInputTextMsgDialog;
     //输入框高度监听
     private ScreenLayoutChangedHelp mLayoutChangedListener;
+    private VideoPlayerTrack mPlayerTrack;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,6 +63,7 @@ public class LiveRoomActivity extends AppCompatActivity {
             finish();
             return;
         }
+        Logger.d(TAG,"roomItem:"+roomItem.toString());
         setContentView(R.layout.activity_live_room);
         //直播间交互控制器
         mControllerView = findViewById(R.id.live_controller);
@@ -101,21 +100,11 @@ public class LiveRoomActivity extends AppCompatActivity {
             }
         });
         //视频准备
-        VideoPlayerManager.getInstance().setLoop(true).setMobileWorkEnable(true);
-        VideoPlayerManager.getInstance().setVideoDisplayType(VideoConstants.VIDEO_DISPLAY_TYPE_CUT);
-        VideoPlayerTrackView playerTrackView = (VideoPlayerTrackView) findViewById(R.id.video_track);
-        DefaultCoverController coverController = playerTrackView.getCoverController();
-        if(null!=coverController){
-            Glide.with(this)
-                    .load(roomItem.getRoom_front())
-                    .error(R.drawable.ic_video_default_cover)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .centerCrop()
-                    .dontAnimate()
-                    .into(coverController.mVideoCover);
-        }
-        playerTrackView.startPlayVideo(roomItem.getStream_url(),"");
-
+        VideoPlayerManager.getInstance().setLoop(true);
+        VideoPlayerManager.getInstance().setMobileWorkEnable(true);
+        mPlayerTrack = (VideoPlayerTrack) findViewById(R.id.video_track);
+        mPlayerTrack.setLoop(true);
+        mPlayerTrack.setVideoCover(roomItem.getRoom_front(),false);
         //在聊天列表中增加一条本地系统消息
         CustomMsgExtra sysMsg=new CustomMsgExtra();
         sysMsg.setCmd(Constants.MSG_CUSTOM_NOTICE);
@@ -135,6 +124,8 @@ public class LiveRoomActivity extends AppCompatActivity {
                 if(null!=mControllerView) mControllerView.showInputKeyBord(false,height);
             }
         });
+        //开始拉流
+        mPlayerTrack.startPlayer(roomItem.getStream_url());
     }
 
     /**
@@ -196,8 +187,6 @@ public class LiveRoomActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        //视频播放开始
-        VideoPlayerManager.getInstance().onResume();
         if(null!=mGiftDialog&&mGiftDialog.isShowing()){
             //礼物动画开始
             GiftBoardManager.getInstance().onResume();
@@ -207,8 +196,6 @@ public class LiveRoomActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        //视频播放暂停
-        VideoPlayerManager.getInstance().onPause();
         //礼物动画暂停
         GiftBoardManager.getInstance().onPause();
     }

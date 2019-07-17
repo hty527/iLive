@@ -39,7 +39,7 @@ public class GiftPresenter extends BasePresenter<GiftContact.View,GiftEngin> imp
                 mViewRef.get().showGiftTypes(giftTypes);
                 return;
             }
-            mViewRef.get().showLoading();
+            mViewRef.get().showLoading(0);
             getNetEngin().get().getGiftType(context, new OnResultCallBack<ResultData<ResultList<GiftType>>>() {
 
                 @Override
@@ -78,7 +78,7 @@ public class GiftPresenter extends BasePresenter<GiftContact.View,GiftEngin> imp
                 return;
             }
 
-            mViewRef.get().showLoading();
+            mViewRef.get().showLoading(0);
             getNetEngin().get().getGiftByType(context, type, new OnResultCallBack<ResultData<ResultList<GiftItemInfo>>>() {
 
                 @Override

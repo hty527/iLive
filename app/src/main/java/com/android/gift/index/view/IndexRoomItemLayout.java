@@ -1,4 +1,4 @@
-package com.android.gift.room.view;
+package com.android.gift.index.view;
 
 import android.content.Context;
 import android.os.Build;
@@ -54,6 +54,7 @@ public class IndexRoomItemLayout extends FrameLayout{
         mViewImages=new ArrayList<>();
         mIconView = (ImageView) findViewById(R.id.view_item_iv_icon);
     }
+
     /**
      * 给定数据
      */

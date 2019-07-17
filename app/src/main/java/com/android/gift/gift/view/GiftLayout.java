@@ -61,7 +61,7 @@ public class GiftLayout extends FrameLayout implements GiftContact.View {
      * 礼物分类、分类下列表加载中
      */
     @Override
-    public void showLoading() {}
+    public void showLoading(int offset) {}
 
     @Override
     public void showGiftTypes(List<GiftType> data) {

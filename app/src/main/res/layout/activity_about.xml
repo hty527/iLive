@@ -28,20 +28,27 @@
             android:textColor="#555555"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="200dp"/>
-        <com.android.gift.view.ShapeTextView
-            android:id="@+id/btn_look_history"
-            android:layout_width="180dp"
-            android:layout_height="42dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:layout_marginBottom="80dp"
             android:layout_gravity="bottom|center_horizontal"
-            app:shapeRadius="21dp"
-            app:shapeBackgroundColor="#FF6666"
-            app:shapeBackgroundSelectorColor="#f13737"
-            android:textColor="#FFFFFF"
-            android:textSize="16dp"
-            android:gravity="center"
-            android:text="查看更新记录" />
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true">
+            <com.android.gift.view.ShapeTextView
+                android:id="@+id/btn_check_update"
+                android:layout_width="180dp"
+                android:layout_height="42dp"
+                android:layout_gravity="center_horizontal"
+                app:shapeRadius="21dp"
+                android:layout_marginTop="20dp"
+                app:shapeBackgroundColor="@color/colorAccent"
+                app:shapeBackgroundSelectorColor="@color/colorPrimary"
+                android:textColor="#FFFFFF"
+                android:textSize="16dp"
+                android:gravity="center"
+                android:text="检查新版本" />
+        </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

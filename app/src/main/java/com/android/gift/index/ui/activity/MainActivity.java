@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements RoundGlobeView.On
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
         }
-        setContentView(R.layout.activity_main1);
+        setContentView(R.layout.activity_main);
         StatusUtils.setStatusTextColor1(true,this);//白色背景，黑色字体
         int statusBarHeight = AppUtils.getInstance().getStatusBarHeight(this);
         findViewById(R.id.view_status).getLayoutParams().height= statusBarHeight;

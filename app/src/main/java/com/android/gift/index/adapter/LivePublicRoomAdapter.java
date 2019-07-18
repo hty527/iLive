@@ -126,6 +126,8 @@ public class LivePublicRoomAdapter extends BaseAdapter<InkeRoomItem,RecyclerView
         viewHolder.itemIcon.setImageResource(0);
         viewHolder.viewTitle.setText("--");
         viewHolder.viewLocation.setText("火星");
+        viewHolder.viewState.setText("");
+        viewHolder.viewState.setVisibility(View.GONE);
     }
 
     /**
@@ -148,6 +150,12 @@ public class LivePublicRoomAdapter extends BaseAdapter<InkeRoomItem,RecyclerView
                     .into(viewHolder.itemIcon);
             //昵称
             viewHolder.viewTitle.setText(creator.getNick());
+            if(!TextUtils.isEmpty(creator.getProfession())){
+                viewHolder.viewState.setVisibility(View.VISIBLE);
+                viewHolder.viewState.setText(creator.getProfession());
+            }else{
+                viewHolder.viewState.setVisibility(View.GONE);
+            }
             if(!TextUtils.isEmpty(creator.getHometown())){
                 viewHolder.viewLocation.setText(creator.getHometown());
             }
@@ -174,6 +182,12 @@ public class LivePublicRoomAdapter extends BaseAdapter<InkeRoomItem,RecyclerView
                     .into(viewHolder.itemIcon);
             //昵称
             viewHolder.viewTitle.setText(creator.getNick());
+            if(!TextUtils.isEmpty(creator.getProfession())){
+                viewHolder.viewState.setVisibility(View.VISIBLE);
+                viewHolder.viewState.setText(creator.getProfession());
+            }else{
+                viewHolder.viewState.setVisibility(View.GONE);
+            }
             if(!TextUtils.isEmpty(creator.getHometown())){
                 viewHolder.viewLocation.setText(creator.getHometown());
             }
@@ -197,7 +211,7 @@ public class LivePublicRoomAdapter extends BaseAdapter<InkeRoomItem,RecyclerView
      */
     public class RoomViewHolder extends RecyclerView.ViewHolder{
         private RelativeLayout mItemCoverView;
-        private TextView viewTitle,viewNum,viewLocation;
+        private TextView viewTitle,viewNum,viewLocation,viewState;
         private ImageView itemIcon;
         private View mRotItemView;
 
@@ -209,6 +223,7 @@ public class LivePublicRoomAdapter extends BaseAdapter<InkeRoomItem,RecyclerView
             viewTitle = (TextView) itemView.findViewById(R.id.view_item_title_name);
             viewNum = (TextView) itemView.findViewById(R.id.view_item_title_num);
             viewLocation = (TextView) itemView.findViewById(R.id.view_item_location);
+            viewState = (TextView) itemView.findViewById(R.id.view_state);
         }
     }
 

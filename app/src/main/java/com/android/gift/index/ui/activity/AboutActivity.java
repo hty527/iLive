@@ -38,7 +38,7 @@ public class AboutActivity extends AppCompatActivity{
                 +AppUtils.getInstance().getVersionCode()
                 +"</font></font>";
         ((TextView) findViewById(R.id.tv_version)).setText(Html.fromHtml(content));
-        findViewById(R.id.btn_look_history).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_check_update).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {

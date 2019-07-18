@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.widget.Toast;
-
 import com.android.gift.APPLication;
 import com.android.gift.BuildConfig;
 import com.android.gift.bean.GiftItemInfo;
@@ -15,7 +14,6 @@ import com.android.gift.room.bean.CustomMsgExtra;
 import com.android.gift.room.bean.CustomMsgInfo;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -44,7 +42,6 @@ public class AppUtils {
         }
         return mInstance;
     }
-
 
     /**
      * 对礼物进行分组包装
@@ -326,7 +323,7 @@ public class AppUtils {
         List<BannerInfo> bannerInfos=new ArrayList<>();
         String content="[\n" +
                 "\t\t  {\n" +
-                "            \"icon\":\"http://sta-op.douyucdn.cn/adxdsp/2019/05/21/5f6137a80f939cec0da616b36b99def4.jpg\",\n" +
+                "            \"icon\":\"http://sta-op.douyucdn.cn/douyu-vrp-admin/2019/04/17/e63c5563968b8438b6f70e1c6a309cf5.jpg\",\n" +
                 "            \"jump_url\":\"\"\n" +
                 "          },\n" +
                 "          {\n" +
@@ -346,7 +343,7 @@ public class AppUtils {
                 "            \"jump_url\":\"\"\n" +
                 "          },\n" +
                 "          {\n" +
-                "            \"icon\":\"http://sta-op.douyucdn.cn/douyu-vrp-admin/2019/04/17/e63c5563968b8438b6f70e1c6a309cf5.jpg\",\n" +
+                "            \"icon\":\"https://sta-op.douyucdn.cn/adxdsp/2019/07/15/5252676b15701857cf6691f110cf4721.jpg\",\n" +
                 "            \"jump_url\":\"\"\n" +
                 "          }\n" +
                 "        ]";

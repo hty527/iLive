@@ -160,7 +160,7 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
         this.mAnchorUser=userInfo;
         if(null!=userInfo){
             ((TextView) findViewById(R.id.view_anchor_name)).setText(userInfo.getNickName());
-            ((TextView) findViewById(R.id.view_anchor_id)).setText(String.format("ID:",TextUtils.isEmpty(userInfo.getUserid())?"66666666":userInfo.getUserid()));
+            ((TextView) findViewById(R.id.view_anchor_id)).setText(String.format("ID:%s",userInfo.getUserid()));
             ImageView iconImage = (ImageView) findViewById(R.id.view_anchor_head);
             Glide.with(getContext())
                     .load(userInfo.getAvatar())

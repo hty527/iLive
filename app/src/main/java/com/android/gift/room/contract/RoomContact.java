@@ -40,9 +40,10 @@ public interface RoomContact {
 
         /**
          * 获取在线直播间列表
+         * @param page 页眉，头部推荐数据为0,常规推荐为>0
          * @param offset 数据集起始偏移位置
          */
-        void getRooms(int offset);
+        void getRooms(int page,int offset);
 
         /**
          * 获取在线1V1列表

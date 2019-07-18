@@ -37,7 +37,7 @@ public final class OkHttpUtils {
     private static volatile OkHttpUtils mInstance;
     private static OkHttpClient mHttpClient;
     //调试模式开关
-    public static boolean DEBUG=false;
+    public static boolean DEBUG=true;
     //是否正在请求
     public static boolean isRequst=false;
     //共有参数

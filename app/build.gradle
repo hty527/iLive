@@ -105,4 +105,5 @@ dependencies {
     compile 'com.youth.banner:banner:1.4.10'
     //WEB VIEW
     implementation 'com.just.agentweb:agentweb:4.0.3-beta'
+    implementation 'com.jcodecraeer:xrecyclerview:1.5.9'
 }

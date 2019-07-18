@@ -103,4 +103,21 @@
         <!--标题栏风格，状态栏 0：白底黑字 1：彩底白字-->
         <attr name="commentTitleStyle" format="integer" />
     </declare-styleable>
+    <!--自定义波纹雷达-->
+    <declare-styleable name="RadarLayout">
+        <!--颜色-->
+        <attr name="radarColor" format="color"/>
+        <!--单圈播放时长-->
+        <attr name="radarPlayDurtion" format="integer"/>
+        <!--间隔绘制圆圈事件-->
+        <attr name="radarIntervalDurtion" format="integer"/>
+        <!--圆环宽度-->
+        <attr name="radarStrokeWidth" format="integer"/>
+        <!--最小透明度-->
+        <attr name="radarMinAlpha" format="float"/>
+        <!--是否是圆环-->
+        <attr name="radarIsRing" format="boolean"/>
+        <!--是否自定启动-->
+        <attr name="radarIsAutoRun" format="boolean"/>
+    </declare-styleable>
 </resources>

@@ -9,7 +9,6 @@ import com.android.gift.room.bean.InkeRoomData;
 import com.android.gift.room.bean.RoomItem;
 import com.android.gift.room.contract.RoomContact;
 import com.android.gift.room.model.RoomEngin;
-import com.android.gift.util.Logger;
 
 /**
  * TinyHung@outlook.com
@@ -26,12 +25,14 @@ public class RoomPresenter extends BasePresenter<RoomContact.View,RoomEngin> imp
 
     /**
      * 获取在线直播间
+     * @param page 页眉，头部推荐数据为0,常规推荐为>0
+     * @param offset 数据集起始偏移位置
      */
     @Override
-    public void getRooms(int offset) {
+    public void getRooms(int page,int offset) {
         if(null!=mViewRef&&null!=mViewRef.get()){
             mViewRef.get().showLoading(offset);
-            getNetEngin().get().getGiftRooms(offset,new OnResultCallBack<InkeRoomData>() {
+            getNetEngin().get().getGiftRooms(page,offset,new OnResultCallBack<InkeRoomData>() {
 
                 @Override
                 public void onResponse(InkeRoomData data) {
@@ -39,7 +40,7 @@ public class RoomPresenter extends BasePresenter<RoomContact.View,RoomEngin> imp
                         if(null!=data.getCards()&&data.getCards().size()>0){
                             mViewRef.get().showRooms(data);
                         }else{
-                            mViewRef.get().showRoomsError(OkHttpUtils.ERROR_EMPTY,"暂无直播间列表");
+                            mViewRef.get().showRoomsError(OkHttpUtils.ERROR_EMPTY,"没有更多主播了");
                         }
                     }
                 }
@@ -69,7 +70,7 @@ public class RoomPresenter extends BasePresenter<RoomContact.View,RoomEngin> imp
                         if(null!=data.getData()&&null!=data.getData().getList()&&data.getData().getList().size()>0){
                             mViewRef.get().showPrivateRooms(data.getData().getList());
                         }else{
-                            mViewRef.get().showRoomsError(OkHttpUtils.ERROR_EMPTY,"暂无直播间列表");
+                            mViewRef.get().showRoomsError(OkHttpUtils.ERROR_EMPTY,"没有更多主播了");
                         }
                     }
                 }

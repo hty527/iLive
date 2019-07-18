@@ -15,6 +15,7 @@ import com.android.gift.bean.UserInfo;
 import com.android.gift.index.adapter.LivePublicRoomAdapter;
 import com.android.gift.listener.OnItemClickListener;
 import com.android.gift.listener.OnLoadMoreListener;
+import com.android.gift.net.OkHttpUtils;
 import com.android.gift.room.activity.LiveRoomActivity;
 import com.android.gift.room.bean.BannerInfo;
 import com.android.gift.room.bean.InkeRoomData;
@@ -24,13 +25,12 @@ import com.android.gift.room.bean.RoomItem;
 import com.android.gift.room.contract.RoomContact;
 import com.android.gift.room.presenter.RoomPresenter;
 import com.android.gift.util.AppUtils;
-import com.android.gift.util.Logger;
 import java.util.List;
 
 /**
  * Created by TinyHung@outlook.com
  * 2019/7/17
- * 在线直播间
+ * 在线直播间,取子映客API
  */
 
 public class IndexPublicRoomFragment extends BaseFragment<RoomPresenter> implements RoomContact.View {
@@ -38,9 +38,10 @@ public class IndexPublicRoomFragment extends BaseFragment<RoomPresenter> impleme
     private static final String TAG = "IndexPublicRoomFragment";
     private LivePublicRoomAdapter mAdapter;
     private SwipeRefreshLayout mRefreshLayout;
-    //是否更新数据成功了？，是否还有更多数据
-    private boolean isRefresh,mHasMore;
-    private int mOffset=0;
+    //是否更新数据成功了？
+    private boolean isRefresh;
+    //数据偏移位置，页眉
+    private int mOffset=0,mPage=0;
 
     @Override
     protected int getLayoutID() {
@@ -93,11 +94,9 @@ public class IndexPublicRoomFragment extends BaseFragment<RoomPresenter> impleme
         mAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                Logger.d(TAG,"onLoadMore-->mHasMore:"+mHasMore+",mOffset:"+mOffset);
-                if(mHasMore){
-                    if(null!=mPresenter&&!mPresenter.isRequsting()){
-                        mPresenter.getRooms(mOffset);
-                    }
+                if(null!=mPresenter&&!mPresenter.isRequsting()){
+                    Toast.makeText(getContext(),"加载更多中",Toast.LENGTH_SHORT).show();
+                    mPresenter.getRooms(mPage,mOffset);
                 }
             }
         },recyclerView);
@@ -108,8 +107,8 @@ public class IndexPublicRoomFragment extends BaseFragment<RoomPresenter> impleme
             @Override
             public void onRefresh() {
                 if(null!=mPresenter&&!mPresenter.isRequsting()){
-                    mOffset=0;
-                    mPresenter.getRooms(mOffset);
+                    mOffset=0;mPage=0;
+                    mPresenter.getRooms(mPage,mOffset);
                 }
             }
         });
@@ -131,8 +130,8 @@ public class IndexPublicRoomFragment extends BaseFragment<RoomPresenter> impleme
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if(null!=mPresenter&&!mPresenter.isRequsting()){
-            mOffset=0;
-            mPresenter.getRooms(mOffset);
+            mOffset=0;mPage=0;
+            mPresenter.getRooms(mPage,mOffset);
         }
     }
 
@@ -140,8 +139,8 @@ public class IndexPublicRoomFragment extends BaseFragment<RoomPresenter> impleme
     protected void onVisible() {
         super.onVisible();
         if(!isRefresh&&null!=mPresenter&&!mPresenter.isRequsting()&&null!=mAdapter&&mAdapter.getData().size()<=0){
-            mOffset=0;
-            mPresenter.getRooms(mOffset);
+            mOffset=0;mPage=0;
+            mPresenter.getRooms(mPage,mOffset);
         }
     }
 
@@ -177,31 +176,33 @@ public class IndexPublicRoomFragment extends BaseFragment<RoomPresenter> impleme
                 }
             });
         }
-        if(null!=mAdapter&&null!=data.getCards()){
-            if(mOffset>0){
-                mAdapter.addData(data.getCards());
-            }else{
-                //插入一组广告
-                InkeRoomItem inkeRoomItem=new InkeRoomItem();
-                inkeRoomItem.setItemCategory("2");
-                inkeRoomItem.setWidth("1080");
-                inkeRoomItem.setHeight("404");
-                List<BannerInfo> bannerInfos= AppUtils.getInstance().createBanners();
-                inkeRoomItem.setBanners(bannerInfos);
-                data.getCards().add(0,inkeRoomItem);
-                mAdapter.setNewData(data.getCards());
+        if(null!=mAdapter){
+            mAdapter.onLoadComplete();
+            if(null!=data.getCards()){
+                if(mPage==0&&mOffset==0){
+                    //插入一组广告
+                    InkeRoomItem inkeRoomItem=new InkeRoomItem();
+                    inkeRoomItem.setItemCategory("2");
+                    inkeRoomItem.setWidth("1080");
+                    inkeRoomItem.setHeight("404");
+                    List<BannerInfo> bannerInfos= AppUtils.getInstance().createBanners();
+                    inkeRoomItem.setBanners(bannerInfos);
+                    data.getCards().add(0,inkeRoomItem);
+                    mAdapter.setNewData(data.getCards());
+                }else{
+                    mAdapter.addData(data.getCards());
+                }
             }
         }
-        //还有没有更多？
-        if(data.getHas_more()<1){
-            mHasMore=false;
-            if(null!=mAdapter) mAdapter.onLoadEnd();
-        }else{
-            mHasMore=true;
-            if(null!=mAdapter) mAdapter.onLoadComplete();
+        //只有非头部数据才记录偏移量
+        if(mPage>0){
+            if(mOffset>0){
+                mOffset=mOffset*2;
+            }else{
+                mOffset=data.getOffset();
+            }
         }
-        Logger.d(TAG,"data.getOffset():"+data.getOffset());
-        mOffset=data.getOffset();
+        mPage++;
     }
 
     @Override
@@ -232,7 +233,11 @@ public class IndexPublicRoomFragment extends BaseFragment<RoomPresenter> impleme
         }
         Toast.makeText(getContext(),errMsg,Toast.LENGTH_SHORT).show();
         if(null!=mAdapter){
-            mAdapter.onLoadError();
+            if(OkHttpUtils.ERROR_EMPTY==code){
+                mAdapter.onLoadEnd();
+            }else{
+                mAdapter.onLoadError();
+            }
         }
     }
 }

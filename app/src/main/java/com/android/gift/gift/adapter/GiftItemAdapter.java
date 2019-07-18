@@ -31,7 +31,7 @@ public class GiftItemAdapter extends BaseAdapter<GiftItemInfo,GiftItemAdapter.Vi
     public GiftItemAdapter(Context context, List<GiftItemInfo> data, int groupPosition,int indexPosition) {
         super(context,data);
         mItemHeight = AppUtils.getInstance().getScreenWidth(context)/4;
-        mIconWidth = mItemHeight - AppUtils.getInstance().dpToPxInt(context,38f);
+        mIconWidth = mItemHeight - AppUtils.getInstance().dpToPxInt(context,40f);
         mSvgaIconWidth = mItemHeight - AppUtils.getInstance().dpToPxInt(context,25f);
         this.mAdapterlayoutPosition=indexPosition;
         this.mGroupPosition=groupPosition;

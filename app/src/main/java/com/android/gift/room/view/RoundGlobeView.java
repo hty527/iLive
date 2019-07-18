@@ -7,13 +7,15 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
+import android.widget.RelativeLayout;
+import com.android.gift.R;
 import com.android.gift.manager.VibratorManager;
 import com.android.gift.util.AppUtils;
+import com.android.gift.view.RadarLayout;
 
 /**
  * Created by TinyHung@outlook.com
@@ -21,15 +23,14 @@ import com.android.gift.util.AppUtils;
  * 圆球拖拽
  */
 
-public class RoundGlobeView extends AppCompatButton {
+public class RoundGlobeView extends RelativeLayout {
 
     private Context mContext;
-    private int mScreenWidth;
-    private int mScreenHeight;
-    private int mDefaultX;
-    private int mDefaultY;
+    private int mScreenWidth,mScreenHeight,mDefaultX,mDefaultY;
+    private float downX,downY;
     private String mTag;
     private boolean mIsVivrate = false;
+    private RadarLayout mRadarLayout;
 
     public RoundGlobeView(Context context) {
         this(context, null);
@@ -41,16 +42,15 @@ public class RoundGlobeView extends AppCompatButton {
 
     public RoundGlobeView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        View.inflate(context, R.layout.view_index_globe_layout,this);
         this.mContext = context;
         //禁用硬件加速
         setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         mScreenWidth = AppUtils.getInstance().getScreenWidth(context);
         mScreenHeight = AppUtils.getInstance().getScreenHeight(context);
+        mRadarLayout = (RadarLayout) findViewById(R.id.radar_layout);
+        mRadarLayout.startPlayer();
     }
-
-
-    private float downX;
-    private float downY;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -196,8 +196,24 @@ public class RoundGlobeView extends AppCompatButton {
         void onEnd();
     }
 
+    public void onResume(){
+        if(null!=mRadarLayout){
+            mRadarLayout.onStart();
+        }
+    }
+
+    public void onPause(){
+        if(null!=mRadarLayout){
+            mRadarLayout.onStop();
+        }
+    }
+
     public void onDestroy(){
         VibratorManager.getInstance().onDestroy();
+        if(null!=mRadarLayout){
+            mRadarLayout.onStop();
+            mRadarLayout=null;
+        }
         mOnGlobeMoveListener=null;mTag=null;mContext=null;
     }
 }

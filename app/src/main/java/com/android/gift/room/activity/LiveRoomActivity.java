@@ -23,7 +23,6 @@ import com.android.gift.room.bean.RoomItem;
 import com.android.gift.room.doalog.InputKeyBoardDialog;
 import com.android.gift.room.view.VideoLiveControllerView;
 import com.android.gift.util.AppUtils;
-import com.android.gift.util.Logger;
 import com.android.gift.util.ScreenLayoutChangedHelp;
 import com.android.live.player.lib.manager.VideoPlayerManager;
 import com.android.live.player.lib.view.VideoPlayerTrack;
@@ -36,7 +35,6 @@ import com.android.live.player.lib.view.VideoPlayerTrack;
 
 public class LiveRoomActivity extends AppCompatActivity {
 
-    private static final String TAG = "LiveRoomActivity";
     //礼物面板
     private LiveGiftDialog mGiftDialog;
     //直播间控制器
@@ -66,7 +64,6 @@ public class LiveRoomActivity extends AppCompatActivity {
             return;
         }
         roomid=roomItem.getRoomid();
-        Logger.d(TAG,"roomItem:"+roomItem.toString());
         setContentView(R.layout.activity_live_room);
         //直播间交互控制器
         mControllerView = findViewById(R.id.live_controller);
@@ -202,6 +199,13 @@ public class LiveRoomActivity extends AppCompatActivity {
         super.onPause();
         //礼物动画暂停
         GiftBoardManager.getInstance().onPause();
+    }
+
+    @Override
+    public void finish() {
+        //视频播放销毁
+        VideoPlayerManager.getInstance().onDestroy();
+        super.finish();
     }
 
     @Override

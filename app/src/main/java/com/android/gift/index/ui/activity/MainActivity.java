@@ -35,7 +35,6 @@ import com.android.gift.gift.manager.GiftBoardManager;
 import com.android.gift.gift.dialog.LiveGiftDialog;
 import com.android.gift.index.ui.fragment.IndexPrivateRoomFragment;
 import com.android.gift.index.ui.fragment.IndexPublicRoomFragment;
-import com.android.gift.net.OkHttpUtils;
 import com.android.gift.room.bean.BoxPixInfo;
 import com.android.gift.room.view.RoundGlobeView;
 import com.android.gift.util.AppUtils;
@@ -78,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements RoundGlobeView.On
         }
         setContentView(R.layout.activity_main);
         StatusUtils.setStatusTextColor1(true,this);//白色背景，黑色字体
+
         int statusBarHeight = AppUtils.getInstance().getStatusBarHeight(this);
         findViewById(R.id.view_status).getLayoutParams().height= statusBarHeight;
         //CollapsingToolbarLayout距离屏幕顶端最小停靠距离
@@ -141,7 +141,6 @@ public class MainActivity extends AppCompatActivity implements RoundGlobeView.On
         putLocation(findViewById(R.id.btn_top),ITEM_GIFT);
         putLocation(findViewById(R.id.btn_right),ITEM_HOME);
 
-        OkHttpUtils.DEBUG=false;
         //界面初始化
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -396,8 +395,27 @@ public class MainActivity extends AppCompatActivity implements RoundGlobeView.On
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if(null!=mGlobeView){
+            mGlobeView.onResume();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(null!=mGlobeView){
+            mGlobeView.onPause();
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         GiftBoardManager.getInstance().onDestroy();
+        if(null!=mGlobeView){
+            mGlobeView.onDestroy();
+        }
     }
 }

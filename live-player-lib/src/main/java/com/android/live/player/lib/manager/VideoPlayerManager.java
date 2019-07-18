@@ -608,7 +608,7 @@ public class VideoPlayerManager {
      * 组件对应生命周期调用
      */
     public void onDestroy(){
-        reset();
+        stop();
         mContext=null;
         if(null!=mAudioFocusManager){
             mAudioFocusManager.releaseAudioFocus();

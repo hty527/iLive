@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.android.gift.view.RadarLayout android:id="@+id/radar_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:radarColor="#F62E89"
+    app:radarPlayDurtion="1000"
+    app:radarMinAlpha="0.0"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="12dp"
+        android:background="@drawable/arice_dot_red"/>
+</com.android.gift.view.RadarLayout>

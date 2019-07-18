@@ -3,7 +3,6 @@ package com.android.gift.listener;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-
 import com.android.gift.util.Logger;
 
 /**
@@ -17,6 +16,7 @@ public abstract class OnLoadMoreListener extends RecyclerView.OnScrollListener i
     private static final String TAG = "OnLoadMoreListener";
     //是否正在加载更多中
     private boolean isLoadingMore=false;
+    private boolean hasMore=true;
     //用来标记是否正在向最后一个滑动
     boolean isSlidingToLast = false;
 
@@ -35,9 +35,11 @@ public abstract class OnLoadMoreListener extends RecyclerView.OnScrollListener i
                 int totalItemCount = layoutManager.getItemCount();
                 // 判断是否滚动到底部，并且是向右滚动
                 if (lastVisibleItem == (totalItemCount - 1) && isSlidingToLast) {
-                    if(!isLoadingMore){
-                        isLoadingMore=true;
-                        OnLoadMoreListener.this.onLoadMore();
+                    if(hasMore){
+                        if(!isLoadingMore){
+                            isLoadingMore=true;
+                            OnLoadMoreListener.this.onLoadMore();
+                        }
                     }
                 }
             }
@@ -47,9 +49,11 @@ public abstract class OnLoadMoreListener extends RecyclerView.OnScrollListener i
                 int lastVisibleItem = layoutManager.findLastCompletelyVisibleItemPosition();
                 int totalItemCount = layoutManager.getItemCount();
                 if (lastVisibleItem == (totalItemCount - 1) && isSlidingToLast) {
-                    if(!isLoadingMore){
-                        isLoadingMore=true;
-                        OnLoadMoreListener.this.onLoadMore();
+                    if(hasMore){
+                        if(!isLoadingMore){
+                            isLoadingMore=true;
+                            OnLoadMoreListener.this.onLoadMore();
+                        }
                     }
                 }
             }
@@ -75,6 +79,7 @@ public abstract class OnLoadMoreListener extends RecyclerView.OnScrollListener i
     @Override
     public void onLoadComplete() {
         isLoadingMore=false;
+        hasMore=true;
     }
 
     /**
@@ -83,6 +88,7 @@ public abstract class OnLoadMoreListener extends RecyclerView.OnScrollListener i
     @Override
     public void onLoadEnd() {
         isLoadingMore=false;
+        hasMore=false;
     }
 
     /**
@@ -91,5 +97,6 @@ public abstract class OnLoadMoreListener extends RecyclerView.OnScrollListener i
     @Override
     public void onLoadError() {
         isLoadingMore=false;
+        hasMore=true;
     }
 }

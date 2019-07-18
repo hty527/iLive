@@ -10,7 +10,7 @@
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
             android:gravity="center_vertical"
-            android:textSize="13dp"
+            android:textSize="14dp"
             android:includeFontPadding="false"
             android:lineSpacingExtra="5dp"
             android:shadowColor="#80000000"

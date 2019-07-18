@@ -17,8 +17,6 @@ import com.android.gift.bean.UserInfo;
 import com.android.gift.gift.manager.GiftBoardManager;
 import com.android.gift.gift.view.GiftLayout;
 
-import java.util.logging.Handler;
-
 /**
  * Created by TinyHung@outlook.com
  * 2019/6/20
@@ -27,6 +25,7 @@ import java.util.logging.Handler;
 
 public class LiveGiftDialog extends AppCompatDialog{
 
+    private static final String TAG = "LiveGiftDialog";
     private FrameLayout mGtiftLayout;
     //当未选中任何礼物时，是否自动选中某个礼物
     private boolean mAutoSelectedEnable=false;
@@ -110,14 +109,17 @@ public class LiveGiftDialog extends AppCompatDialog{
         super.show();
         GiftBoardManager.getInstance().onResume();
         if(mAutoSelectedEnable){
-            new android.os.Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if(LiveGiftDialog.this.isShowing()){
+            com.android.gift.util.Logger.d(TAG,"init:"+GiftBoardManager.getInstance().isInitFinish());
+            if(GiftBoardManager.getInstance().isInitFinish()){
+                GiftBoardManager.getInstance().defaultSelectedIndex();
+            }else{
+                new android.os.Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
                         GiftBoardManager.getInstance().defaultSelectedIndex();
                     }
-                }
-            },300);
+                },300);
+            }
         }
     }
 

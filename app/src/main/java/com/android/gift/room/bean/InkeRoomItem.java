@@ -13,6 +13,7 @@ public class InkeRoomItem {
     public static final int ITEM_TYPE_UNKNOWN = 0;
     public static final int ITEM_TYPE_ROOM = 1;
     public static final int ITEM_TYPE_BANNER = 2;
+    public static final int ITEM_TYPE_WEB = 3;
 
     /**
      * card_type : 0
@@ -34,13 +35,13 @@ public class InkeRoomItem {
 
 
     //Banner类型
-    private String itemCategory="1";
+    private String itemCategory;
     private int itemType;
     //广告
     //BANNER、宽
-    private String width="1080";
+    private String width="726";
     //BANNER、高
-    private String height="404";
+    private String height="200";
     private List<BannerInfo> banners;
 
     public String getItemCategory() {
@@ -93,14 +94,19 @@ public class InkeRoomItem {
 
 
     public int getItemType() {
-        if(TextUtils.isEmpty(itemCategory)){
-            itemType=ITEM_TYPE_ROOM;
+        //自定义Banner
+        if(!TextUtils.isEmpty(itemCategory)){
+            if(itemCategory.equals("2")){
+                itemType=ITEM_TYPE_BANNER;
+            }
             return itemType;
         }
-        if(itemCategory.equals("1")){
-            itemType=ITEM_TYPE_ROOM;
-        }else if(itemCategory.equals("2")){
-            itemType=ITEM_TYPE_BANNER;
+        if(null!=getData()){
+            if("live".equals(getData().getRedirect_type())){
+                itemType=ITEM_TYPE_ROOM;
+            }else if("web".equals(getData().getRedirect_type())){
+                itemType=ITEM_TYPE_WEB;
+            }
         }
         return itemType;
     }

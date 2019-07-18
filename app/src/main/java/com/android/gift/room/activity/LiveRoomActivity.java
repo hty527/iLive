@@ -46,6 +46,7 @@ public class LiveRoomActivity extends AppCompatActivity {
     //输入框高度监听
     private ScreenLayoutChangedHelp mLayoutChangedListener;
     private VideoPlayerTrack mPlayerTrack;
+    private String roomid;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,6 +65,7 @@ public class LiveRoomActivity extends AppCompatActivity {
             finish();
             return;
         }
+        roomid=roomItem.getRoomid();
         Logger.d(TAG,"roomItem:"+roomItem.toString());
         setContentView(R.layout.activity_live_room);
         //直播间交互控制器
@@ -90,7 +92,7 @@ public class LiveRoomActivity extends AppCompatActivity {
                     });
                 }
                 mGiftDialog.setReceiveUserInfo(anchorUser)
-                        .setReceiveRoomID("er43te5yttrywrer4t")
+                        .setReceiveRoomID(roomid)
                         .setAutoSelectedEnable(true)
                         .show();
                 mControllerView.showGiftBoard();

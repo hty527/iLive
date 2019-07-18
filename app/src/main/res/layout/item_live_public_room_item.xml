@@ -24,11 +24,15 @@
                 android:scaleType="centerCrop"/>
             <com.android.gift.view.ShapeTextView
                 android:id="@+id/view_state"
-                android:layout_width="45dp"
+                android:layout_width="wrap_content"
                 android:layout_height="18dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:layout_margin="6dp"
                 android:textSize="9dp"
                 android:text="直播中"
+                android:singleLine="true"
+                android:ellipsize="end"
                 android:gravity="center"
                 android:textColor="#FFFFFF"
                 app:shapeBackgroundColor="#4D141433"

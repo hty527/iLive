@@ -117,6 +117,7 @@ public class GiftLayout extends FrameLayout implements GiftContact.View {
             GiftType giftTypeInfo = mData.get(position);
             if(null!=giftTypeInfo){
                 GiftBoardView giftBoardView = new GiftBoardView(getContext());
+                giftBoardView.setBoardIndex(position);
                 giftBoardView.setGiftTypeInfo(giftTypeInfo);
                 container.addView(giftBoardView);
                 return giftBoardView;

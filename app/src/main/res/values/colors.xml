@@ -13,5 +13,6 @@
     <color name="translucent_20">#33000000</color>
     <color name="input_edit_color">#FFDDDDDD</color>
     <color name="colorTextG5">#FF959595</color>
-    <color name="color_forefround">#888888</color>
+    <color name="color_forefround">#33F62E89</color>
+    <color name="activity_bg">#FFF0F2F5</color>
 </resources>

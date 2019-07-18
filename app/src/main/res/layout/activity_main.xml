@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:collapsedTitleGravity="top"
-            app:contentScrim="#FEC7E3"
+            app:contentScrim="#FFE5F4"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
             <!--标题栏-->
             <LinearLayout
@@ -51,7 +51,8 @@
                         android:layout_marginLeft="12dp"
                         android:orientation="horizontal"
                         android:layout_gravity="center_vertical"
-                        android:background="@drawable/bg_input">
+                        android:background="@drawable/bg_input"
+                        android:clickable="true">
                         <ImageView
                             android:id="@+id/iv_home_search_icon"
                             android:layout_width="wrap_content"
@@ -59,13 +60,13 @@
                             android:layout_weight="0"
                             android:layout_gravity="center_vertical"
                             android:src="@drawable/iv_icon_search"
-                            android:padding="5dp"
-                            android:background="?attr/selectableItemBackground"/>
+                            android:padding="5dp"/>
                         <TextView
                             android:id="@+id/tv_auto_text"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:includeFontPadding="false"
                             android:textSize="13dp"
                             android:textColor="#CFC7CB"
                             android:singleLine="true"
@@ -91,7 +92,7 @@
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
-            android:layout_height="33dp"
+            android:layout_height="35dp"
             app:tabIndicatorHeight="0dp"
             app:tabMinWidth="0dp"
             app:tabMode="scrollable"/>
@@ -102,7 +103,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:overScrollMode="never"
-        android:background="#FFF0F2F5"
+        android:background="@color/activity_bg"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
     <!--占位BTN-->
     <RelativeLayout

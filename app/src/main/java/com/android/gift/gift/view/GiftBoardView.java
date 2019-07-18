@@ -35,6 +35,7 @@ public class GiftBoardView extends FrameLayout implements GiftContact.View {
     private final GiftPresenter mPresenter;
     private LinearLayout mDotRootView;
     private GiftPagerAdapter mAdapter;
+    private int mBoardIndex;
 
     public GiftBoardView(@NonNull Context context) {
         this(context,null);
@@ -59,6 +60,14 @@ public class GiftBoardView extends FrameLayout implements GiftContact.View {
         if(null!=giftTypeInfo&&null!=mPresenter){
             mPresenter.getGiftsByType(getContext(),giftTypeInfo.getId()+"");
         }
+    }
+
+    /**
+     * 绑定角标位置，用于打开礼物面板时，未选中任何礼物情况下，选中第一个分类下的第一个礼物
+     * @param position 分类分页的根角标位置
+     */
+    public void setBoardIndex(int position) {
+        this.mBoardIndex=position;
     }
 
     //=========================================礼物列表渲染及交互=====================================
@@ -181,7 +190,6 @@ public class GiftBoardView extends FrameLayout implements GiftContact.View {
     private class GiftBoardLayoutItem {
 
         private View mView;
-
         /**
          * @param giftInfos 数据
          * @param position 子界面位置
@@ -191,7 +199,7 @@ public class GiftBoardView extends FrameLayout implements GiftContact.View {
             RecyclerView recyclerView = (RecyclerView) mView.findViewById(R.id.recycler_gift_item);
             GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 4, GridLayoutManager.VERTICAL, false);
             recyclerView.setLayoutManager(gridLayoutManager);
-            GiftItemAdapter adapter= new GiftItemAdapter(getContext(),giftInfos);
+            GiftItemAdapter adapter= new GiftItemAdapter(getContext(),giftInfos,mBoardIndex,position);
             adapter.setOnItemClickListener(new GiftItemAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(int poistion, View view, GiftItemInfo giftInfo) {
@@ -199,6 +207,9 @@ public class GiftBoardView extends FrameLayout implements GiftContact.View {
                 }
             });
             recyclerView.setAdapter(adapter);
+            if(mBoardIndex==0&&position==0){
+                GiftBoardManager.getInstance().setInitFinish(true);
+            }
         }
 
         /**

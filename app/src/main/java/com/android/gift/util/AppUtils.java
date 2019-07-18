@@ -324,27 +324,27 @@ public class AppUtils {
         String content="[\n" +
                 "\t\t  {\n" +
                 "            \"icon\":\"http://sta-op.douyucdn.cn/douyu-vrp-admin/2019/04/17/e63c5563968b8438b6f70e1c6a309cf5.jpg\",\n" +
-                "            \"jump_url\":\"\"\n" +
+                "            \"jump_url\":\"https://github.com/Yuye584312311/iMusic\"\n" +
                 "          },\n" +
                 "          {\n" +
                 "            \"icon\":\"http://sta-op.douyucdn.cn/adxdsp/2019/06/11/04c6f32c57c55b8a2ced35d857836ce2.jpg\",\n" +
-                "            \"jump_url\":\"\"\n" +
+                "            \"jump_url\":\"https://github.com/Yuye584312311/iMusic\"\n" +
                 "          },\n" +
                 "          {\n" +
                 "            \"icon\":\"https://sta-op.douyucdn.cn/adxdsp/2019/07/16/0fc0911ce91a76d0a52eb23a1ef45cc4.jpg\",\n" +
-                "            \"jump_url\":\"\"\n" +
+                "            \"jump_url\":\"https://github.com/Yuye584312311/iMusic\"\n" +
                 "          },\n" +
                 "          {\n" +
                 "            \"icon\":\"http://sta-op.douyucdn.cn/adxdsp/2019/05/21/5f6137a80f939cec0da616b36b99def4.jpg\",\n" +
-                "            \"jump_url\":\"\"\n" +
+                "            \"jump_url\":\"https://github.com/Yuye584312311/iMusic\"\n" +
                 "          },\n" +
                 "          {\n" +
                 "            \"icon\":\"http://sta-op.douyucdn.cn/adxdsp/2019/04/29/51d2b4c2a1c2421ee3dbd835c9cd4ef8.jpg\",\n" +
-                "            \"jump_url\":\"\"\n" +
+                "            \"jump_url\":\"https://github.com/Yuye584312311/iMusic\"\n" +
                 "          },\n" +
                 "          {\n" +
                 "            \"icon\":\"https://sta-op.douyucdn.cn/adxdsp/2019/07/15/5252676b15701857cf6691f110cf4721.jpg\",\n" +
-                "            \"jump_url\":\"\"\n" +
+                "            \"jump_url\":\"https://github.com/Yuye584312311/iMusic\"\n" +
                 "          }\n" +
                 "        ]";
         List<BannerInfo> infoList = new Gson().fromJson(content, new TypeToken<List<BannerInfo>>() {}.getType());

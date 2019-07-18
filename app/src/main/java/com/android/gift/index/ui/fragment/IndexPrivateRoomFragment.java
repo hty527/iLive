@@ -102,7 +102,7 @@ public class IndexPrivateRoomFragment extends BaseFragment<RoomPresenter> implem
 
     @Override
     public void showLoading(int offset) {
-        if(null!=mRefreshLayout&&!mRefreshLayout.isRefreshing()){
+        if(0==offset&&null!=mRefreshLayout&&!mRefreshLayout.isRefreshing()){
             mRefreshLayout.post(new Runnable() {
                 @Override
                 public void run() {

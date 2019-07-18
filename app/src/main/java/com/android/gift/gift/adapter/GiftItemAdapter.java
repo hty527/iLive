@@ -25,14 +25,16 @@ import java.util.List;
 public class GiftItemAdapter extends BaseAdapter<GiftItemInfo,GiftItemAdapter.ViewHolder> {
 
     private static final String TAG = "GiftItemAdapter";
-    private final int mItemHeight;
-    private final int mIconWidth,mSvgaIconWidth;
+    //条目高度、图表宽度、SVGA动画宽度、分类index、当前Adapter在此分类下index
+    private final int mItemHeight,mIconWidth,mSvgaIconWidth,mGroupPosition,mAdapterlayoutPosition;
 
-    public GiftItemAdapter(Context context,List<GiftItemInfo> data) {
+    public GiftItemAdapter(Context context, List<GiftItemInfo> data, int groupPosition,int indexPosition) {
         super(context,data);
         mItemHeight = AppUtils.getInstance().getScreenWidth(context)/4;
         mIconWidth = mItemHeight - AppUtils.getInstance().dpToPxInt(context,38f);
         mSvgaIconWidth = mItemHeight - AppUtils.getInstance().dpToPxInt(context,25f);
+        this.mAdapterlayoutPosition=indexPosition;
+        this.mGroupPosition=groupPosition;
     }
 
     @Override
@@ -75,7 +77,10 @@ public class GiftItemAdapter extends BaseAdapter<GiftItemInfo,GiftItemAdapter.Vi
                     }
                 }
             });
-            GiftBoardManager.getInstance().putFirstItemView(viewHolder.itemView,position);
+            //只缓存 第一个分类下的第一页礼物中的第一个礼物
+            if(0==mAdapterlayoutPosition&&0==mGroupPosition){
+                GiftBoardManager.getInstance().putFirstItemView(viewHolder.itemView,position);
+            }
         }
     }
 

@@ -65,6 +65,8 @@ public class GiftBoardManager {
     private GiftItemInfo mReceiveGiftItemInfo;
     //礼物中奖后，金币掉落的结束位置
     private int[] mAwardEndLocation;
+    //礼物面板是否完全初始化了？渲染完成认为是初始化完成了
+    private boolean mInitFinish=false;
 
     public static synchronized GiftBoardManager getInstance(){
         synchronized (GiftBoardManager.class){
@@ -406,6 +408,18 @@ public class GiftBoardManager {
         if(null==mDefaultItemView){
             this.mDefaultItemView=itemView;
         }
+    }
+
+    /**
+     * 标记礼物面板是否初始化完成
+     * @param initFinish
+     */
+    public void setInitFinish(boolean initFinish) {
+        mInitFinish = initFinish;
+    }
+
+    public boolean isInitFinish() {
+        return mInitFinish;
     }
 
     /**

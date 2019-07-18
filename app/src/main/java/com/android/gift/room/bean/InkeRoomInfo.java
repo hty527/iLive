@@ -1,5 +1,6 @@
 package com.android.gift.room.bean;
 
+import java.util.List;
 
 /**
  * Created by TinyHung@outlook.com
@@ -47,6 +48,7 @@ public class InkeRoomInfo {
     private int score;
     //当ITEM数据为空，取这里的数据
     private InkeChannel channel;
+    private List<InkeWebItem> ticker;
 
     public LiveRoomInfo getLive_info() {
         return live_info;
@@ -86,5 +88,13 @@ public class InkeRoomInfo {
 
     public void setChannel(InkeChannel channel) {
         this.channel = channel;
+    }
+
+    public List<InkeWebItem> getTicker() {
+        return ticker;
+    }
+
+    public void setTicker(List<InkeWebItem> ticker) {
+        this.ticker = ticker;
     }
 }

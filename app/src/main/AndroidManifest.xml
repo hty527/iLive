@@ -28,6 +28,9 @@
         <!--关于-->
         <activity android:name=".index.ui.activity.AboutActivity"
             android:screenOrientation="portrait"/>
+        <!--WEB-VIEW-->
+        <activity android:name=".index.ui.activity.WebViewActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

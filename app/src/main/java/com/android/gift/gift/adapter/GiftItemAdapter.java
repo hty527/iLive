@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.android.gift.R;
 import com.android.gift.base.BaseAdapter;
 import com.android.gift.bean.GiftItemInfo;
+import com.android.gift.gift.manager.GiftBoardManager;
 import com.android.gift.util.AppUtils;
 import com.bumptech.glide.Glide;
 import java.util.List;
@@ -59,12 +60,12 @@ public class GiftItemAdapter extends BaseAdapter<GiftItemInfo,GiftItemAdapter.Vi
             viewHolder.item_tv_price.setText(String.valueOf(itemData.getPrice()));
             //普通的ICON设置
             Glide
-                    .with(viewHolder.ic_item_icon.getContext().getApplicationContext())
-                    .load(itemData.getSrc())
-                    .error(R.drawable.ic_default_gift_icon)
-                    .skipMemoryCache(true)
-                    .dontAnimate()
-                    .into(viewHolder.ic_item_icon);
+                .with(viewHolder.ic_item_icon.getContext().getApplicationContext())
+                .load(itemData.getSrc())
+                .error(R.drawable.ic_default_gift_icon)
+                .skipMemoryCache(true)
+                .dontAnimate()
+                .into(viewHolder.ic_item_icon);
             viewHolder.itemView.setTag(itemData);
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -74,6 +75,7 @@ public class GiftItemAdapter extends BaseAdapter<GiftItemInfo,GiftItemAdapter.Vi
                     }
                 }
             });
+            GiftBoardManager.getInstance().putFirstItemView(viewHolder.itemView,position);
         }
     }
 

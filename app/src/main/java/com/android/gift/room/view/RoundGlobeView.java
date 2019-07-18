@@ -7,12 +7,12 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Vibrator;
 import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
+import com.android.gift.manager.VibratorManager;
 import com.android.gift.util.AppUtils;
 
 /**
@@ -28,8 +28,6 @@ public class RoundGlobeView extends AppCompatButton {
     private int mScreenHeight;
     private int mDefaultX;
     private int mDefaultY;
-    //震动
-    private Vibrator mVibrator;
     private String mTag;
     private boolean mIsVivrate = false;
 
@@ -48,7 +46,6 @@ public class RoundGlobeView extends AppCompatButton {
         setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         mScreenWidth = AppUtils.getInstance().getScreenWidth(context);
         mScreenHeight = AppUtils.getInstance().getScreenHeight(context);
-        mVibrator = (Vibrator)getContext().getSystemService(getContext().VIBRATOR_SERVICE);
     }
 
 
@@ -87,9 +84,7 @@ public class RoundGlobeView extends AppCompatButton {
                             if (mTag == null) {
                                 mTag = tag;
                                 mIsVivrate = true;
-                                if(null!=mVibrator){
-                                    mVibrator.vibrate(50);
-                                }
+                                VibratorManager.getInstance().vibrate(getContext(),50);
                                 if(null!=mOnGlobeMoveListener){
                                     mOnGlobeMoveListener.boxEnterView(mTag);
                                 }
@@ -98,9 +93,7 @@ public class RoundGlobeView extends AppCompatButton {
                             if (!tag.equals(mTag) && !mIsVivrate) {
                                 mTag = tag;
                                 mIsVivrate = true;
-                                if(null!=mVibrator){
-                                    mVibrator.vibrate(50);
-                                }
+                                VibratorManager.getInstance().vibrate(getContext(),50);
                                 if(null!=mOnGlobeMoveListener){
                                     mOnGlobeMoveListener.boxEnterView(mTag);
                                 }
@@ -204,10 +197,7 @@ public class RoundGlobeView extends AppCompatButton {
     }
 
     public void onDestroy(){
-        if(null!=mVibrator){
-            mVibrator.cancel();
-            mVibrator=null;
-        }
+        VibratorManager.getInstance().onDestroy();
         mOnGlobeMoveListener=null;mTag=null;mContext=null;
     }
 }

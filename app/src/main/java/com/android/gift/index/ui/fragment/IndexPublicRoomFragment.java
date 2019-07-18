@@ -65,6 +65,7 @@ public class IndexPublicRoomFragment extends BaseFragment<RoomPresenter> impleme
                         roomItem.setRoomid(String.valueOf(item.getData().getLive_info().getRoom_id()));
                         roomItem.setRoom_front(creator.getPortrait());
                         roomItem.setStream_url(AppUtils.getInstance().formatRoomStream(item.getData().getLive_info().getStream_addr()));
+                        roomItem.setOnlineNumber(item.getData().getLive_info().getOnline_users());
                         UserInfo userInfo=new UserInfo();
                         userInfo.setAvatar(creator.getPortrait());
                         userInfo.setNickName(creator.getNick());
@@ -78,6 +79,7 @@ public class IndexPublicRoomFragment extends BaseFragment<RoomPresenter> impleme
                         roomItem.setRoomid(String.valueOf(item.getRoom_id()));
                         roomItem.setRoom_front(creator.getPortrait());
                         roomItem.setStream_url(AppUtils.getInstance().formatRoomStream(item.getStream_addr()));
+                        roomItem.setOnlineNumber(item.getOnline_users());
                         UserInfo userInfo=new UserInfo();
                         userInfo.setAvatar(creator.getPortrait());
                         userInfo.setNickName(creator.getNick());

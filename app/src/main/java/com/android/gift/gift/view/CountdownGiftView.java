@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.text.SpannableStringBuilder;
 import android.util.AttributeSet;
 import android.view.View;
@@ -75,7 +76,7 @@ public class CountdownGiftView extends LinearLayout {
             mProgressbar.setProgressLineWidth(10);//进度条宽度
         }
         mProgressbar.setTimeMillis(1000*PROGRESS_DURTION);//一分钟的连击
-        mProgressbar.setProgressColor(Color.parseColor("#FB6665"));//进度条颜色
+        mProgressbar.setProgressColor(ContextCompat.getColor(getContext(),R.color.colorAccent));//进度条颜色
         //监听进度
         mProgressbar.setCountdownProgressListener(0, new CircleTextProgressbar.OnCountdownProgressListener() {
             @Override

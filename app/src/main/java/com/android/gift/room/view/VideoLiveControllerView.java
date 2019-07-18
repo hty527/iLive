@@ -36,7 +36,6 @@ import com.android.gift.room.bean.NumberChangedInfo;
 import com.android.gift.util.AnimationUtil;
 import com.android.gift.util.AppUtils;
 import com.android.gift.util.DataFactory;
-import com.android.gift.util.Logger;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import java.util.List;
@@ -51,7 +50,6 @@ import master.flame.danmaku.controller.IDanmakuView;
 
 public class VideoLiveControllerView extends RoomBaseController implements View.OnClickListener,OnGiveGiftListener {
 
-    private static final String TAG = "VideoLiveControllerView";
     private Context mContext;
     //主播信息
     private UserInfo mAnchorUser;
@@ -95,20 +93,18 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
      */
     @SuppressLint("WrongViewCast")
     private void init(Context context, AttributeSet attrs) {
-        Logger.d(TAG,"init");
         this.mContext=context;
         View.inflate(context, R.layout.view_live_controller_layout,this);
         //状态栏高度,整个Activity是沉浸式的
         findViewById(R.id.view_top_bar_empty).getLayoutParams().height=AppUtils.getInstance().getStatusBarHeight(getContext());
-        //直播间在线人数
-        if(null== mOnlineNumber) mOnlineNumber = (TextView) findViewById(R.id.view_online_number);
-        mOnlineNumber.setText(AppUtils.getInstance().formatWan(100000,true)+"人");
         mTopBar = findViewById(R.id.tool_bar_view);
         //房间内会话列表
         mConversationListView = (BrightConversationListView) findViewById(R.id.view_bright_conversation);
         mConversationListView.initConversation();
         //初始化在线观众列表
         initMemberAdapter();
+        //在线人数
+        mOnlineNumber = (TextView) findViewById(R.id.view_online_number);
         //飘心
         mHeartLayout = (LikeHeartLayout) findViewById(R.id.heart_layout);
         //普通礼物
@@ -129,9 +125,9 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
         //输入框弹起占位
         mEmptyView = findViewById(R.id.empty_view);
         findViewById(R.id.view_btn_close).setOnClickListener(this);
-        findViewById(R.id.view_btn_menu4).setOnClickListener(this);
+        findViewById(R.id.view_btn_gift).setOnClickListener(this);
+        findViewById(R.id.view_btn_chat).setOnClickListener(this);
         findViewById(R.id.re_root_view).setOnClickListener(this);
-        findViewById(R.id.view_btn_menu0).setOnClickListener(this);
         //监听礼物交互
         GiftBoardManager.getInstance().addOnGiveGiftListener(this);
         //弹幕、中奖飘屏
@@ -164,6 +160,7 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
         this.mAnchorUser=userInfo;
         if(null!=userInfo){
             ((TextView) findViewById(R.id.view_anchor_name)).setText(userInfo.getNickName());
+            ((TextView) findViewById(R.id.view_anchor_id)).setText(String.format("ID:",userInfo.getUserid()));
             ImageView iconImage = (ImageView) findViewById(R.id.view_anchor_head);
             Glide.with(getContext())
                     .load(userInfo.getAvatar())
@@ -173,6 +170,17 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
                     .transform(new GlideCircleTransform(getContext()))
                     .dontAnimate()
                     .into(iconImage);
+        }
+    }
+
+    /**
+     * 在线人数
+     * @param number
+     */
+    public void setOnLinesNumber(int number) {
+        //直播间在线人数
+        if(null!=mOnlineNumber){
+            mOnlineNumber.setText(AppUtils.getInstance().formatWan(number,false));
         }
     }
 
@@ -213,7 +221,7 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
     public void onClick(View v) {
         switch (v.getId()) {
             //礼物
-            case R.id.view_btn_menu4:
+            case R.id.view_btn_gift:
                 if(null!=mFunctionListener&&null!=mAnchorUser){
                     mFunctionListener.showGift(mAnchorUser);
                 }
@@ -228,7 +236,7 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
                 clickHeart();
                 break;
             //聊天
-            case R.id.view_btn_menu0:
+            case R.id.view_btn_chat:
                 if(null!=mFunctionListener){
                     mFunctionListener.showInput();
                 }
@@ -370,7 +378,7 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
         if(null==changedInfo) return;
         //在线人数更新
         if(null!= mOnlineNumber){
-            mOnlineNumber.setText(AppUtils.getInstance().formatWan(changedInfo.getOnlineNumer(),true)+"人");
+            mOnlineNumber.setText(AppUtils.getInstance().formatWan(changedInfo.getOnlineNumer(),false));
         }
     }
 
@@ -418,7 +426,7 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
                         //观众离开,人数发生了变化
                     case Constants.MSG_CUSTOM_REDUCE_USER:
                         if (null != mOnlineNumber)
-                            mOnlineNumber.setText(AppUtils.getInstance().formatWan(customMsgInfo.getOnlineNumer(),true)+"人");
+                            mOnlineNumber.setText(AppUtils.getInstance().formatWan(customMsgInfo.getOnlineNumer(),false));
                         continue;
                         //观众列表发生了变化
                     case Constants.MSG_CUSTOM_TOP_USER:

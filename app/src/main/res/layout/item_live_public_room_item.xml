@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:tools="http://schemas.android.com/tools">
     <LinearLayout
         android:id="@+id/root_item_view"
         android:layout_width="match_parent"
@@ -22,18 +21,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"/>
-            <com.android.gift.view.ShapeTextView
-                android:id="@+id/view_state"
-                android:layout_width="45dp"
-                android:layout_height="18dp"
-                android:layout_margin="6dp"
-                android:textSize="9dp"
-                android:text="直播中"
-                android:gravity="center"
-                android:textColor="#FFFFFF"
-                app:shapeBackgroundColor="#4D141433"
-                app:shapeBackgroundSelectorColor="#4D141433"
-                app:shapeRadius="3dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

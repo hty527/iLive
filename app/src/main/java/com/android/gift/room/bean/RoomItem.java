@@ -31,6 +31,8 @@ public class RoomItem implements Parcelable {
     private List<ImageInfo> images;
     //广告
     private List<BannerInfo> banners;
+    //在线人数
+    private int onlineNumber;
 
     public RoomItem(){}
 
@@ -107,6 +109,14 @@ public class RoomItem implements Parcelable {
         this.height = height;
     }
 
+    public int getOnlineNumber() {
+        return onlineNumber;
+    }
+
+    public void setOnlineNumber(int onlineNumber) {
+        this.onlineNumber = onlineNumber;
+    }
+
     protected RoomItem(Parcel in) {
         itemType = in.readInt();
         roomid = in.readString();
@@ -117,6 +127,7 @@ public class RoomItem implements Parcelable {
         anchor = in.readParcelable(UserInfo.class.getClassLoader());
         images = in.createTypedArrayList(ImageInfo.CREATOR);
         banners = in.createTypedArrayList(BannerInfo.CREATOR);
+        onlineNumber = in.readInt();
     }
 
     public static final Creator<RoomItem> CREATOR = new Creator<RoomItem>() {
@@ -147,6 +158,7 @@ public class RoomItem implements Parcelable {
         dest.writeParcelable(anchor, flags);
         dest.writeTypedList(images);
         dest.writeTypedList(banners);
+        dest.writeInt(onlineNumber);
     }
 
     @Override
@@ -161,6 +173,7 @@ public class RoomItem implements Parcelable {
                 ", anchor=" + anchor +
                 ", images=" + images +
                 ", banners=" + banners +
+                ", onlineNumber=" + onlineNumber +
                 '}';
     }
 }

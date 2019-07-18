@@ -3,6 +3,7 @@ package com.android.gift.gift.dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatDialog;
+import android.text.Html;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
@@ -16,6 +17,8 @@ import com.android.gift.bean.UserInfo;
 import com.android.gift.gift.manager.GiftBoardManager;
 import com.android.gift.gift.view.GiftLayout;
 
+import java.util.logging.Handler;
+
 /**
  * Created by TinyHung@outlook.com
  * 2019/6/20
@@ -25,6 +28,8 @@ import com.android.gift.gift.view.GiftLayout;
 public class LiveGiftDialog extends AppCompatDialog{
 
     private FrameLayout mGtiftLayout;
+    //当未选中任何礼物时，是否自动选中某个礼物
+    private boolean mAutoSelectedEnable=false;
 
     public static LiveGiftDialog getInstance(Context context){
         return new LiveGiftDialog(context);
@@ -55,17 +60,6 @@ public class LiveGiftDialog extends AppCompatDialog{
         mGtiftLayout.addView(giftLayout);
     }
 
-    public void setSendeeUser(UserInfo userInfo) {
-        GiftBoardManager.getInstance().setReceiveUser(userInfo);
-        if(null!=userInfo){
-            ((TextView) findViewById(R.id.dig_sned_user)).setText("送给："+userInfo.getNickName());
-        }
-    }
-
-    public void setSendeeRoomID(String roomID) {
-        GiftBoardManager.getInstance().setReceiveRoomID(roomID);
-    }
-
     protected void initLayoutPrams(){
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -79,17 +73,52 @@ public class LiveGiftDialog extends AppCompatDialog{
     }
 
     /**
-     * 设置是否自动选中
-     * @param autoSelected true：自动选中第一个
+     * 绑定接收人
+     * @param userInfo
+     * @return
      */
-    public void setAutoSelected(boolean autoSelected) {
-        GiftBoardManager.getInstance().setAutoSelected(autoSelected);
+    public LiveGiftDialog setReceiveUserInfo(UserInfo userInfo) {
+        GiftBoardManager.getInstance().setReceiveUser(userInfo);
+        if(null!=userInfo){
+            ((TextView) findViewById(R.id.dig_sned_user)).setText(Html.fromHtml("送给：<font color='#EFA109'>"+userInfo.getNickName()+"</font>"));
+        }
+        return this;
+    }
+
+    /**
+     * 绑定接收礼物的房间ID
+     * @param roomID
+     * @return
+     */
+    public LiveGiftDialog setReceiveRoomID(String roomID) {
+        GiftBoardManager.getInstance().setReceiveRoomID(roomID);
+        return this;
+    }
+
+    /**
+     * 设置打开礼物面板时，若无选中的礼物时，是否允许自动选中第一页第0个
+     * @param enable 是否自动选中 true:自动选中
+     * @return
+     */
+    public LiveGiftDialog setAutoSelectedEnable(boolean enable){
+        this.mAutoSelectedEnable=enable;
+        return this;
     }
 
     @Override
     public void show() {
         super.show();
         GiftBoardManager.getInstance().onResume();
+        if(mAutoSelectedEnable){
+            new android.os.Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if(LiveGiftDialog.this.isShowing()){
+                        GiftBoardManager.getInstance().defaultSelectedIndex();
+                    }
+                }
+            },300);
+        }
     }
 
     public void destroy(){

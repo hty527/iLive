@@ -13,10 +13,6 @@ public class UserManager {
     private String mAcatar="http://img.mp.sohu.com/upload/20170811/eaec0c0513e544adb68c6b2af0fdbb1b_th.png";
     private int mUserGradle=30;
 
-    /**
-     * 单例初始化
-     * @return
-     */
     public static synchronized UserManager getInstance() {
         synchronized (UserManager.class) {
             if (null == mInstance) {

@@ -55,8 +55,8 @@ public class GiftBoardManager {
     private GiftLayout mGiftLayout;
     private SVGAImageView mSvgaImageView;
     private SVGAParser mParser;
-    //LIST ITEM
-    private View mSvgaItemView;
+    //itemView,defaultItemView
+    private View mSvgaItemView,mDefaultItemView;
     //接收者群ID
     private String mReceiveRoomID;
     //接收者信息
@@ -65,7 +65,6 @@ public class GiftBoardManager {
     private GiftItemInfo mReceiveGiftItemInfo;
     //礼物中奖后，金币掉落的结束位置
     private int[] mAwardEndLocation;
-    private boolean mAutoSelected;
 
     public static synchronized GiftBoardManager getInstance(){
         synchronized (GiftBoardManager.class){
@@ -189,18 +188,6 @@ public class GiftBoardManager {
             mGiftLayout=new GiftLayout(context);
         }
         return mGiftLayout;
-    }
-
-    /**
-     * 配置礼物面板显示后是否自动选中第一个
-     * @param autoSelected
-     */
-    public void setAutoSelected(boolean autoSelected) {
-        mAutoSelected = autoSelected;
-    }
-
-    public boolean isAutoSelected() {
-        return mAutoSelected;
     }
 
     /**
@@ -411,6 +398,28 @@ public class GiftBoardManager {
     }
 
     /**
+     * 保存第0个ITEM实例
+     * @param itemView
+     * @param position
+     */
+    public void putFirstItemView(View itemView,int position) {
+        if(null==mDefaultItemView){
+            this.mDefaultItemView=itemView;
+        }
+    }
+
+    /**
+     * 默认选中某个位置，请在礼物面板初始化后调用
+     */
+    public void defaultSelectedIndex() {
+        if(null==mSvgaItemView&&null!=mDefaultItemView&&null!=mDefaultItemView.getTag()){
+            //仅当未选中任何项时才默认选中某个
+            GiftItemInfo itemInfo = (GiftItemInfo) mDefaultItemView.getTag();
+            onClick(mDefaultItemView,itemInfo);
+        }
+    }
+
+    /**
      * 礼物面板处于可见调用
      */
     public void onResume(){
@@ -445,6 +454,6 @@ public class GiftBoardManager {
             ViewGroup parent = (ViewGroup) mSvgaItemView.getParent();
             parent.removeView(mSvgaItemView);
         }
-        mSvgaItemView=null;
+        mSvgaItemView=null;mDefaultItemView=null;
     }
 }

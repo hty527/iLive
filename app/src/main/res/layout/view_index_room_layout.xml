@@ -17,10 +17,13 @@
         android:layout_margin="10dp"
         android:textSize="10dp"
         android:text="在线"
-        android:gravity="center"
+        android:drawableLeft="@drawable/arice_dot_green"
+        android:drawablePadding="3dp"
+        android:gravity="center_vertical"
         android:textColor="#FFFFFF"
         app:shapeBackgroundColor="#4D141433"
         app:shapeBackgroundSelectorColor="#4D141433"
+        android:paddingLeft="8dp"
         app:shapeRadius="3dp"/>
     <RelativeLayout
         android:layout_width="match_parent"

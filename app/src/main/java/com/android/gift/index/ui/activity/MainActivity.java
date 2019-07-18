@@ -18,6 +18,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements RoundGlobeView.On
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
         }
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main1);
         StatusUtils.setStatusTextColor1(true,this);//白色背景，黑色字体
         int statusBarHeight = AppUtils.getInstance().getStatusBarHeight(this);
         findViewById(R.id.view_status).getLayoutParams().height= statusBarHeight;
@@ -150,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements RoundGlobeView.On
             public void onTabSelected(TabLayout.Tab tab) {
                 if(null!=tab&&null!=tab.getCustomView()){
                     TextView textView = (TextView) tab.getCustomView().findViewById(R.id.tv_item_title);
-                    textView.setTextSize(18f);
+                    textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP,18);
                     textView.getPaint().setFakeBoldText(true);
                 }
             }
@@ -159,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements RoundGlobeView.On
             public void onTabUnselected(TabLayout.Tab tab) {
                 if(null!=tab&&null!=tab.getCustomView()){
                     TextView textView = (TextView) tab.getCustomView().findViewById(R.id.tv_item_title);
-                    textView.setTextSize(14f);
+                    textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP,14);
                     textView.getPaint().setFakeBoldText(false);
                 }
             }
@@ -202,11 +203,11 @@ public class MainActivity extends AppCompatActivity implements RoundGlobeView.On
             if(showIndex==index){
                 //默认选中的项高亮
                 tvItemTitle.setSelected(true);
-                tvItemTitle.setTextSize(18f);
+                tvItemTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP,18);
                 tvItemTitle.getPaint().setFakeBoldText(true);
             }else{
                 tvItemTitle.setSelected(false);
-                tvItemTitle.setTextSize(14f);
+                tvItemTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP,14);
                 tvItemTitle.getPaint().setFakeBoldText(false);
             }
             return inflate;
@@ -295,10 +296,14 @@ public class MainActivity extends AppCompatActivity implements RoundGlobeView.On
                 userInfo.setUserid("234353455");
                 userInfo.setNickName("刘亦菲");
                 userInfo.setAvatar("http://c4.haibao.cn/img/600_0_100_0/1473652712.0005/87c7805c10e60e9a6db94f86d6014de8.jpg");
-                LiveGiftDialog instance = LiveGiftDialog.getInstance(this);
-                instance.setSendeeUser(userInfo);
-                instance.setSendeeRoomID("er43te5yttrywrer4t");
-                instance.show();
+                LiveGiftDialog.getInstance(this)
+                        //接收人
+                        .setReceiveUserInfo(userInfo)
+                        //房间ID
+                        .setReceiveRoomID("er43te5yttrywrer4t")
+                        //未选中情况下是否自动选中第0个礼物
+                        .setAutoSelectedEnable(true)
+                        .show();
                 return;
             }
             //Github主页

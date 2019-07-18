@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@drawable/bg_black_shape_ungratien"
     android:paddingBottom="10dp">
@@ -16,9 +16,9 @@
         android:layout_width="match_parent"
         android:layout_height="38dp"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp">
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
         <!--左边用户信息-->
         <RelativeLayout
             android:id="@+id/rl_anchorInfo"
@@ -56,7 +56,7 @@
                     android:text="刘亦菲"/>
                 <!--在线人数-->
                 <TextView
-                    android:id="@+id/view_online_number"
+                    android:id="@+id/view_anchor_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -66,7 +66,7 @@
                     android:textColor="#FFFFFF"
                     tools:text="0"
                     android:gravity="center"
-                    android:textSize="10dp" />
+                    android:textSize="9dp" />
             </LinearLayout>
             <TextView
                 android:layout_toRightOf="@+id/ll_user_data"
@@ -91,22 +91,30 @@
             android:layout_marginLeft="10dp">
         </FrameLayout>
         <!--在线人数-->
-        <ImageView
-            android:id="@+id/view_btn_close"
-            android:layout_width="32dp"
+        <com.android.gift.view.ShapeTextView
+            android:id="@+id/view_online_number"
+            android:layout_width="wrap_content"
             android:layout_height="32dp"
             android:layout_weight="0"
-            android:layout_gravity="center_vertical"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
             android:layout_marginLeft="5dp"
+            android:includeFontPadding="false"
+            android:textSize="12dp"
+            android:textColor="#FFFFFF"
             android:gravity="center_vertical"
-            android:src="@drawable/btn_live_close"/>
+            android:text="1.0万"
+            app:shapeBackgroundColor="#4D000000"
+            app:shapeBackgroundSelectorColor="#99000000"
+            app:shapeRadius="30dp"
+            android:layout_gravity="center_vertical"/>
     </LinearLayout>
     <TextView
         android:id="@+id/view_integral"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/top_room_data"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="8dp"
         android:layout_marginLeft="12dp"
         android:textColor="#FFFFFF"
         android:textSize="10dp"

@@ -16,6 +16,7 @@ import com.android.gift.bean.UserInfo;
 import com.android.gift.constant.Constants;
 import com.android.gift.gift.dialog.LiveGiftDialog;
 import com.android.gift.gift.manager.GiftBoardManager;
+import com.android.gift.manager.VibratorManager;
 import com.android.gift.room.bean.CustomMsgExtra;
 import com.android.gift.room.bean.CustomMsgInfo;
 import com.android.gift.room.bean.RoomItem;
@@ -68,6 +69,7 @@ public class LiveRoomActivity extends AppCompatActivity {
         //直播间交互控制器
         mControllerView = findViewById(R.id.live_controller);
         mControllerView.setAnchorData(roomItem.getAnchor());
+        mControllerView.setOnLinesNumber(roomItem.getOnlineNumber());
         mControllerView.setFunctionListener(new VideoLiveControllerView.OnLiveRoomFunctionListener() {
             @Override
             public void backPress() {
@@ -87,10 +89,10 @@ public class LiveRoomActivity extends AppCompatActivity {
                         }
                     });
                 }
-                mGiftDialog.setAutoSelected(true);
-                mGiftDialog.setSendeeUser(anchorUser);
-                mGiftDialog.setSendeeRoomID("er43te5yttrywrer4t");
-                mGiftDialog.show();
+                mGiftDialog.setReceiveUserInfo(anchorUser)
+                        .setReceiveRoomID("er43te5yttrywrer4t")
+                        .setAutoSelectedEnable(true)
+                        .show();
                 mControllerView.showGiftBoard();
             }
 
@@ -108,7 +110,7 @@ public class LiveRoomActivity extends AppCompatActivity {
         //在聊天列表中增加一条本地系统消息
         CustomMsgExtra sysMsg=new CustomMsgExtra();
         sysMsg.setCmd(Constants.MSG_CUSTOM_NOTICE);
-        sysMsg.setMsgContent("系统公告：直播严禁低俗、色情、引诱、暴力、暴露、赌博、反动等不良内容，一旦涉及将被封禁账号，网警和房管24小时在线巡查！");
+        sysMsg.setMsgContent("系统公告：此项目直播视频取自映客API，为非商业演示项目。对于用于商业活动带来的一切后果自行承担！若有其他问题，请联系开发者！邮箱：TinyHung@Outlook.com");
         CustomMsgInfo customInfo = AppUtils.getInstance().packMessage(sysMsg, null);
         newSystemCustomMessage(customInfo,false);
 
@@ -205,6 +207,8 @@ public class LiveRoomActivity extends AppCompatActivity {
         super.onDestroy();
         //视频播放销毁
         VideoPlayerManager.getInstance().onDestroy();
+        //震动持有释放
+        VibratorManager.getInstance().onDestroy();
         if(null!=mGiftDialog&&mGiftDialog.isShowing()){
             mGiftDialog.destroy();
             mGiftDialog.dismiss();

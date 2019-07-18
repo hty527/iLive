@@ -1,9 +1,11 @@
 package com.android.gift.util;
 
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.widget.Toast;
 
 import com.android.gift.APPLication;
 import com.android.gift.BuildConfig;
@@ -324,7 +326,7 @@ public class AppUtils {
         List<BannerInfo> bannerInfos=new ArrayList<>();
         String content="[\n" +
                 "\t\t  {\n" +
-                "            \"icon\":\"http://sta-op.douyucdn.cn/douyu-vrp-admin/2019/04/17/e63c5563968b8438b6f70e1c6a309cf5.jpg\",\n" +
+                "            \"icon\":\"http://sta-op.douyucdn.cn/adxdsp/2019/05/21/5f6137a80f939cec0da616b36b99def4.jpg\",\n" +
                 "            \"jump_url\":\"\"\n" +
                 "          },\n" +
                 "          {\n" +
@@ -332,7 +334,7 @@ public class AppUtils {
                 "            \"jump_url\":\"\"\n" +
                 "          },\n" +
                 "          {\n" +
-                "            \"icon\":\"http://cms-bucket.nosdn.127.net/85c09a8ff3ba470c9c5e5700b2d6f36620180111162936.jpeg\",\n" +
+                "            \"icon\":\"https://sta-op.douyucdn.cn/adxdsp/2019/07/16/0fc0911ce91a76d0a52eb23a1ef45cc4.jpg\",\n" +
                 "            \"jump_url\":\"\"\n" +
                 "          },\n" +
                 "          {\n" +
@@ -344,7 +346,7 @@ public class AppUtils {
                 "            \"jump_url\":\"\"\n" +
                 "          },\n" +
                 "          {\n" +
-                "            \"icon\":\"https://gss3.bdstatic.com/7Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=7219dd494e166d222c7a1dc6274a6292/48540923dd54564eb5babebbbede9c82d0584f50.jpg\",\n" +
+                "            \"icon\":\"http://sta-op.douyucdn.cn/douyu-vrp-admin/2019/04/17/e63c5563968b8438b6f70e1c6a309cf5.jpg\",\n" +
                 "            \"jump_url\":\"\"\n" +
                 "          }\n" +
                 "        ]";
@@ -363,5 +365,22 @@ public class AppUtils {
             return streamUrl.substring(0,endIndex);
         }
         return null;
+    }
+
+    /**
+     * 复制字符串到粘贴板
+     * @param content
+     */
+    public void copyString(String content) {
+        if(!TextUtils.isEmpty(content)){
+            try {
+                Context context = APPLication.getInstance().getApplicationContext();
+                ClipboardManager cm = (ClipboardManager) APPLication.getInstance().getApplicationContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                cm.setText(content);
+                Toast.makeText(context,"已复制到粘贴板",Toast.LENGTH_SHORT).show();
+            }catch (RuntimeException e){
+                e.printStackTrace();
+            }
+        }
     }
 }

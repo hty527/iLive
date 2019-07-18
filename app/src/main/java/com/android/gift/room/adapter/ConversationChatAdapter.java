@@ -10,7 +10,9 @@ import android.widget.TextView;
 import com.android.gift.R;
 import com.android.gift.base.BaseAdapter;
 import com.android.gift.constant.Constants;
+import com.android.gift.manager.VibratorManager;
 import com.android.gift.room.bean.CustomMsgInfo;
+import com.android.gift.util.AppUtils;
 import com.android.gift.util.SpannableStringUtils;
 
 /**
@@ -36,12 +38,21 @@ public class ConversationChatAdapter extends BaseAdapter<CustomMsgInfo,Conversat
         if(null!=itemData){
             if(!TextUtils.isEmpty(itemData.getMsgContent())){
                 viewHolder.itemContent.setBackgroundResource(R.drawable.bg_shape_room_cacht_content);
+                viewHolder.itemContent.setTag(itemData.getMsgContent());
                 if(Constants.MSG_CUSTOM_NOTICE.equals(itemData.getChildCmd())){
-                    viewHolder.itemContent.setText(Html.fromHtml("<font color='#FD6A69'>"+itemData.getMsgContent()+"</font>"));
+                    viewHolder.itemContent.setText(Html.fromHtml("<font color='#F62E89'>"+itemData.getMsgContent()+"</font>"));
                 }else{
-                    String contentStr = " <font color='#B9B9B9'>" + itemData.getSendUserName() + "</font>  <font color='#FFFFFF'>" + itemData.getMsgContent() + "</font>";
+                    String contentStr = " <font color='#DADADA'>" + itemData.getSendUserName() + "</font>  <font color='#FFFFFF'>" + itemData.getMsgContent() + "</font>";
                     viewHolder.itemContent.setText(SpannableStringUtils.getInstance().formatUserGradle(contentStr,itemData.getSendUserGradle()));
                 }
+                viewHolder.itemContent.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        VibratorManager.getInstance().vibrate(getContext(),50);
+                        AppUtils.getInstance().copyString((String) v.getTag());
+                        return false;
+                    }
+                });
             }
         }
     }

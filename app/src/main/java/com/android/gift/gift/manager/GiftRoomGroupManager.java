@@ -7,7 +7,7 @@ import android.support.v7.widget.LinearLayoutCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
-import com.android.gift.bean.GiftItemInfo;
+import com.android.gift.gift.bean.GiftItemInfo;
 import com.android.gift.gift.view.GiftRoomItemView;
 import com.android.gift.manager.UserManager;
 import com.android.gift.room.bean.CustomMsgInfo;
@@ -15,7 +15,6 @@ import com.android.gift.util.AppUtils;
 import com.android.gift.util.Logger;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 

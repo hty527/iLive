@@ -8,7 +8,7 @@ import android.util.TypedValue;
 import android.widget.Toast;
 import com.android.gift.APPLication;
 import com.android.gift.BuildConfig;
-import com.android.gift.bean.GiftItemInfo;
+import com.android.gift.gift.bean.GiftItemInfo;
 import com.android.gift.room.bean.BannerInfo;
 import com.android.gift.room.bean.CustomMsgExtra;
 import com.android.gift.room.bean.CustomMsgInfo;

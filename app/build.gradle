@@ -96,14 +96,15 @@ dependencies {
     androidTestCompile('com.android.support:support-annotations:26.1.0') {
         force = true
     }
+    //Adapter
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
     //直播流、视频播放器
     implementation project(':live-player-lib')
     //飘屏、弹幕
     implementation 'com.github.ctiao:DanmakuFlameMaster:0.9.16'
     implementation 'com.github.ctiao:ndkbitmap-armv7a:0.9.16'
     //Banner
-    compile 'com.youth.banner:banner:1.4.10'
+    implementation 'com.youth.banner:banner:1.4.10'
     //WEB VIEW
     implementation 'com.just.agentweb:agentweb:4.0.3-beta'
-    implementation 'com.jcodecraeer:xrecyclerview:1.5.9'
 }

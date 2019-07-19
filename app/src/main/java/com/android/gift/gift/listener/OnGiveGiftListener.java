@@ -1,6 +1,6 @@
 package com.android.gift.gift.listener;
 
-import com.android.gift.bean.GiftItemInfo;
+import com.android.gift.gift.bean.GiftItemInfo;
 import com.android.gift.bean.UserInfo;
 
 /**

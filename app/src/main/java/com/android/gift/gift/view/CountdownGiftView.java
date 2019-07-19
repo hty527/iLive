@@ -2,7 +2,6 @@ package com.android.gift.gift.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -14,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.android.gift.R;
-import com.android.gift.bean.GiftItemInfo;
+import com.android.gift.gift.bean.GiftItemInfo;
 import com.android.gift.gift.manager.GiftBoardManager;
 import com.android.gift.util.SpannableStringUtils;
 import com.android.gift.model.GlideCircleTransform;

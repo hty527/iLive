@@ -1,6 +1,6 @@
 package com.android.gift.room.bean;
 
-import com.android.gift.bean.GiftItemInfo;
+import com.android.gift.gift.bean.GiftItemInfo;
 import com.android.gift.manager.UserManager;
 import java.util.List;
 

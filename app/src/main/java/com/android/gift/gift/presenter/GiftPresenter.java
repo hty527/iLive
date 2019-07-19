@@ -2,8 +2,8 @@ package com.android.gift.gift.presenter;
 
 import android.content.Context;
 import com.android.gift.base.BasePresenter;
-import com.android.gift.bean.GiftItemInfo;
-import com.android.gift.bean.GiftType;
+import com.android.gift.gift.bean.GiftItemInfo;
+import com.android.gift.gift.bean.GiftType;
 import com.android.gift.bean.ResultData;
 import com.android.gift.bean.ResultList;
 import com.android.gift.gift.contract.GiftContact;

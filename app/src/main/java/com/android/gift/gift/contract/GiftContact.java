@@ -2,8 +2,8 @@ package com.android.gift.gift.contract;
 
 import android.content.Context;
 import com.android.gift.base.BaseContract;
-import com.android.gift.bean.GiftItemInfo;
-import com.android.gift.bean.GiftType;
+import com.android.gift.gift.bean.GiftItemInfo;
+import com.android.gift.gift.bean.GiftType;
 import java.util.List;
 
 /**

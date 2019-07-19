@@ -1,6 +1,9 @@
 package com.android.gift.room.bean;
 
 import android.text.TextUtils;
+
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+
 import java.util.List;
 
 /**
@@ -8,7 +11,7 @@ import java.util.List;
  * 2019/7/17
  */
 
-public class InkeRoomItem {
+public class InkeRoomItem implements MultiItemEntity {
 
     public static final int ITEM_TYPE_UNKNOWN = 0;
     public static final int ITEM_TYPE_ROOM = 1;
@@ -93,6 +96,11 @@ public class InkeRoomItem {
     }
 
 
+    public void setItemType(int itemType) {
+        this.itemType = itemType;
+    }
+
+    @Override
     public int getItemType() {
         //自定义Banner
         if(!TextUtils.isEmpty(itemCategory)){
@@ -109,10 +117,6 @@ public class InkeRoomItem {
             }
         }
         return itemType;
-    }
-
-    public void setItemType(int itemType) {
-        this.itemType = itemType;
     }
 
     public static class CoverBean {

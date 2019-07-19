@@ -190,6 +190,16 @@
 -keepnames class * implements java.lang.Comparable {
     *;
 }
+#Adapter
+-keep class com.chad.library.adapter.** {
+*;
+}
+-keep public class * extends com.chad.library.adapter.base.BaseQuickAdapter
+-keep public class * extends com.chad.library.adapter.base.BaseViewHolder
+-keepclassmembers  class **$** extends com.chad.library.adapter.base.BaseViewHolder {
+     <init>(...);
+}
+-keepattributes InnerClasses
 
 #图片加载
 -keep public class * implements com.bumptech.glide.module.GlideModule
@@ -203,10 +213,10 @@
     *;
  }
 
-
 #bean对象
 -keep class com.android.gift.bean.**{*;}
 -keep class com.android.gift.room.bean.**{*;}
+-keep class com.android.gift.gift.bean.**{*;}
 
 #SVGA动画
 -keep class com.squareup.wire.** { *; }

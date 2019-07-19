@@ -1,4 +1,4 @@
-package com.android.gift.bean;
+package com.android.gift.gift.bean;
 
 /**
  * hty_Yuye@Outlook.com

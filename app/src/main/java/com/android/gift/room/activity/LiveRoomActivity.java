@@ -64,6 +64,8 @@ public class LiveRoomActivity extends AppCompatActivity {
             return;
         }
         roomid=roomItem.getRoomid();
+        //保持屏幕高亮，不锁屏
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_live_room);
         //直播间交互控制器
         mControllerView = findViewById(R.id.live_controller);
@@ -211,6 +213,7 @@ public class LiveRoomActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         //视频播放销毁
         VideoPlayerManager.getInstance().onDestroy();
         //震动持有释放

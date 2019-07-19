@@ -28,7 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.android.gift.R;
 import com.android.gift.adapter.AppFragmentPagerAdapter;
-import com.android.gift.bean.GiftItemInfo;
+import com.android.gift.gift.bean.GiftItemInfo;
 import com.android.gift.bean.UserInfo;
 import com.android.gift.gift.listener.OnGiveGiftListener;
 import com.android.gift.gift.manager.GiftBoardManager;
@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements RoundGlobeView.On
             public void onTabSelected(TabLayout.Tab tab) {
                 if(null!=tab&&null!=tab.getCustomView()){
                     TextView textView = (TextView) tab.getCustomView().findViewById(R.id.tv_item_title);
-                    textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP,18);
+                    textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP,19);
                     textView.getPaint().setFakeBoldText(true);
                 }
             }
@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements RoundGlobeView.On
             public void onTabUnselected(TabLayout.Tab tab) {
                 if(null!=tab&&null!=tab.getCustomView()){
                     TextView textView = (TextView) tab.getCustomView().findViewById(R.id.tv_item_title);
-                    textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP,14);
+                    textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP,15);
                     textView.getPaint().setFakeBoldText(false);
                 }
             }
@@ -202,11 +202,11 @@ public class MainActivity extends AppCompatActivity implements RoundGlobeView.On
             if(showIndex==index){
                 //默认选中的项高亮
                 tvItemTitle.setSelected(true);
-                tvItemTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP,18);
+                tvItemTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP,19);
                 tvItemTitle.getPaint().setFakeBoldText(true);
             }else{
                 tvItemTitle.setSelected(false);
-                tvItemTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP,14);
+                tvItemTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP,15);
                 tvItemTitle.getPaint().setFakeBoldText(false);
             }
             return inflate;

@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.android.gift.R;
 import com.android.gift.base.RoomBaseController;
-import com.android.gift.bean.GiftItemInfo;
+import com.android.gift.gift.bean.GiftItemInfo;
 import com.android.gift.bean.UserInfo;
 import com.android.gift.constant.Constants;
 import com.android.gift.manager.RoomDanmuManager;

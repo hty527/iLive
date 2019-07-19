@@ -14,6 +14,8 @@ import android.view.animation.LinearInterpolator;
 import android.widget.RelativeLayout;
 import com.android.gift.R;
 import com.android.gift.util.AppUtils;
+import com.android.gift.util.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -27,7 +29,7 @@ import java.util.TimerTask;
 
 public class RadarLayout extends RelativeLayout{
 
-    private static final String TAG = "IndexZhuanRadarLayout";
+    private static final String TAG = "RadarLayout";
     private Paint mPaint;
     private int mColor=getResources().getColor(R.color.colorAccent);//默认是APP主题色
     private float mRadius;
@@ -138,49 +140,49 @@ public class RadarLayout extends RelativeLayout{
     /**
      * 间歇性的雷达
      */
-//    public void startPlayer(){
-//        if(isRuning) return;
-//        isRuning=true;
-//        DURRENT_NUM=0;
-//        TimerTask task = new TimerTask() {
-//            @Override
-//            public void run() {
-//                if(DURRENT_NUM>=2000){
-//                    DURRENT_NUM=0;
-//                }
-//                if(DURRENT_NUM==0){
-//                    RadarLayout.this.post(new TaskRunnable(0));
-//                }
-//                if(DURRENT_NUM==400){
-//                    RadarLayout.this.post(new TaskRunnable(500));
-//                }
-//                if(DURRENT_NUM==800){
-//                    RadarLayout.this.post(new TaskRunnable(1000));
-//                }
-//                DURRENT_NUM+=100;
-//            }
-//        };
-//        if(null==timer) timer = new Timer();
-//        //100高速运行
-//        timer.schedule(task, 0, 100);
-//    }
-
-    /**
-     * 无限循环的雷达
-     */
     public void startPlayer(){
         if(isRuning) return;
         isRuning=true;
+        DURRENT_NUM=0;
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                RadarLayout.this.post(new TaskRunnable(0));
+                if(DURRENT_NUM>=2000){
+                    DURRENT_NUM=0;
+                }
+                if(DURRENT_NUM==0){
+                    RadarLayout.this.post(new TaskRunnable(0));
+                }
+                if(DURRENT_NUM==400){
+                    RadarLayout.this.post(new TaskRunnable(400));
+                }
+                if(DURRENT_NUM==800){
+                    RadarLayout.this.post(new TaskRunnable(800));
+                }
+                DURRENT_NUM+=200;
             }
         };
         if(null==timer) timer = new Timer();
         //100高速运行
-        timer.schedule(task, 0, 600);
+        timer.schedule(task, 0, 200);
     }
+
+    /**
+     * 无限循环的雷达
+     */
+//    public void startPlayer(){
+//        if(isRuning) return;
+//        isRuning=true;
+//        TimerTask task = new TimerTask() {
+//            @Override
+//            public void run() {
+//                RadarLayout.this.post(new TaskRunnable(0));
+//            }
+//        };
+//        if(null==timer) timer = new Timer();
+//        //100高速运行
+//        timer.schedule(task, 0, 600);
+//    }
 
     /**
      * 主线程
@@ -203,8 +205,12 @@ public class RadarLayout extends RelativeLayout{
      * 结束执行
      */
     public void onStop(){
+        Logger.d(TAG,"onStop-->");
+        if(null!=timer){
+            timer.cancel();
+            timer=null;
+        }
         isRuning=false;
-        if(null!=timer) timer.cancel(); timer=null;
         DURRENT_NUM=0;
     }
 

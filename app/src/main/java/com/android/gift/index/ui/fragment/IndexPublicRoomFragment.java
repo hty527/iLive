@@ -52,54 +52,55 @@ public class IndexPublicRoomFragment extends BaseFragment<RoomPresenter> impleme
     protected void initViews() {
         //直播间列表
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2,GridLayoutManager.VERTICAL,false));
-        mAdapter = new LivePublicRoomAdapter(getContext());
-        mAdapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position, long itemId) {
-                if(null!=view.getTag()){
-                    Object tag = view.getTag();
-                    if(tag instanceof InkeRoomItem){
-                        InkeRoomItem item= (InkeRoomItem) tag;
-                        RoomItem roomItem=new RoomItem();
-                        LiveRoomInfo.CreatorBean creator = item.getData().getLive_info().getCreator();
-                        roomItem.setRoomid(String.valueOf(item.getData().getLive_info().getRoom_id()));
-                        roomItem.setRoom_front(creator.getPortrait());
-                        roomItem.setStream_url(AppUtils.getInstance().formatRoomStream(item.getData().getLive_info().getStream_addr()));
-                        roomItem.setOnlineNumber(item.getData().getLive_info().getOnline_users());
-                        UserInfo userInfo=new UserInfo();
-                        userInfo.setAvatar(creator.getPortrait());
-                        userInfo.setNickName(creator.getNick());
-                        userInfo.setUserid(String.valueOf(creator.getId()));
-                        roomItem.setAnchor(userInfo);
-                        startRoomActivity(roomItem);
-                    }else if(tag instanceof LiveRoomInfo){
-                        LiveRoomInfo item= (LiveRoomInfo) tag;
-                        RoomItem roomItem=new RoomItem();
-                        LiveRoomInfo.CreatorBean creator = item.getCreator();
-                        roomItem.setRoomid(String.valueOf(item.getRoom_id()));
-                        roomItem.setRoom_front(creator.getPortrait());
-                        roomItem.setStream_url(AppUtils.getInstance().formatRoomStream(item.getStream_addr()));
-                        roomItem.setOnlineNumber(item.getOnline_users());
-                        UserInfo userInfo=new UserInfo();
-                        userInfo.setAvatar(creator.getPortrait());
-                        userInfo.setNickName(creator.getNick());
-                        userInfo.setUserid(String.valueOf(creator.getId()));
-                        roomItem.setAnchor(userInfo);
-                        startRoomActivity(roomItem);
-                    }
-                }
-            }
-        });
-        mAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                if(null!=mPresenter&&!mPresenter.isRequsting()){
-                    Toast.makeText(getContext(),"加载更多中",Toast.LENGTH_SHORT).show();
-                    mPresenter.getRooms(mPage,mOffset);
-                }
-            }
-        },recyclerView);
+        mAdapter = new LivePublicRoomAdapter(null);
+//        mAdapter.setOnItemClickListener(new OnItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, int position, long itemId) {
+//                if(null!=view.getTag()){
+//                    Object tag = view.getTag();
+//                    if(tag instanceof InkeRoomItem){
+//                        InkeRoomItem item= (InkeRoomItem) tag;
+//                        RoomItem roomItem=new RoomItem();
+//                        LiveRoomInfo.CreatorBean creator = item.getData().getLive_info().getCreator();
+//                        roomItem.setRoomid(String.valueOf(item.getData().getLive_info().getRoom_id()));
+//                        roomItem.setRoom_front(creator.getPortrait());
+//                        roomItem.setStream_url(AppUtils.getInstance().formatRoomStream(item.getData().getLive_info().getStream_addr()));
+//                        roomItem.setOnlineNumber(item.getData().getLive_info().getOnline_users());
+//                        UserInfo userInfo=new UserInfo();
+//                        userInfo.setAvatar(creator.getPortrait());
+//                        userInfo.setNickName(creator.getNick());
+//                        userInfo.setUserid(String.valueOf(creator.getId()));
+//                        roomItem.setAnchor(userInfo);
+//                        startRoomActivity(roomItem);
+//                    }else if(tag instanceof LiveRoomInfo){
+//                        LiveRoomInfo item= (LiveRoomInfo) tag;
+//                        RoomItem roomItem=new RoomItem();
+//                        LiveRoomInfo.CreatorBean creator = item.getCreator();
+//                        roomItem.setRoomid(String.valueOf(item.getRoom_id()));
+//                        roomItem.setRoom_front(creator.getPortrait());
+//                        roomItem.setStream_url(AppUtils.getInstance().formatRoomStream(item.getStream_addr()));
+//                        roomItem.setOnlineNumber(item.getOnline_users());
+//                        UserInfo userInfo=new UserInfo();
+//                        userInfo.setAvatar(creator.getPortrait());
+//                        userInfo.setNickName(creator.getNick());
+//                        userInfo.setUserid(String.valueOf(creator.getId()));
+//                        roomItem.setAnchor(userInfo);
+//                        startRoomActivity(roomItem);
+//                    }
+//                }
+//            }
+//        });
+//        mAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
+//            @Override
+//            public void onLoadMore() {
+//                if(null!=mPresenter&&!mPresenter.isRequsting()){
+//                    Toast.makeText(getContext(),"加载更多中",Toast.LENGTH_SHORT).show();
+//                    mPresenter.getRooms(mPage,mOffset);
+//                }
+//            }
+//        },recyclerView);
         recyclerView.setAdapter(mAdapter);
         mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
         mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(getContext(),R.color.colorAccent));

@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.android.gift.R;
 import com.android.gift.base.BaseAdapter;
-import com.android.gift.bean.GiftItemInfo;
+import com.android.gift.gift.bean.GiftItemInfo;
 import com.android.gift.gift.manager.GiftBoardManager;
 import com.android.gift.util.AppUtils;
 import com.bumptech.glide.Glide;

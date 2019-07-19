@@ -257,7 +257,6 @@ public class MainActivity extends AppCompatActivity implements RoundGlobeView.On
         return null;
     }
 
-
     @Override
     public void boxEnterView(String tag) {
         if(null!=mTextTips){

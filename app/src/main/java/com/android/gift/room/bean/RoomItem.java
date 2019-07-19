@@ -3,6 +3,7 @@ package com.android.gift.room.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.android.gift.bean.UserInfo;
+import com.chad.library.adapter.base.entity.MultiItemEntity;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
  * 2019/7/10
  */
 
-public class RoomItem implements Parcelable {
+public class RoomItem implements Parcelable, MultiItemEntity {
 
     //未知的
     public static final int ITEM_TYPE_UNKNOWN = 0;
@@ -36,12 +37,14 @@ public class RoomItem implements Parcelable {
 
     public RoomItem(){}
 
-    public int getItemType() {
-        return itemType;
-    }
 
     public void setItemType(int itemType) {
         this.itemType = itemType;
+    }
+
+    @Override
+    public int getItemType() {
+        return itemType;
     }
 
     public String getRoomid() {

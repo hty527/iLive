@@ -1,5 +1,6 @@
 package com.android.gift.index.adapter;
 
+import android.content.Context;
 import android.os.Build;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -49,18 +50,17 @@ public class LivePublicRoomAdapter extends BaseMultiItemQuickAdapter<InkeRoomIte
      *
      * @param data A new list is created out of this one to avoid mutable list
      */
-    public LivePublicRoomAdapter(List<InkeRoomItem> data) {
+    public LivePublicRoomAdapter(Context context,List<InkeRoomItem> data) {
         super(data);
-        addItemType(InkeRoomItem.ITEM_TYPE_UNKNOWN,R.layout.item_live_public_room_item);
+        addItemType(InkeRoomItem.ITEM_TYPE_UNKNOWN,R.layout.item_unknown);
         addItemType(InkeRoomItem.ITEM_TYPE_ROOM,R.layout.item_live_public_room_item);
-        addItemType(InkeRoomItem.ITEM_TYPE_BANNER,R.layout.item_live_public_room_item);
-        addItemType(InkeRoomItem.ITEM_TYPE_WEB,R.layout.item_live_public_room_item);
-        mItemBannerWidth = (AppUtils.getInstance().getScreenWidth(mContext) - AppUtils.getInstance().dpToPxInt(mContext, 20f));
-        mItemHeight = (AppUtils.getInstance().getScreenWidth(mContext) - AppUtils.getInstance().dpToPxInt(mContext, 30f))/2;
-        mPxInt5 = AppUtils.getInstance().dpToPxInt(mContext, 5f);
-        mPxInt10 = AppUtils.getInstance().dpToPxInt(mContext, 10f);
+        addItemType(InkeRoomItem.ITEM_TYPE_BANNER,R.layout.item_live_public_banner_item);
+        addItemType(InkeRoomItem.ITEM_TYPE_WEB,R.layout.item_live_public_banner_item);
+        mItemBannerWidth = (AppUtils.getInstance().getScreenWidth(context) - AppUtils.getInstance().dpToPxInt(context, 20f));
+        mItemHeight = (AppUtils.getInstance().getScreenWidth(context) - AppUtils.getInstance().dpToPxInt(context, 30f))/2;
+        mPxInt5 = AppUtils.getInstance().dpToPxInt(context, 5f);
+        mPxInt10 = AppUtils.getInstance().dpToPxInt(context, 10f);
     }
-
 
     @Override
     protected void convert(BaseViewHolder helper, InkeRoomItem item) {
@@ -103,121 +103,6 @@ public class LivePublicRoomAdapter extends BaseMultiItemQuickAdapter<InkeRoomIte
             }
         }else{
             resetItemData(helper);
-        }
-    }
-
-    /**
-     * 绑定广告数据
-     * @param helper
-     * @param item
-     */
-    private void setItemBannerData(BaseViewHolder helper, InkeRoomItem item){
-        if(null!=mBanner){
-            mBanner.stopAutoPlay();
-        }
-        mBanner = (Banner) helper.getView(R.id.item_banner);
-        LivePublicRoomAdapter.this.mBanner=this.mBanner;
-        mBanner.setBannerAnimation(Transformer.Default);
-        mBanner.setImageLoader(new GlideImageLoader()).setDelayTime(5000);
-        mBanner.setIndicatorGravity(BannerConfig.RIGHT);
-        mBanner.setOnBannerListener(new OnBannerListener() {
-            @Override
-            public void OnBannerClick(int position) {
-                Logger.d(TAG,"BannerViewHolder:position:"+position);
-                if(null!=mBanner.getTag() && mBanner.getTag() instanceof List){
-                    List<BannerInfo> bannerInfos = (List<BannerInfo>) mBanner.getTag();
-                    String jump_url = bannerInfos.get(position).getJump_url();
-                    WebViewActivity.start(jump_url);
-                }
-            }
-        });
-        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mBanner.getLayoutParams();
-        layoutParams.width= mItemBannerWidth;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mBanner.setOutlineProvider(new LayoutProvider(AppUtils.getInstance().dpToPxInt(6f)));
-        }
-        try {
-            int itemHeight= mItemBannerWidth *Integer.parseInt(item.getHeight())/Integer.parseInt(item.getWidth());
-            layoutParams.height=itemHeight;
-        }catch (RuntimeException e){
-            e.printStackTrace();
-            layoutParams.height=AppUtils.getInstance().dpToPxInt(mContext,140f);
-        } finally {
-            if(helper.getAdapterPosition()==0){
-                layoutParams.setMargins(mPxInt5,mPxInt10,mPxInt5,mPxInt5);
-            }else{
-                layoutParams.setMargins(mPxInt5,mPxInt5,mPxInt5,mPxInt5);
-            }
-            mBanner.setLayoutParams(layoutParams);
-            if(null!=item.getBanners()){
-                mBanner.setTag(item.getBanners());
-                List<String> strings=new ArrayList<>();
-                for (BannerInfo bannerInfo : item.getBanners()) {
-                    strings.add(bannerInfo.getIcon());
-                }
-                mBanner.update(strings);
-            }else{
-                mBanner.setTag(null);
-            }
-        }
-    }
-
-    /**
-     * 绑定广告数据
-     * @param helper
-     * @param item
-     */
-    private void setItemWebBannerData(BaseViewHolder helper, InkeRoomItem item){
-        if(null!=mBanner){
-            mBanner.stopAutoPlay();
-        }
-        if(null!=mBanner){
-            mBanner.stopAutoPlay();
-        }
-        mBanner = (Banner) helper.getView(R.id.item_banner);
-        LivePublicRoomAdapter.this.mWebBanner=this.mBanner;
-        mBanner.setBannerAnimation(Transformer.Default);
-        mBanner.setImageLoader(new GlideImageLoader()).setDelayTime(5000);
-        mBanner.setIndicatorGravity(BannerConfig.RIGHT);
-        mBanner.setOnBannerListener(new OnBannerListener() {
-            @Override
-            public void OnBannerClick(int position) {
-                Logger.d(TAG,"WebViewHolder:position:"+position);
-                if(null!=mBanner.getTag() && mBanner.getTag() instanceof List){
-                    List<InkeWebItem> bannerInfos = (List<InkeWebItem>) mBanner.getTag();
-                    String jump_url = bannerInfos.get(position).getLink();
-                    WebViewActivity.start(jump_url);
-                }
-            }
-        });
-        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mBanner.getLayoutParams();
-        layoutParams.width= mItemBannerWidth;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mBanner.setOutlineProvider(new LayoutProvider(AppUtils.getInstance().dpToPxInt(6f)));
-        }
-        try {
-            int itemHeight= mItemBannerWidth *Integer.parseInt(item.getHeight())/Integer.parseInt(item.getWidth());
-            layoutParams.height=itemHeight;
-        }catch (RuntimeException e){
-            e.printStackTrace();
-            layoutParams.height=AppUtils.getInstance().dpToPxInt(mContext,140f);
-        } finally {
-            if(helper.getAdapterPosition()==0){
-                layoutParams.setMargins(mPxInt5,mPxInt10,mPxInt5,mPxInt5);
-            }else{
-                layoutParams.setMargins(mPxInt5,mPxInt5,mPxInt5,mPxInt5);
-            }
-            mBanner.setLayoutParams(layoutParams);
-            if(null!=item.getData()&&null!=item.getData().getTicker()){
-                mBanner.setTag(item.getData().getTicker());
-                List<String> strings=new ArrayList<>();
-                for (InkeWebItem webItem : item.getData().getTicker()) {
-                    strings.add(webItem.getImage());
-                }
-                mBanner.update(strings);
-            }else{
-                mBanner.setTag(null);
-            }
         }
     }
 
@@ -316,6 +201,119 @@ public class LivePublicRoomAdapter extends BaseMultiItemQuickAdapter<InkeRoomIte
         }
     }
 
+
+    /**
+     * 绑定广告数据
+     * @param helper
+     * @param item
+     */
+    private void setItemBannerData(BaseViewHolder helper, InkeRoomItem item){
+        if(null!=mBanner){
+            mBanner.stopAutoPlay();
+        }
+        mBanner = (Banner) helper.getView(R.id.item_banner);
+        mBanner.setBannerAnimation(Transformer.Default);
+        mBanner.setImageLoader(new GlideImageLoader()).setDelayTime(5000);
+        mBanner.setIndicatorGravity(BannerConfig.RIGHT);
+        mBanner.setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                if(null!=mBanner.getTag() && mBanner.getTag() instanceof List){
+                    List<BannerInfo> bannerInfos = (List<BannerInfo>) mBanner.getTag();
+                    String jump_url = bannerInfos.get(position).getJump_url();
+                    WebViewActivity.start(jump_url);
+                }
+            }
+        });
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mBanner.getLayoutParams();
+        layoutParams.width= mItemBannerWidth;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mBanner.setOutlineProvider(new LayoutProvider(AppUtils.getInstance().dpToPxInt(6f)));
+        }
+        try {
+            int itemHeight= mItemBannerWidth *Integer.parseInt(item.getHeight())/Integer.parseInt(item.getWidth());
+            layoutParams.height=itemHeight;
+        }catch (RuntimeException e){
+            e.printStackTrace();
+            layoutParams.height=AppUtils.getInstance().dpToPxInt(mContext,140f);
+        } finally {
+            if(helper.getAdapterPosition()==0){
+                layoutParams.setMargins(mPxInt5,mPxInt10,mPxInt5,mPxInt5);
+            }else{
+                layoutParams.setMargins(mPxInt5,mPxInt5,mPxInt5,mPxInt5);
+            }
+            mBanner.setLayoutParams(layoutParams);
+            if(null!=item.getBanners()){
+                mBanner.setTag(item.getBanners());
+                List<String> strings=new ArrayList<>();
+                for (BannerInfo bannerInfo : item.getBanners()) {
+                    strings.add(bannerInfo.getIcon());
+                }
+                mBanner.update(strings);
+            }else{
+                mBanner.setTag(null);
+            }
+        }
+    }
+
+    /**
+     * 绑定广告数据
+     * @param helper
+     * @param item
+     */
+    private void setItemWebBannerData(BaseViewHolder helper, InkeRoomItem item){
+        if(null!=mWebBanner){
+            mWebBanner.stopAutoPlay();
+        }
+        if(null!=mWebBanner){
+            mWebBanner.stopAutoPlay();
+        }
+        mWebBanner = (Banner) helper.getView(R.id.item_banner);
+        mWebBanner.setBannerAnimation(Transformer.Default);
+        mWebBanner.setImageLoader(new GlideImageLoader()).setDelayTime(5000);
+        mWebBanner.setIndicatorGravity(BannerConfig.RIGHT);
+        mWebBanner.setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                Logger.d(TAG,"WebViewHolder:position:"+position);
+                if(null!=mWebBanner.getTag() && mWebBanner.getTag() instanceof List){
+                    List<InkeWebItem> bannerInfos = (List<InkeWebItem>) mWebBanner.getTag();
+                    String jump_url = bannerInfos.get(position).getLink();
+                    WebViewActivity.start(jump_url);
+                }
+            }
+        });
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mWebBanner.getLayoutParams();
+        layoutParams.width= mItemBannerWidth;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mWebBanner.setOutlineProvider(new LayoutProvider(AppUtils.getInstance().dpToPxInt(6f)));
+        }
+        try {
+            int itemHeight= mItemBannerWidth *Integer.parseInt(item.getHeight())/Integer.parseInt(item.getWidth());
+            layoutParams.height=itemHeight;
+        }catch (RuntimeException e){
+            e.printStackTrace();
+            layoutParams.height=AppUtils.getInstance().dpToPxInt(mContext,140f);
+        } finally {
+            if(helper.getAdapterPosition()==0){
+                layoutParams.setMargins(mPxInt5,mPxInt10,mPxInt5,mPxInt5);
+            }else{
+                layoutParams.setMargins(mPxInt5,mPxInt5,mPxInt5,mPxInt5);
+            }
+            mWebBanner.setLayoutParams(layoutParams);
+            if(null!=item.getData()&&null!=item.getData().getTicker()){
+                mWebBanner.setTag(item.getData().getTicker());
+                List<String> strings=new ArrayList<>();
+                for (InkeWebItem webItem : item.getData().getTicker()) {
+                    strings.add(webItem.getImage());
+                }
+                mWebBanner.update(strings);
+            }else{
+                mWebBanner.setTag(null);
+            }
+        }
+    }
+
     public void onResume() {
         if(null!=mBanner){
             mBanner.startAutoPlay();
@@ -363,5 +361,9 @@ public class LivePublicRoomAdapter extends BaseMultiItemQuickAdapter<InkeRoomIte
                 }
             });
         }
+    }
+
+    public void onDestroy() {
+        onPause();
     }
 }

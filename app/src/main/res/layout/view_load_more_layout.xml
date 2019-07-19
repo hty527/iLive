@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
-    xmlns:wheel="http://schemas.android.com/apk/res-auto">
+    android:layout_height="55dp">
     <LinearLayout
-        android:id="@+id/load_more_loading_view"
+        android:id="@+id/load_more_loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="horizontal">
-        <com.android.gift.view.ProgressWheel
+        <ProgressBar
             android:id="@+id/loading_progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            wheel:matProg_barColor="#FF8A96A3"
-            wheel:matProg_barWidth="2dp"
-            wheel:matProg_progressIndeterminate="true"/>
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            style="@style/Widget.AppCompat.ProgressBar"/>
         <TextView
             android:id="@+id/loading_text"
             android:layout_width="wrap_content"
@@ -25,4 +22,23 @@
             android:textColor="#FF8A96A3"
             android:textSize="13dp"/>
     </LinearLayout>
+    <TextView
+        android:id="@+id/load_more_fail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="@color/red"
+        android:textSize="13dp"
+        android:text="加载失败,点击重试"
+        android:visibility="gone"/>
+    <TextView
+        android:id="@+id/load_more_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="没有更多了"
+        android:textSize="13dp"
+        android:textColor="#FF8A96A3"
+        android:visibility="gone"/>
 </FrameLayout>

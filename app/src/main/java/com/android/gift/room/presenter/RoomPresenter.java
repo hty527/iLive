@@ -40,7 +40,7 @@ public class RoomPresenter extends BasePresenter<RoomContact.View,RoomEngin> imp
                         if(null!=data.getCards()&&data.getCards().size()>0){
                             mViewRef.get().showRooms(data);
                         }else{
-                            mViewRef.get().showRoomsError(OkHttpUtils.ERROR_EMPTY,"没有更多主播了");
+                            mViewRef.get().showRoomsError(OkHttpUtils.ERROR_EMPTY,"主播正在赶来~请稍后...");
                         }
                     }
                 }
@@ -70,7 +70,7 @@ public class RoomPresenter extends BasePresenter<RoomContact.View,RoomEngin> imp
                         if(null!=data.getData()&&null!=data.getData().getList()&&data.getData().getList().size()>0){
                             mViewRef.get().showPrivateRooms(data.getData().getList());
                         }else{
-                            mViewRef.get().showRoomsError(OkHttpUtils.ERROR_EMPTY,"没有更多主播了");
+                            mViewRef.get().showRoomsError(OkHttpUtils.ERROR_EMPTY,"主播正在赶来~请稍后...");
                         }
                     }
                 }

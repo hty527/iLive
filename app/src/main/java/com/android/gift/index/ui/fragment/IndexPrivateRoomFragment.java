@@ -5,17 +5,18 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 import com.android.gift.R;
 import com.android.gift.base.BaseFragment;
-import com.android.gift.listener.OnItemClickListener;
 import com.android.gift.model.IndexLinLayoutManager;
+import com.android.gift.net.OkHttpUtils;
 import com.android.gift.room.activity.LiveRoomActivity;
 import com.android.gift.index.adapter.LivePrivateRoomAdapter;
 import com.android.gift.room.bean.InkeRoomData;
 import com.android.gift.room.bean.RoomItem;
 import com.android.gift.room.contract.RoomContact;
 import com.android.gift.room.presenter.RoomPresenter;
+import com.android.gift.view.DataChangeView;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import java.util.List;
 
 /**
@@ -28,6 +29,7 @@ public class IndexPrivateRoomFragment extends BaseFragment<RoomPresenter> implem
 
     private static final String TAG = "IndexPrivateRoomFragment";
     private LivePrivateRoomAdapter mAdapter;
+    private DataChangeView mMLoadingView;
     private SwipeRefreshLayout mRefreshLayout;
     private boolean isRefresh=false;
 
@@ -41,10 +43,10 @@ public class IndexPrivateRoomFragment extends BaseFragment<RoomPresenter> implem
         //直播间列表
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new IndexLinLayoutManager(getContext(),IndexLinLayoutManager.VERTICAL,false));
-        mAdapter = new LivePrivateRoomAdapter(getContext());
-        mAdapter.setOnItemClickListener(new OnItemClickListener() {
+        mAdapter = new LivePrivateRoomAdapter(getContext(),null);
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, int position, long itemId) {
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if(null!=view.getTag()){
                     RoomItem roomItem= (RoomItem) view.getTag();
                     Intent intent=new Intent(getActivity(),LiveRoomActivity.class);
@@ -53,7 +55,27 @@ public class IndexPrivateRoomFragment extends BaseFragment<RoomPresenter> implem
                 }
             }
         });
+
+        //加载中、数据为空、加载失败
+        mMLoadingView = new DataChangeView(getActivity());
+        mMLoadingView.setOnRefreshListener(new DataChangeView.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if(null!=mPresenter){
+                    mPresenter.getPrivateRooms();
+                }
+            }
+        });
+        mAdapter.setEmptyView(mMLoadingView);
+        //加载更多
+        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                mAdapter.loadMoreEnd();
+            }
+        },recyclerView);
         recyclerView.setAdapter(mAdapter);
+        //下拉刷新
         mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
         mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(getContext(),R.color.colorAccent));
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -102,19 +124,29 @@ public class IndexPrivateRoomFragment extends BaseFragment<RoomPresenter> implem
 
     @Override
     public void showLoading(int offset) {
-        if(0==offset&&null!=mRefreshLayout&&!mRefreshLayout.isRefreshing()){
-            mRefreshLayout.post(new Runnable() {
-                @Override
-                public void run() {
-                    mRefreshLayout.setRefreshing(true);
+        if(0==offset){
+            if(null!=mMLoadingView&&null!=mAdapter){
+                if(mAdapter.getData().size()==0){
+                    mMLoadingView.showLoadingView("主播正在赶来~请稍后...");
                 }
-            });
+            }
+            if(null!=mRefreshLayout&&!mRefreshLayout.isRefreshing()){
+                mRefreshLayout.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mRefreshLayout.setRefreshing(true);
+                    }
+                });
+            }
         }
     }
 
     @Override
     public void showPrivateRooms(List<RoomItem> data) {
         isRefresh=true;
+        if(null!=mMLoadingView){
+            mMLoadingView.reset();
+        }
         if(null!=mRefreshLayout&&mRefreshLayout.isShown()){
             mRefreshLayout.post(new Runnable() {
                 @Override
@@ -131,6 +163,9 @@ public class IndexPrivateRoomFragment extends BaseFragment<RoomPresenter> implem
     @Override
     public void showRoomsError(int code, String errMsg) {
         isRefresh=true;
+        if(null!=mMLoadingView){
+            mMLoadingView.reset();
+        }
         if(null!=mRefreshLayout&&mRefreshLayout.isShown()){
             mRefreshLayout.post(new Runnable() {
                 @Override
@@ -139,6 +174,25 @@ public class IndexPrivateRoomFragment extends BaseFragment<RoomPresenter> implem
                 }
             });
         }
-        Toast.makeText(getContext(),errMsg,Toast.LENGTH_SHORT).show();
+        if(OkHttpUtils.ERROR_EMPTY==code){
+            if(mAdapter.getData().size()==0&&null!=mMLoadingView){
+                mMLoadingView.showEmptyView(errMsg);
+            }
+        }else{
+            if(mAdapter.getData().size()==0&&null!=mMLoadingView){
+                mMLoadingView.showErrorView("加载失败,点击重试");
+            }
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(null!=mAdapter){
+            mAdapter.onDestroy();
+        }
+        if(null!=mMLoadingView){
+            mMLoadingView.onDestroy();
+        }
     }
 }

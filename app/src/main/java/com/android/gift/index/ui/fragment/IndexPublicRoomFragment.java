@@ -13,8 +13,6 @@ import com.android.gift.R;
 import com.android.gift.base.BaseFragment;
 import com.android.gift.bean.UserInfo;
 import com.android.gift.index.adapter.LivePublicRoomAdapter;
-import com.android.gift.listener.OnItemClickListener;
-import com.android.gift.listener.OnLoadMoreListener;
 import com.android.gift.net.OkHttpUtils;
 import com.android.gift.room.activity.LiveRoomActivity;
 import com.android.gift.room.bean.BannerInfo;
@@ -25,6 +23,9 @@ import com.android.gift.room.bean.RoomItem;
 import com.android.gift.room.contract.RoomContact;
 import com.android.gift.room.presenter.RoomPresenter;
 import com.android.gift.util.AppUtils;
+import com.android.gift.view.DataChangeView;
+import com.android.gift.view.LoadingMoreView;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import java.util.List;
 
 /**
@@ -42,6 +43,7 @@ public class IndexPublicRoomFragment extends BaseFragment<RoomPresenter> impleme
     private boolean isRefresh;
     //数据偏移位置，页眉
     private int mOffset=0,mPage=0;
+    private DataChangeView mMLoadingView;
 
     @Override
     protected int getLayoutID() {
@@ -52,56 +54,70 @@ public class IndexPublicRoomFragment extends BaseFragment<RoomPresenter> impleme
     protected void initViews() {
         //直播间列表
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2,GridLayoutManager.VERTICAL,false));
-        mAdapter = new LivePublicRoomAdapter(null);
-//        mAdapter.setOnItemClickListener(new OnItemClickListener() {
-//            @Override
-//            public void onItemClick(View view, int position, long itemId) {
-//                if(null!=view.getTag()){
-//                    Object tag = view.getTag();
-//                    if(tag instanceof InkeRoomItem){
-//                        InkeRoomItem item= (InkeRoomItem) tag;
-//                        RoomItem roomItem=new RoomItem();
-//                        LiveRoomInfo.CreatorBean creator = item.getData().getLive_info().getCreator();
-//                        roomItem.setRoomid(String.valueOf(item.getData().getLive_info().getRoom_id()));
-//                        roomItem.setRoom_front(creator.getPortrait());
-//                        roomItem.setStream_url(AppUtils.getInstance().formatRoomStream(item.getData().getLive_info().getStream_addr()));
-//                        roomItem.setOnlineNumber(item.getData().getLive_info().getOnline_users());
-//                        UserInfo userInfo=new UserInfo();
-//                        userInfo.setAvatar(creator.getPortrait());
-//                        userInfo.setNickName(creator.getNick());
-//                        userInfo.setUserid(String.valueOf(creator.getId()));
-//                        roomItem.setAnchor(userInfo);
-//                        startRoomActivity(roomItem);
-//                    }else if(tag instanceof LiveRoomInfo){
-//                        LiveRoomInfo item= (LiveRoomInfo) tag;
-//                        RoomItem roomItem=new RoomItem();
-//                        LiveRoomInfo.CreatorBean creator = item.getCreator();
-//                        roomItem.setRoomid(String.valueOf(item.getRoom_id()));
-//                        roomItem.setRoom_front(creator.getPortrait());
-//                        roomItem.setStream_url(AppUtils.getInstance().formatRoomStream(item.getStream_addr()));
-//                        roomItem.setOnlineNumber(item.getOnline_users());
-//                        UserInfo userInfo=new UserInfo();
-//                        userInfo.setAvatar(creator.getPortrait());
-//                        userInfo.setNickName(creator.getNick());
-//                        userInfo.setUserid(String.valueOf(creator.getId()));
-//                        roomItem.setAnchor(userInfo);
-//                        startRoomActivity(roomItem);
-//                    }
-//                }
-//            }
-//        });
-//        mAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
-//            @Override
-//            public void onLoadMore() {
-//                if(null!=mPresenter&&!mPresenter.isRequsting()){
-//                    Toast.makeText(getContext(),"加载更多中",Toast.LENGTH_SHORT).show();
-//                    mPresenter.getRooms(mPage,mOffset);
-//                }
-//            }
-//        },recyclerView);
+        mAdapter = new LivePublicRoomAdapter(getContext(),null);
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                if(null!=view.getTag()){
+                    Object tag = view.getTag();
+                    if(tag instanceof InkeRoomItem){
+                        InkeRoomItem item= (InkeRoomItem) tag;
+                        RoomItem roomItem=new RoomItem();
+                        LiveRoomInfo.CreatorBean creator = item.getData().getLive_info().getCreator();
+                        roomItem.setRoomid(String.valueOf(item.getData().getLive_info().getRoom_id()));
+                        roomItem.setRoom_front(creator.getPortrait());
+                        roomItem.setStream_url(AppUtils.getInstance().formatRoomStream(item.getData().getLive_info().getStream_addr()));
+                        roomItem.setOnlineNumber(item.getData().getLive_info().getOnline_users());
+                        UserInfo userInfo=new UserInfo();
+                        userInfo.setAvatar(creator.getPortrait());
+                        userInfo.setNickName(creator.getNick());
+                        userInfo.setUserid(String.valueOf(creator.getId()));
+                        roomItem.setAnchor(userInfo);
+                        startRoomActivity(roomItem);
+                    }else if(tag instanceof LiveRoomInfo){
+                        LiveRoomInfo item= (LiveRoomInfo) tag;
+                        RoomItem roomItem=new RoomItem();
+                        LiveRoomInfo.CreatorBean creator = item.getCreator();
+                        roomItem.setRoomid(String.valueOf(item.getRoom_id()));
+                        roomItem.setRoom_front(creator.getPortrait());
+                        roomItem.setStream_url(AppUtils.getInstance().formatRoomStream(item.getStream_addr()));
+                        roomItem.setOnlineNumber(item.getOnline_users());
+                        UserInfo userInfo=new UserInfo();
+                        userInfo.setAvatar(creator.getPortrait());
+                        userInfo.setNickName(creator.getNick());
+                        userInfo.setUserid(String.valueOf(creator.getId()));
+                        roomItem.setAnchor(userInfo);
+                        startRoomActivity(roomItem);
+                    }
+                }
+            }
+        });
+        //加载更多
+        //mAdapter.setLoadMoreView();
+        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                if(null!=mPresenter&&!mPresenter.isRequsting()){
+                    mPresenter.getRooms(mPage,mOffset);
+                }
+            }
+        },recyclerView);
+        //加载中、数据为空、加载失败
+        mMLoadingView = new DataChangeView(getActivity());
+        mMLoadingView.setOnRefreshListener(new DataChangeView.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if(null!=mPresenter){
+                    mOffset=0;mPage=0;
+                    mPresenter.getRooms(mPage,mOffset);
+                }
+            }
+        });
+        mAdapter.setEmptyView(mMLoadingView);
+        mAdapter.setLoadMoreView(new LoadingMoreView());
         recyclerView.setAdapter(mAdapter);
+        //下拉刷新
         mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
         mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(getContext(),R.color.colorAccent));
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -169,6 +185,9 @@ public class IndexPublicRoomFragment extends BaseFragment<RoomPresenter> impleme
     @Override
     public void showRooms(InkeRoomData data) {
         isRefresh=true;
+        if(null!=mMLoadingView){
+            mMLoadingView.reset();
+        }
         if(null!=mRefreshLayout&&mRefreshLayout.isShown()){
             mRefreshLayout.post(new Runnable() {
                 @Override
@@ -178,7 +197,7 @@ public class IndexPublicRoomFragment extends BaseFragment<RoomPresenter> impleme
             });
         }
         if(null!=mAdapter){
-            mAdapter.onLoadComplete();
+            mAdapter.loadMoreComplete();
             if(null!=data.getCards()){
                 if(mPage==0&&mOffset==0){
                     //插入一组广告
@@ -208,13 +227,20 @@ public class IndexPublicRoomFragment extends BaseFragment<RoomPresenter> impleme
 
     @Override
     public void showLoading(int offset) {
-        if(0==offset&&null!=mRefreshLayout&&!mRefreshLayout.isRefreshing()){
-            mRefreshLayout.post(new Runnable() {
-                @Override
-                public void run() {
-                    mRefreshLayout.setRefreshing(true);
+        if(0==offset){
+            if(null!=mMLoadingView&&null!=mAdapter){
+                if(mAdapter.getData().size()==0){
+                    mMLoadingView.showLoadingView("主播正在赶来~请稍后...");
                 }
-            });
+            }
+            if(null!=mRefreshLayout&&!mRefreshLayout.isRefreshing()){
+                mRefreshLayout.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mRefreshLayout.setRefreshing(true);
+                    }
+                });
+            }
         }
     }
 
@@ -224,6 +250,9 @@ public class IndexPublicRoomFragment extends BaseFragment<RoomPresenter> impleme
     @Override
     public void showRoomsError(int code, String errMsg) {
         isRefresh=true;
+        if(null!=mMLoadingView){
+            mMLoadingView.reset();
+        }
         if(null!=mRefreshLayout&&mRefreshLayout.isShown()){
             mRefreshLayout.post(new Runnable() {
                 @Override
@@ -232,13 +261,30 @@ public class IndexPublicRoomFragment extends BaseFragment<RoomPresenter> impleme
                 }
             });
         }
-        Toast.makeText(getContext(),errMsg,Toast.LENGTH_SHORT).show();
         if(null!=mAdapter){
             if(OkHttpUtils.ERROR_EMPTY==code){
-                mAdapter.onLoadEnd();
+                mAdapter.loadMoreEnd();
+                if(mAdapter.getData().size()==0&&null!=mMLoadingView){
+                    mMLoadingView.showEmptyView(errMsg);
+                }
             }else{
-                mAdapter.onLoadError();
+                mAdapter.loadMoreFail();
+                if(mAdapter.getData().size()==0&&null!=mMLoadingView){
+                    mMLoadingView.showErrorView("加载失败,点击重试");
+                }
             }
+        }
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(null!=mAdapter){
+            mAdapter.onDestroy();
+        }
+        if(null!=mMLoadingView){
+            mMLoadingView.onDestroy();
         }
     }
 }

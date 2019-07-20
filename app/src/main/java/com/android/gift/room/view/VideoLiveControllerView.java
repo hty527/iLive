@@ -508,6 +508,13 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
         if(null!=mDrawDanmuManager) mDrawDanmuManager.onPause();
     }
 
+
+    public void onReset() {
+        if(null!=mConversationListView){
+            mConversationListView.onResrt();
+        }
+    }
+
     /**
      * 伪onDestroy()，一定要调用
      */

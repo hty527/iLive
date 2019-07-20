@@ -3,21 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/view_root_view"
-    android:gravity="center">
+    android:id="@+id/view_root_view">
     <ImageView
         android:id="@+id/view_loading_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="98dp"/>
     <TextView
         android:id="@+id/view_loading_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
-        android:textSize="13dp"
-        android:textColor="#999999"
-        android:text=""/>
+        android:layout_marginTop="15dp"
+        android:textSize="15dp"
+        android:textColor="#8F8F8F"/>
 </LinearLayout>

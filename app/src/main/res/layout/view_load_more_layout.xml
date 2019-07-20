@@ -20,7 +20,7 @@
             android:layout_marginLeft="5dp"
             android:text="加载更多中..."
             android:textColor="#FF8A96A3"
-            android:textSize="13dp"/>
+            android:textSize="14dp"/>
     </LinearLayout>
     <TextView
         android:id="@+id/load_more_fail"
@@ -29,7 +29,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:textColor="@color/red"
-        android:textSize="13dp"
+        android:textSize="14dp"
         android:text="加载失败,点击重试"
         android:visibility="gone"/>
     <TextView
@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="没有更多了"
-        android:textSize="13dp"
+        android:textSize="14dp"
         android:textColor="#FF8A96A3"
         android:visibility="gone"/>
 </FrameLayout>

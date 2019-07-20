@@ -8,7 +8,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 import com.android.gift.R;
 import com.android.gift.base.BaseFragment;
 import com.android.gift.bean.UserInfo;
@@ -104,7 +103,7 @@ public class IndexPublicRoomFragment extends BaseFragment<RoomPresenter> impleme
             }
         },recyclerView);
         //加载中、数据为空、加载失败
-        mMLoadingView = new DataChangeView(getActivity());
+        mMLoadingView = new DataChangeView(getContext());
         mMLoadingView.setOnRefreshListener(new DataChangeView.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -232,14 +231,6 @@ public class IndexPublicRoomFragment extends BaseFragment<RoomPresenter> impleme
                 if(mAdapter.getData().size()==0){
                     mMLoadingView.showLoadingView("主播正在赶来~请稍后...");
                 }
-            }
-            if(null!=mRefreshLayout&&!mRefreshLayout.isRefreshing()){
-                mRefreshLayout.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mRefreshLayout.setRefreshing(true);
-                    }
-                });
             }
         }
     }

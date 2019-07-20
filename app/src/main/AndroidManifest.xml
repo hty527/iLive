@@ -24,6 +24,7 @@
         </activity>
         <!--示例直播间-->
         <activity android:name=".room.activity.LiveRoomActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <!--关于-->
         <activity android:name=".index.ui.activity.AboutActivity"

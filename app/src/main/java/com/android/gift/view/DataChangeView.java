@@ -20,7 +20,6 @@ import com.android.gift.R;
 public class DataChangeView extends RelativeLayout implements View.OnClickListener {
 
     private TextView mTextView;
-    private View mContentView;
     private AnimationDrawable mAnimationDrawable;
     private ImageView mLoadingView;
 
@@ -40,6 +39,7 @@ public class DataChangeView extends RelativeLayout implements View.OnClickListen
         mTextView = (TextView) findViewById(R.id.view_loading_tv);
         mLoadingView = (ImageView) findViewById(R.id.view_loading_iv);
         mLoadingView.setImageResource(R.drawable.video_loading_anim);
+        mLoadingView.setVisibility(INVISIBLE);
         mAnimationDrawable = (AnimationDrawable) mLoadingView.getDrawable();
     }
 

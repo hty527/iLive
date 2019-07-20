@@ -1,6 +1,7 @@
 package com.android.gift.room.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -56,21 +57,11 @@ public class LiveRoomActivity extends AppCompatActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
         }
-        //直播间入参
-        RoomItem roomItem = getIntent().getParcelableExtra("roomItem");
-        if(null==roomItem){
-            Toast.makeText(this,"参数错误",Toast.LENGTH_SHORT).show();
-            finish();
-            return;
-        }
-        roomid=roomItem.getRoomid();
         //保持屏幕高亮，不锁屏
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_live_room);
         //直播间交互控制器
         mControllerView = findViewById(R.id.live_controller);
-        mControllerView.setAnchorData(roomItem.getAnchor());
-        mControllerView.setOnLinesNumber(roomItem.getOnlineNumber());
         mControllerView.setFunctionListener(new VideoLiveControllerView.OnLiveRoomFunctionListener() {
             @Override
             public void backPress() {
@@ -102,19 +93,11 @@ public class LiveRoomActivity extends AppCompatActivity {
                 showInputMsgDialog();
             }
         });
-        //视频准备
+        //视频初始化配置
         VideoPlayerManager.getInstance().setLoop(true);
         VideoPlayerManager.getInstance().setMobileWorkEnable(true);
         mPlayerTrack = (VideoPlayerTrack) findViewById(R.id.video_track);
         mPlayerTrack.setLoop(true);
-        mPlayerTrack.setVideoCover(roomItem.getRoom_front(),false);
-        //在聊天列表中增加一条本地系统消息
-        CustomMsgExtra sysMsg=new CustomMsgExtra();
-        sysMsg.setCmd(Constants.MSG_CUSTOM_NOTICE);
-        sysMsg.setMsgContent("系统公告：此项目直播视频取自映客API，为非商业演示项目。对于用于商业活动带来的一切后果自行承担！若有其他问题，请联系开发者！邮箱：TinyHung@Outlook.com");
-        CustomMsgInfo customInfo = AppUtils.getInstance().packMessage(sysMsg, null);
-        newSystemCustomMessage(customInfo,false);
-
         //软键盘高度检测
         mLayoutChangedListener= ScreenLayoutChangedHelp.get(LiveRoomActivity.this).setOnSoftKeyBoardChangeListener(new ScreenLayoutChangedHelp.OnSoftKeyBoardChangeListener() {
             @Override
@@ -127,6 +110,42 @@ public class LiveRoomActivity extends AppCompatActivity {
                 if(null!=mControllerView) mControllerView.showInputKeyBord(false,height);
             }
         });
+        onParams(getIntent());
+    }
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        onParams(intent);
+    }
+
+    /**
+     * 解析参数并准备播放
+     * @param intent
+     */
+    private void onParams(Intent intent) {
+        //直播间入参
+        RoomItem roomItem = intent.getParcelableExtra("roomItem");
+        if(null==roomItem){
+            Toast.makeText(this,"参数错误",Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+        roomid=roomItem.getRoomid();
+        //清屏
+        mControllerView.onReset();
+        mControllerView.setAnchorData(roomItem.getAnchor());
+        mControllerView.setOnLinesNumber(roomItem.getOnlineNumber());
+        //视频画面清屏
+        VideoPlayerManager.getInstance().reset();
+        mPlayerTrack.setVideoCover(roomItem.getRoom_front(),false);
+        //在聊天列表中增加一条本地系统消息
+        CustomMsgExtra sysMsg=new CustomMsgExtra();
+        sysMsg.setCmd(Constants.MSG_CUSTOM_NOTICE);
+        sysMsg.setMsgContent("系统公告：此项目直播视频取自映客API，为非商业演示项目。对于用于商业活动带来的一切后果自行承担！若有其他问题，请联系开发者！邮箱：TinyHung@Outlook.com");
+        CustomMsgInfo customInfo = AppUtils.getInstance().packMessage(sysMsg, null);
+        newSystemCustomMessage(customInfo,false);
         //开始拉流
         mPlayerTrack.startPlayer(roomItem.getStream_url());
     }
@@ -204,18 +223,10 @@ public class LiveRoomActivity extends AppCompatActivity {
     }
 
     @Override
-    public void finish() {
-        //视频播放销毁
-        VideoPlayerManager.getInstance().onDestroy();
-        super.finish();
-    }
-
-    @Override
     protected void onDestroy() {
+        VideoPlayerManager.getInstance().onDestroy();
         super.onDestroy();
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        //视频播放销毁
-        VideoPlayerManager.getInstance().onDestroy();
         //震动持有释放
         VibratorManager.getInstance().onDestroy();
         if(null!=mGiftDialog&&mGiftDialog.isShowing()){

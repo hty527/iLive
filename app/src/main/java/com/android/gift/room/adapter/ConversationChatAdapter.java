@@ -40,9 +40,9 @@ public class ConversationChatAdapter extends BaseAdapter<CustomMsgInfo,Conversat
                 viewHolder.itemContent.setBackgroundResource(R.drawable.bg_shape_room_cacht_content);
                 viewHolder.itemContent.setTag(itemData.getMsgContent());
                 if(Constants.MSG_CUSTOM_NOTICE.equals(itemData.getChildCmd())){
-                    viewHolder.itemContent.setText(Html.fromHtml("<font color='#F62E89'>"+itemData.getMsgContent()+"</font>"));
+                    viewHolder.itemContent.setText(Html.fromHtml("<font color='#00DFCE'>"+itemData.getMsgContent()+"</font>"));
                 }else{
-                    String contentStr = " <font color='#DADADA'>" + itemData.getSendUserName() + "</font>  <font color='#FFFFFF'>" + itemData.getMsgContent() + "</font>";
+                    String contentStr = " <font color='#8CC3FF'>" + itemData.getSendUserName() + "</font>  <font color='#FFFFFF'>" + itemData.getMsgContent() + "</font>";
                     viewHolder.itemContent.setText(SpannableStringUtils.getInstance().formatUserGradle(contentStr,itemData.getSendUserGradle()));
                 }
                 viewHolder.itemContent.setOnLongClickListener(new View.OnLongClickListener() {

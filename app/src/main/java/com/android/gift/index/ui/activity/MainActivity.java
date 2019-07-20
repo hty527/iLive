@@ -15,10 +15,14 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.TypedValue;
+import android.view.DragEvent;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
@@ -63,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements RoundGlobeView.On
     private RoundGlobeView mGlobeView;
     private Map<String,BoxPixInfo> mPixInfoTreeMap = new TreeMap<>();
     private TextView mTextTips;
+    private DrawerLayout mDrawerLayout;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -185,6 +190,23 @@ public class MainActivity extends AppCompatActivity implements RoundGlobeView.On
                 if(null!=tabView) tab.setCustomView(tabView);
             }
         }
+        //DrawLayout
+        findViewById(R.id.rl_user_icon).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(null!=mDrawerLayout){
+                    mDrawerLayout.openDrawer(GravityCompat.START);
+                }
+            }
+        });
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout.setOnDragListener(new View.OnDragListener() {
+            @Override
+            public boolean onDrag(View v, DragEvent event) {
+                Logger.d(TAG,"onDrag:"+event.getAction()+",X:"+event.getX()+",Y:"+event.getY());
+                return false;
+            }
+        });
     }
 
     /**
@@ -409,6 +431,23 @@ public class MainActivity extends AppCompatActivity implements RoundGlobeView.On
         }
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            onBackPressed();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(null!=mDrawerLayout&&mDrawerLayout.isDrawerOpen(GravityCompat.START)){
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+            return;
+        }
+        super.onBackPressed();
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();

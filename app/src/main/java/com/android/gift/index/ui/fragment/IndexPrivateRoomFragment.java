@@ -130,14 +130,6 @@ public class IndexPrivateRoomFragment extends BaseFragment<RoomPresenter> implem
                     mMLoadingView.showLoadingView("主播正在赶来~请稍后...");
                 }
             }
-            if(null!=mRefreshLayout&&!mRefreshLayout.isRefreshing()){
-                mRefreshLayout.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mRefreshLayout.setRefreshing(true);
-                    }
-                });
-            }
         }
     }
 

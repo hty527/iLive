@@ -5,6 +5,8 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -39,8 +41,11 @@ import com.android.gift.gift.manager.GiftBoardManager;
 import com.android.gift.gift.dialog.LiveGiftDialog;
 import com.android.gift.index.ui.fragment.IndexPrivateRoomFragment;
 import com.android.gift.index.ui.fragment.IndexPublicRoomFragment;
+import com.android.gift.manager.ApplicationManager;
 import com.android.gift.room.bean.BoxPixInfo;
 import com.android.gift.room.view.RoundGlobeView;
+import com.android.gift.service.DownLoadService;
+import com.android.gift.service.bean.BuildMessageInfo;
 import com.android.gift.util.AppUtils;
 import com.android.gift.util.Logger;
 import com.android.gift.util.StatusUtils;
@@ -50,6 +55,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.TreeMap;
 
 /**
@@ -58,7 +65,7 @@ import java.util.TreeMap;
  * 主页示例
  */
 
-public class MainActivity extends AppCompatActivity implements RoundGlobeView.OnGlobeMoveListener {
+public class MainActivity extends AppCompatActivity implements RoundGlobeView.OnGlobeMoveListener, Observer {
 
     private static final String TAG = "MainActivity";
     public static final String ITEM_GIFT  = "GIFT";
@@ -68,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements RoundGlobeView.On
     private Map<String,BoxPixInfo> mPixInfoTreeMap = new TreeMap<>();
     private TextView mTextTips;
     private DrawerLayout mDrawerLayout;
+    private ProgressDialog mDialog;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -207,6 +215,11 @@ public class MainActivity extends AppCompatActivity implements RoundGlobeView.On
                 return false;
             }
         });
+        //注册观察者
+//        ApplicationManager.getInstance().addObserver(this);
+//        Intent intent = new Intent(MainActivity.this, DownLoadService.class);
+//        intent.putExtra("url","http://59.110.172.221:8094/rec/app/dev/YingXiao.apk");
+//        startService(intent);
     }
 
     /**
@@ -455,5 +468,57 @@ public class MainActivity extends AppCompatActivity implements RoundGlobeView.On
         if(null!=mGlobeView){
             mGlobeView.onDestroy();
         }
+    }
+
+
+    /**
+     * 下载状态
+     * @param o
+     * @param arg
+     */
+    @Override
+    public void update(Observable o, Object arg) {
+        if(null!=arg&& arg instanceof BuildMessageInfo){
+            BuildMessageInfo info= (BuildMessageInfo) arg;
+            //开始下载
+            if(TextUtils.equals(DownLoadService.BUILD_START,info.getCmd())){
+                showDialog();
+                //下载中
+            }else if(TextUtils.equals(DownLoadService.BUILD_DOWNLOAD,info.getCmd())){
+                if(null!=mDialog&&mDialog.isShowing()){
+                    int progress = (int) (info.getDownloadSize() * 1.0f / info.getTotalSize() * 100);
+                    mDialog.setProgress(progress);
+                    mDialog.setMessage(String.format("已下载%s",progress));
+                }
+                //拦截的正在下载中的事件
+            }else if(TextUtils.equals(DownLoadService.BUILD_DOWNLOADING,info.getCmd())){
+
+                //下载完成
+            }else if(TextUtils.equals(DownLoadService.BUILD_END,info.getCmd())){
+                if(null!=mDialog){
+                    mDialog.dismiss();
+                    mDialog=null;
+                }
+                //下载失败
+            }else if(TextUtils.equals(DownLoadService.BUILD_ERROR,info.getCmd())){
+                if(null!=mDialog){
+                    mDialog.dismiss();
+                    mDialog=null;
+                }
+                Toast.makeText(MainActivity.this,"下载失败",Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void showDialog() {
+        if(null==mDialog){
+            mDialog = new ProgressDialog(this);
+            mDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);//转盘
+            mDialog.setCancelable(true);
+            mDialog.setCanceledOnTouchOutside(true);
+            mDialog.setTitle("下载中。。。");
+            mDialog.setMessage(String.format("已下载%s",0));
+        }
+        mDialog.show();
     }
 }

@@ -83,6 +83,8 @@ public class IndexPrivateRoomFragment extends BaseFragment<RoomPresenter> implem
             public void onRefresh() {
                 if(null!=mPresenter&&!mPresenter.isRequsting()){
                     mPresenter.getPrivateRooms();
+                }else{
+                    mRefreshLayout.setRefreshing(false);
                 }
             }
         });

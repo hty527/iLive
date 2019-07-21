@@ -93,7 +93,6 @@ public class IndexPublicRoomFragment extends BaseFragment<RoomPresenter> impleme
             }
         });
         //加载更多
-        //mAdapter.setLoadMoreView();
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
@@ -122,9 +121,12 @@ public class IndexPublicRoomFragment extends BaseFragment<RoomPresenter> impleme
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if(null!=mPresenter&&!mPresenter.isRequsting()){
-                    mOffset=0;mPage=0;
-                    mPresenter.getRooms(mPage,mOffset);
+                if(null!=mPresenter&&!mPresenter.isRequsting()) {
+                    mOffset = 0;
+                    mPage = 0;
+                    mPresenter.getRooms(mPage, mOffset);
+                }else{
+                    mRefreshLayout.setRefreshing(false);
                 }
             }
         });

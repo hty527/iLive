@@ -7,6 +7,11 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
+    <!--请求安装APK权限-->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+    <!--DownloadManager-->
+    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER"/>
+
     <application
         android:name=".APPLication"
         android:allowBackup="true"
@@ -32,6 +37,10 @@
         <!--WEB-VIEW-->
         <activity android:name=".index.ui.activity.WebViewActivity"
             android:screenOrientation="portrait"/>
+
+        <!--APK下载-->
+        <service android:name=".service.DownLoadService"
+            android:exported="false"/>
     </application>
 
 </manifest>

@@ -217,6 +217,7 @@
 -keep class com.android.gift.bean.**{*;}
 -keep class com.android.gift.room.bean.**{*;}
 -keep class com.android.gift.gift.bean.**{*;}
+-keep class com.android.gift.service.bean.**{*;}
 
 #SVGA动画
 -keep class com.squareup.wire.** { *; }

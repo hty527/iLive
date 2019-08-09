@@ -342,7 +342,7 @@ public class MainActivity extends AppCompatActivity implements RoundGlobeView.On
             //Github主页
             if(TextUtils.equals(tag,ITEM_HOME)){
                 try {
-                    Uri uri=Uri.parse("https://github.com/Yuye584312311/iLive");
+                    Uri uri=Uri.parse("https://github.com/Yuye584312311/Live");
                     Intent intent=new Intent(Intent.ACTION_VIEW,uri);
                     startActivity(intent);
                 }catch (RuntimeException e){

@@ -127,31 +127,40 @@
             android:layout_height="80dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"/>
-        <ImageView
+        <TextView
             android:id="@+id/btn_left"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/ic_direction_left"
-            android:scaleType="center"
+            android:gravity="center"
+            android:text="版本"
+            android:textSize="14dp"
+            android:textStyle="bold"
+            android:textColor="#E6F62E89"
             android:layout_marginRight="10dp"
             android:layout_alignParentBottom="true"
             android:layout_toLeftOf="@id/globe_view"
             android:clipToPadding="false"/>
-        <ImageView
+        <TextView
             android:id="@+id/btn_top"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/ic_direction_top"
-            android:scaleType="center"
+            android:gravity="center"
+            android:text="礼物"
+            android:textSize="14dp"
+            android:textStyle="bold"
+            android:textColor="#E6F62E89"
             android:layout_above="@id/globe_view"
             android:layout_centerHorizontal="true"
             android:clipToPadding="false"/>
-        <ImageView
+        <TextView
             android:id="@+id/btn_right"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/ic_direction_right"
-            android:scaleType="center"
+            android:gravity="center"
+            android:text="主页"
+            android:textSize="14dp"
+            android:textStyle="bold"
+            android:textColor="#E6F62E89"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/globe_view"

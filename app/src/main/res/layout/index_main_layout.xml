@@ -157,7 +157,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:gravity="center"
-            android:text="主页"
+            android:text="Github"
             android:textSize="15dp"
             android:textStyle="bold"
             android:textColor="#E6F62E89"

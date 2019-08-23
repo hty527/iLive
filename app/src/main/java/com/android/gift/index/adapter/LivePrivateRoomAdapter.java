@@ -43,7 +43,7 @@ public class LivePrivateRoomAdapter extends BaseMultiItemQuickAdapter<RoomItem,B
         addItemType(RoomItem.ITEM_TYPE_UNKNOWN,R.layout.item_unknown);
         addItemType(RoomItem.ITEM_TYPE_ROOM,R.layout.item_live_private_room_item);
         addItemType(RoomItem.ITEM_TYPE_BANNER,R.layout.item_live_private_banner_item);
-        mItemWidth = (AppUtils.getInstance().getScreenWidth(context) - AppUtils.getInstance().dpToPxInt(context, 20f));
+        mItemWidth = (AppUtils.getInstance().getScreenWidth(context) - AppUtils.getInstance().dpToPxInt(context, 8f));
     }
 
     @Override
@@ -69,7 +69,7 @@ public class LivePrivateRoomAdapter extends BaseMultiItemQuickAdapter<RoomItem,B
             helper.itemView.setTag(item);
             itemLayout.getLayoutParams().height=mItemWidth;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                itemLayout.setOutlineProvider(new LayoutProvider(AppUtils.getInstance().dpToPxInt(6f)));
+                itemLayout.setOutlineProvider(new LayoutProvider(AppUtils.getInstance().dpToPxInt(5f)));
             }
             itemLayout.setData(item);
         }
@@ -102,7 +102,7 @@ public class LivePrivateRoomAdapter extends BaseMultiItemQuickAdapter<RoomItem,B
             LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mBanner.getLayoutParams();
             layoutParams.width=mItemWidth;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mBanner.setOutlineProvider(new LayoutProvider(AppUtils.getInstance().dpToPxInt(6f)));
+                mBanner.setOutlineProvider(new LayoutProvider(AppUtils.getInstance().dpToPxInt(5f)));
             }
             try {
                 int itemHeight=mItemWidth*Integer.parseInt(item.getHeight())/Integer.parseInt(item.getWidth());

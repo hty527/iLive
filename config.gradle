@@ -9,7 +9,7 @@ ext {
     ]
     app=[
          applicationId  : "com.android.gift",
-         versionCode    : 100001,
-         versionName    : "1.0.01"
+         versionCode    : 100002,
+         versionName    : "1.0.02"
     ]
 }

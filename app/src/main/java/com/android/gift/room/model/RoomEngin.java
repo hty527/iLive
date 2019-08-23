@@ -138,6 +138,6 @@ public class RoomEngin extends BaseEngin {
         if(null==callBack){
             return;
         }
-        OkHttpUtils.get("https://raw.githubusercontent.com/Yuye584312311/ConfigFile/master/index/rooms.json",callBack);
+        OkHttpUtils.get("https://gitee.com/hty_Yuye/OpenFile/raw/master/index/rooms.json",callBack);
     }
 }

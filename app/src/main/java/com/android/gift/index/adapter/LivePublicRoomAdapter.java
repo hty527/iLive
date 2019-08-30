@@ -56,10 +56,10 @@ public class LivePublicRoomAdapter extends BaseMultiItemQuickAdapter<InkeRoomIte
         addItemType(InkeRoomItem.ITEM_TYPE_ROOM,R.layout.item_live_public_room_item);
         addItemType(InkeRoomItem.ITEM_TYPE_BANNER,R.layout.item_live_public_banner_item);
         addItemType(InkeRoomItem.ITEM_TYPE_WEB,R.layout.item_live_public_banner_item);
-        mItemBannerWidth = (AppUtils.getInstance().getScreenWidth(context) - AppUtils.getInstance().dpToPxInt(context, 8f));
-        mItemHeight = (AppUtils.getInstance().getScreenWidth(context) - AppUtils.getInstance().dpToPxInt(context, 12f))/2;
-        mPxInt5 = AppUtils.getInstance().dpToPxInt(context, 2f);
-        mPxInt10 = AppUtils.getInstance().dpToPxInt(context, 4f);
+        mItemBannerWidth = (AppUtils.getInstance().getScreenWidth(context) - AppUtils.getInstance().dpToPxInt(context, 20f));
+        mItemHeight = (AppUtils.getInstance().getScreenWidth(context) - AppUtils.getInstance().dpToPxInt(context, 30f))/2;
+        mPxInt5 = AppUtils.getInstance().dpToPxInt(context, 5f);
+        mPxInt10 = AppUtils.getInstance().dpToPxInt(context, 10f);
     }
 
     @Override
@@ -87,7 +87,7 @@ public class LivePublicRoomAdapter extends BaseMultiItemQuickAdapter<InkeRoomIte
         View mRotItemView = helper.getView(R.id.root_item_view);
         mItemCoverView.getLayoutParams().height= mItemHeight;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mRotItemView.setOutlineProvider(new LayoutProvider(AppUtils.getInstance().dpToPxInt(5f)));
+            mRotItemView.setOutlineProvider(new LayoutProvider(AppUtils.getInstance().dpToPxInt(6f)));
         }
         if(null!=item){
             if(null!=item.getData().getLive_info()){
@@ -228,7 +228,7 @@ public class LivePublicRoomAdapter extends BaseMultiItemQuickAdapter<InkeRoomIte
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mBanner.getLayoutParams();
         layoutParams.width= mItemBannerWidth;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mBanner.setOutlineProvider(new LayoutProvider(AppUtils.getInstance().dpToPxInt(5f)));
+            mBanner.setOutlineProvider(new LayoutProvider(AppUtils.getInstance().dpToPxInt(6f)));
         }
         try {
             int itemHeight= mItemBannerWidth *Integer.parseInt(item.getHeight())/Integer.parseInt(item.getWidth());
@@ -286,7 +286,7 @@ public class LivePublicRoomAdapter extends BaseMultiItemQuickAdapter<InkeRoomIte
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mWebBanner.getLayoutParams();
         layoutParams.width= mItemBannerWidth;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mWebBanner.setOutlineProvider(new LayoutProvider(AppUtils.getInstance().dpToPxInt(5f)));
+            mWebBanner.setOutlineProvider(new LayoutProvider(AppUtils.getInstance().dpToPxInt(6f)));
         }
         try {
             int itemHeight= mItemBannerWidth *Integer.parseInt(item.getHeight())/Integer.parseInt(item.getWidth());

@@ -24,6 +24,7 @@ import com.android.gift.room.presenter.RoomPresenter;
 import com.android.gift.util.AppUtils;
 import com.android.gift.view.DataChangeView;
 import com.android.gift.view.LoadingMoreView;
+import com.android.gift.view.StaggeredItemDecoration;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import java.util.List;
 

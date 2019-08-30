@@ -2,6 +2,7 @@ package com.android.gift.room.doalog;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatDialog;
 import android.text.Editable;
@@ -15,10 +16,10 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.android.gift.R;
 import com.android.gift.util.AppUtils;
+import com.android.gift.view.ShapeTextView;
 
 
 /**
@@ -35,7 +36,7 @@ public class InputKeyBoardDialog extends AppCompatDialog{
     private final InputMethodManager mInputMethodManager;
     private int mMode;
     private EditText mInputText;
-    private TextView mBtnSubmit;
+    private ShapeTextView mBtnSubmit;
 
     public static InputKeyBoardDialog getInstance(@NonNull Activity context){
         return new InputKeyBoardDialog(context);
@@ -88,7 +89,7 @@ public class InputKeyBoardDialog extends AppCompatDialog{
                 }
             }
         };
-        mBtnSubmit = (TextView) findViewById(R.id.btn_submit);
+        mBtnSubmit = (ShapeTextView) findViewById(R.id.btn_submit);
         mBtnSubmit.setOnClickListener(onClickListener);
         //监听输入框文字
         mInputText.addTextChangedListener(new TextWatcher() {
@@ -98,14 +99,16 @@ public class InputKeyBoardDialog extends AppCompatDialog{
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if(!TextUtils.isEmpty(charSequence)&&charSequence.length()>0){
-                    mBtnSubmit.setBackgroundResource(R.drawable.full_room_input_send_bg);
+                    mBtnSubmit.setBackGroundColor(Color.parseColor("#FF7575"));
+                    mBtnSubmit.setBackGroundSelectedColor(Color.parseColor("#EC5D83"));
                     if(charSequence.length()>content_charMaxNum){
                         Toast.makeText(getContext(),indexOutErrortex,Toast.LENGTH_SHORT).show();
                         mInputText.setText(AppUtils.getInstance().subString(charSequence.toString(),content_charMaxNum));
                         mInputText.setSelection(mInputText.getText().toString().length());
                     }
                 }else{
-                    mBtnSubmit.setBackgroundResource(R.drawable.full_room_input_unsend_bg);
+                    mBtnSubmit.setBackGroundColor(Color.parseColor("#87868B"));
+                    mBtnSubmit.setBackGroundSelectedColor(Color.parseColor("#A4A4A6"));
                 }
             }
 

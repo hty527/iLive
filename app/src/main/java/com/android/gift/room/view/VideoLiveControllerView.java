@@ -46,6 +46,7 @@ import master.flame.danmaku.controller.IDanmakuView;
  * 2018/5/31
  * 直播房间 推、拉 控制器
  * 必须给定应用场景 mMode
+ * 如何接入IM消息，请阅读父类头部注释说明
  */
 
 public class VideoLiveControllerView extends RoomBaseController implements View.OnClickListener,OnGiveGiftListener {
@@ -127,6 +128,7 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
         findViewById(R.id.view_btn_close).setOnClickListener(this);
         findViewById(R.id.view_btn_gift).setOnClickListener(this);
         findViewById(R.id.view_btn_chat).setOnClickListener(this);
+        findViewById(R.id.view_btn_share).setOnClickListener(this);
         findViewById(R.id.re_root_view).setOnClickListener(this);
         //监听礼物交互
         GiftBoardManager.getInstance().addOnGiveGiftListener(this);
@@ -134,7 +136,6 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
         IDanmakuView drawDanmakuView = (IDanmakuView) findViewById(R.id.draw_danmakuView);
         mDrawDanmuManager = new RoomDanmuManager(getContext());
         mDrawDanmuManager.bindDanmakuView(drawDanmakuView);
-
         //布局监听，根据用户设备分辨率开始礼物动画通道分配后开始礼物栈的运行
         findViewById(R.id.tool_bar_view).getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -239,6 +240,12 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
             case R.id.view_btn_chat:
                 if(null!=mFunctionListener){
                     mFunctionListener.showInput();
+                }
+                break;
+            //分享
+            case R.id.view_btn_share:
+                if(null!=mFunctionListener){
+                    mFunctionListener.share(null!=mAnchorUser?mAnchorUser.getUserid():"");
                 }
                 break;
         }
@@ -354,7 +361,7 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
     }
 
     /**
-     * 群组纯文本消息
+     * 来自本地和远端的IM群组纯文本消息
      * @param customMsgInfo
      * @param isSystemPro
      */
@@ -368,7 +375,7 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
     }
 
     /**
-     * 小型的迷你消息
+     * 来自本地和远端的IM小型的迷你消息
      * @param groupId
      * @param sender
      * @param changedInfo 人数变化
@@ -383,7 +390,7 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
     }
 
     /**
-     * 系统发送的自定义消息、系统通知、礼物赠送、成员的进出场、聊天列表消息、中奖信息 等
+     * 来自本地和远端的IM发送的自定义消息、系统通知、礼物赠送、成员的进出场、聊天列表消息、中奖信息 等
      * @param customMsgInfo 消息的封装体
      * @param isSystemPro 是否来自系统推送
      */
@@ -544,6 +551,7 @@ public class VideoLiveControllerView extends RoomBaseController implements View.
         void backPress();
         void showGift(UserInfo anchorUser);
         void showInput();
+        void share(String userid);
     }
 
     private OnLiveRoomFunctionListener mFunctionListener;

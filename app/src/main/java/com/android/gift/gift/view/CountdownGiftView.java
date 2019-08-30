@@ -89,10 +89,11 @@ public class CountdownGiftView extends LinearLayout {
         mGiftImageView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(null!=mProgressbar){
-                    mProgressbar.setTimeMillis(1000*PROGRESS_DURTION);//一分钟的连击
-                    mProgressbar.reStart();
-                }
+                // TODO: 2019/8/30 如果要开启点击赠送按钮复位倒计时，请开启注释代码
+//                if(null!=mProgressbar){
+//                    mProgressbar.setTimeMillis(1000*PROGRESS_DURTION);//一分钟的连击
+//                    mProgressbar.reStart();
+//                }
                 GiftBoardManager.getInstance().sendGift();
             }
         });

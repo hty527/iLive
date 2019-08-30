@@ -46,4 +46,12 @@
         <item name="android:paddingBottom">10dp</item>
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
     </style>
+    <style name="DialogCancleText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:textColor">@color/lib_text_color_black_selector</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/lib_item_comment_bg</item>
+        <item name="android:textSize">16dp</item>
+    </style>
 </resources>

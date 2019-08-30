@@ -92,6 +92,40 @@ public class LiveRoomActivity extends AppCompatActivity {
             public void showInput() {
                 showInputMsgDialog();
             }
+
+            @Override
+            public void share(String userid) {
+//                ShareDialog.getInstance(LiveRoomActivity.this)
+//                        .setItems(null)
+//                        .setOnItemClickListener(new ShareDialog.OnShareItemClickListener() {
+//                            @Override
+//                            public void onItemClick(ShareMenuItemInfo shareMenuItemInfo) {
+//                                try {
+//                                    Intent sendIntent = new Intent();
+//                                    //sendIntent.setPackage("com.tencent.mm")
+//                                    sendIntent.setAction(Intent.ACTION_SEND);
+//                                    sendIntent.putExtra(Intent.EXTRA_TEXT, "我正在使用"+getResources().getString(R.string.app_name)+"观看直播，戳下方链接前往下载：\nhttps://github.com/Yuye584312311/Live/wiki/HistoryVersion");
+//                                    sendIntent.setType("text/plain");
+//                                    startActivity(Intent.createChooser(sendIntent, "iMusic分享"));
+//                                }catch (RuntimeException e){
+//                                    e.printStackTrace();
+//                                    Toast.makeText(LiveRoomActivity.this,"未找到合适的分享程序",Toast.LENGTH_SHORT).show();
+//                                }
+//                            }
+//                        })
+//                        .show();
+                try {
+                    Intent sendIntent = new Intent();
+                    //sendIntent.setPackage("com.tencent.mm")
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, "我正在使用"+getResources().getString(R.string.app_name)+"观看直播，戳下方链接前往下载：\nhttps://github.com/Yuye584312311/Live/wiki/HistoryVersion");
+                    sendIntent.setType("text/plain");
+                    startActivity(Intent.createChooser(sendIntent, "iLive分享"));
+                }catch (RuntimeException e){
+                    e.printStackTrace();
+                    Toast.makeText(LiveRoomActivity.this,"未找到合适的分享程序",Toast.LENGTH_SHORT).show();
+                }
+            }
         });
         //视频初始化配置
         VideoPlayerManager.getInstance().setLoop(true);

@@ -42,7 +42,7 @@ public class AboutActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 try {
-                    Uri uri=Uri.parse("https://github.com/Yuye584312311/Live/wiki/HistoryVersion");
+                    Uri uri=Uri.parse("https://github.com/Yuye584312311/iLive/wiki/HistoryVersion");
                     Intent intent=new Intent(Intent.ACTION_VIEW,uri);
                     startActivity(intent);
                 }catch (RuntimeException e){

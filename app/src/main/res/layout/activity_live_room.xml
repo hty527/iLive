@@ -11,9 +11,10 @@
         app:videoPlayerCreateDefaultController="true"
         app:videoPlayerBackgroundColor="#000000"
         android:layout_gravity="center" />
-    <!--直播间控制器-->
-    <com.android.gift.room.view.VideoLiveControllerView
-        android:id="@+id/live_controller"
+    <!--交互控制器-->
+    <RelativeLayout
+        android:id="@+id/video_controller"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+    </RelativeLayout>
 </FrameLayout>

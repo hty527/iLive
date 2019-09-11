@@ -134,7 +134,7 @@ public class LiveRoomActivity extends BaseRoomActivity<VideoLiveControllerView> 
         //在聊天列表中增加一条本地系统消息
         CustomMsgExtra sysMsg=new CustomMsgExtra();
         sysMsg.setCmd(Constants.MSG_CUSTOM_NOTICE);
-        sysMsg.setMsgContent("系统公告：此项目直播流取自映客API，为非商业演示用途项目。严禁用于任何商业活动中！若有任何问题，请联系开发者！邮箱：584312311@qq.com");
+        sysMsg.setMsgContent("系统公告：此项目直播流取自映客API，为非商业演示用途项目。严禁用于任何商业活动中！后果自负！");
         CustomMsgInfo customInfo = AppUtils.getInstance().packMessage(sysMsg, null);
         newSystemCustomMessage(customInfo,false);
         //开始拉流

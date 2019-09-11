@@ -29,7 +29,7 @@ import java.util.TreeMap;
 public class AppUtils {
 
     private static volatile AppUtils mInstance;
-
+    private long mCurrentMillis =0;
     /**
      * 单例初始化
      * @return
@@ -379,5 +379,19 @@ public class AppUtils {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * 是否可以退出了
+     * @return
+     */
+    public boolean isBackPressed() {
+        long millis = System.currentTimeMillis();
+        if(0 == mCurrentMillis | millis- mCurrentMillis > 2000){
+            mCurrentMillis =millis;
+            return false;
+        }
+        mCurrentMillis =millis;
+        return true;
     }
 }

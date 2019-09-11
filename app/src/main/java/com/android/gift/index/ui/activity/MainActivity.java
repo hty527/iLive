@@ -457,7 +457,11 @@ public class MainActivity extends AppCompatActivity implements RoundGlobeView.On
             mDrawerLayout.closeDrawer(GravityCompat.START);
             return;
         }
-        super.onBackPressed();
+        if(AppUtils.getInstance().isBackPressed()){
+            super.onBackPressed();
+        }else{
+            Toast.makeText(MainActivity.this,"再按一次退出",Toast.LENGTH_SHORT).show();
+        }
     }
     @Override
     protected void onDestroy() {

@@ -20,7 +20,7 @@
 
 ### 最新版下载地址:
 
-[点击下载Apk]: https://raw.githubusercontent.com/Yuye584312311/iLive/develop/doc/apk/iLive-1.0.03.apk "本地下载"
+[点击下载Apk]: https://raw.githubusercontent.com/Yuye584312311/iLive/develop/doc/apk/iLive-1.0.04.apk "本地下载"
 **[点击下载Apk]**<br/>
 
 [点击查看历史版本]: https://github.com/Yuye584312311/iLive/wiki/HistoryVersion "历史版本"

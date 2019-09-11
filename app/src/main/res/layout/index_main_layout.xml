@@ -127,44 +127,74 @@
             android:layout_height="80dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"/>
-        <TextView
+        <RelativeLayout
             android:id="@+id/btn_left"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:gravity="center"
-            android:text="版本"
-            android:textSize="15dp"
-            android:textStyle="bold"
-            android:textColor="#E6F62E89"
-            android:layout_marginRight="10dp"
-            android:layout_alignParentBottom="true"
             android:layout_toLeftOf="@id/globe_view"
-            android:clipToPadding="false"/>
-        <TextView
+            android:layout_marginRight="10dp"
+            android:layout_alignParentBottom="true">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:gravity="center"
+                android:background="@drawable/arice_dot_tr_red"
+                android:text="版本"
+                android:textSize="13dp"
+                android:includeFontPadding="false"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"/>
+        </RelativeLayout>
+        <RelativeLayout
             android:id="@+id/btn_top"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:gravity="center"
-            android:text="礼物"
-            android:textSize="15dp"
-            android:textStyle="bold"
-            android:textColor="#E6F62E89"
             android:layout_above="@id/globe_view"
-            android:layout_centerHorizontal="true"
-            android:clipToPadding="false"/>
-        <TextView
+            android:layout_centerHorizontal="true">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:gravity="center"
+                android:background="@drawable/arice_dot_tr_red"
+                android:text="礼物"
+                android:textSize="13dp"
+                android:includeFontPadding="false"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"/>
+        </RelativeLayout>
+        <RelativeLayout
             android:id="@+id/btn_right"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:gravity="center"
-            android:text="Github"
-            android:textSize="15dp"
-            android:textStyle="bold"
-            android:textColor="#E6F62E89"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/globe_view"
-            android:clipToPadding="false"/>
+            android:layout_toRightOf="@id/globe_view">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:gravity="center"
+                android:background="@drawable/arice_dot_tr_red"
+                android:text="博客"
+                android:textSize="13dp"
+                android:textStyle="bold"
+                android:includeFontPadding="false"
+                android:textColor="#FFFFFF"/>
+        </RelativeLayout>
     </RelativeLayout>
     <TextView
         android:id="@+id/tv_tips"

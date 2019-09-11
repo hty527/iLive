@@ -22,7 +22,8 @@ import com.android.gift.util.ScreenLayoutChangedHelp;
 /**
  * Created by TinyHung@outlook.com
  * 2019/9/11
- * 所有类型直播间父类
+ * 为满足不同类型的直播间诸如：纯音频、视频通话、秀场直播等场景需要，特封装直播间统一父类，
+ * 控制器基类为RoomBaseController，请参考LiveRoomActivity使用方法。
  */
 
 public class BaseRoomActivity<C extends RoomBaseController> extends AppCompatActivity {

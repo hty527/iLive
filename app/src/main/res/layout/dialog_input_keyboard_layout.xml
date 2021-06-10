@@ -52,7 +52,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_gravity="center_vertical"
                 android:gravity="center">
-                <com.android.gift.view.ShapeTextView
+                <com.amazon.kindle.view.ShapeTextView
                     android:id="@+id/btn_submit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

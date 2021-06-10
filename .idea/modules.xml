@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://D:\AndroidStudioProjects\iLive\RoomGift.iml" filepath="D:\AndroidStudioProjects\iLive\RoomGift.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://D:\AndroidStudioProjects\iLive\gift-android\gift-android.iml" filepath="D:\AndroidStudioProjects\iLive\gift-android\gift-android.iml" />
-      <module fileurl="file://$PROJECT_DIR$/iLive.iml" filepath="$PROJECT_DIR$/iLive.iml" />
-      <module fileurl="file://$PROJECT_DIR$/live-player-lib/live-player-lib.iml" filepath="$PROJECT_DIR$/live-player-lib/live-player-lib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RoomGift.iml" filepath="$PROJECT_DIR$/RoomGift.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="iLive/app" />
+      <module fileurl="file://$PROJECT_DIR$/gift-android/gift-android.iml" filepath="$PROJECT_DIR$/gift-android/gift-android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/iLive.iml" filepath="$PROJECT_DIR$/iLive.iml" group="iLive" />
+      <module fileurl="file://$PROJECT_DIR$/live-player-lib/live-player-lib.iml" filepath="$PROJECT_DIR$/live-player-lib/live-player-lib.iml" group="iLive/live-player-lib" />
     </modules>
   </component>
 </project>

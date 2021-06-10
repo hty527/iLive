@@ -207,7 +207,7 @@
         android:layout_gravity="center"
         android:visibility="invisible"/>
     <!--圆形菜单-->
-    <com.android.gift.room.view.RoundGlobeView
+    <com.amazon.kindle.room.view.RoundGlobeView
         android:id="@+id/btn_move_view"
         android:layout_width="80dp"
         android:layout_height="80dp"

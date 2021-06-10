@@ -4,13 +4,13 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
-    <com.android.gift.view.CommentTitleView
+    <com.amazon.kindle.view.CommentTitleView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:commentBackRes="@drawable/btn_nav_menu_back_selector_black"
         app:commentShowBack="true"
         android:id="@+id/title_view">
-    </com.android.gift.view.CommentTitleView>
+    </com.amazon.kindle.view.CommentTitleView>
     <FrameLayout
         android:id="@+id/webview"
         android:layout_width="match_parent"

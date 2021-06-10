@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.android.gift.view.CommentTitleView
+    <com.amazon.kindle.view.CommentTitleView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:commentTitle="关于"
@@ -36,7 +36,7 @@
             android:layout_gravity="bottom|center_horizontal"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true">
-            <com.android.gift.view.ShapeTextView
+            <com.amazon.kindle.view.ShapeTextView
                 android:id="@+id/btn_check_update"
                 android:layout_width="180dp"
                 android:layout_height="42dp"

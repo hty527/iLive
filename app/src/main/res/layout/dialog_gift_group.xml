@@ -43,7 +43,7 @@
                     android:layout_centerVertical="true"
                     android:textColor="#D0D0D0"
                     android:textSize="13dp" />
-                <com.android.gift.view.ShapeTextView
+                <com.amazon.kindle.view.ShapeTextView
                     android:id="@+id/dig_btn_sned"
                     android:layout_width="58dp"
                     android:layout_height="28dp"

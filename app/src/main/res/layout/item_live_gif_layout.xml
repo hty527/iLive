@@ -50,7 +50,7 @@
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:gravity="center_vertical">
-                <com.android.gift.view.MarqueeTextView
+                <com.amazon.kindle.view.MarqueeTextView
                     android:id="@+id/view_tv_gift_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
                         android:maxLength="2"
                         android:textSize="10dp"
                         android:textColor="#FFF9F9F9"/>
-                    <com.android.gift.view.MarqueeTextView
+                    <com.amazon.kindle.view.MarqueeTextView
                         android:id="@+id/view_tv_gift_desp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
             android:layout_marginLeft="5dp"
             android:layout_gravity="center_vertical"
             android:src="@drawable/gift_numx" />
-        <com.android.gift.gift.view.GiftGradualTextView
+        <com.amazon.kindle.gift.view.GiftGradualTextView
             android:id="@+id/view_gift_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -110,7 +110,7 @@
             android:textStyle="italic"/>
     </LinearLayout>
     <!--小倍率中奖-->
-    <com.android.gift.gift.view.GiftDrawSmallMulitAnimationView
+    <com.amazon.kindle.gift.view.GiftDrawSmallMulitAnimationView
         android:id="@+id/tv_draw_times"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -124,7 +124,7 @@
         android:layout_gravity="bottom"
         android:layout_marginBottom="12dp"/>
     <!--大倍率中奖-->
-    <com.android.gift.gift.view.GiftDrawBigMulitAnimationView
+    <com.amazon.kindle.gift.view.GiftDrawBigMulitAnimationView
         android:id="@+id/view_draw_icon"
         android:layout_width="167dp"
         android:layout_height="120dp"

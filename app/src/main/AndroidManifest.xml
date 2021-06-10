@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.android.gift">
+    package="com.amazon.kindle">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -13,13 +13,13 @@
     <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER"/>
 
     <application
-        android:name=".APPLication"
+        android:name="com.amazon.kindle.APPLication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".index.ui.activity.MainActivity"
+        <activity android:name="com.amazon.kindle.index.ui.activity.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,18 +28,18 @@
             </intent-filter>
         </activity>
         <!--示例直播间-->
-        <activity android:name=".room.activity.LiveRoomActivity"
+        <activity android:name="com.amazon.kindle.room.activity.LiveRoomActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <!--关于-->
-        <activity android:name=".index.ui.activity.AboutActivity"
+        <activity android:name="com.amazon.kindle.index.ui.activity.AboutActivity"
             android:screenOrientation="portrait"/>
         <!--WEB-VIEW-->
-        <activity android:name=".index.ui.activity.WebViewActivity"
+        <activity android:name="com.amazon.kindle.index.ui.activity.WebViewActivity"
             android:screenOrientation="portrait"/>
 
         <!--APK下载-->
-        <service android:name=".service.DownLoadService"
+        <service android:name="com.amazon.kindle.service.DownLoadService"
             android:exported="false"/>
     </application>
 

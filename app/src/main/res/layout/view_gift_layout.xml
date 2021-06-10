@@ -28,7 +28,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <com.android.gift.view.MarqueeTextView
+            <com.amazon.kindle.view.MarqueeTextView
                 android:id="@+id/gift_tv_desp"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"

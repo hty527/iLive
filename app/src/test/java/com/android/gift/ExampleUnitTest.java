@@ -1,4 +1,4 @@
-package com.android.gift;
+package com.amazon.kindle;
 
 import org.junit.Test;
 

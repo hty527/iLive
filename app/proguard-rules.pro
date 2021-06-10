@@ -20,7 +20,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 #指定代码的压缩级别
--optimizationpasses 5
+-optimizationpasses 6
 #把混淆类中的方法名也混淆了
 -useuniqueclassmembernames
 #优化时允许访问并修改有修饰符的类和类的成员
@@ -214,10 +214,10 @@
  }
 
 #bean对象
--keep class com.android.gift.bean.**{*;}
--keep class com.android.gift.room.bean.**{*;}
--keep class com.android.gift.gift.bean.**{*;}
--keep class com.android.gift.service.bean.**{*;}
+-keep class com.amazon.kindle.bean.**{*;}
+-keep class com.amazon.kindle.room.bean.**{*;}
+-keep class com.amazon.kindle.gift.bean.**{*;}
+-keep class com.amazon.kindle.service.bean.**{*;}
 
 #SVGA动画
 -keep class com.squareup.wire.** { *; }

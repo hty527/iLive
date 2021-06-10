@@ -44,7 +44,7 @@
                 android:layout_centerVertical="true"
                 android:orientation="vertical">
                 <!--主播昵称、计时-->
-                <com.android.gift.view.MarqueeTextView
+                <com.amazon.kindle.view.MarqueeTextView
                     android:id="@+id/view_anchor_name"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
             android:layout_marginLeft="10dp">
         </FrameLayout>
         <!--在线人数-->
-        <com.android.gift.view.ShapeTextView
+        <com.amazon.kindle.view.ShapeTextView
             android:id="@+id/view_online_number"
             android:layout_width="wrap_content"
             android:layout_height="32dp"

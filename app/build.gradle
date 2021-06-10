@@ -37,15 +37,15 @@ android {
 
     signingConfigs {
         debug {
-            storeFile file('newqu.keystore')
+            storeFile file('aaaaaa.keystore')
             storePassword "123456"
-            keyAlias "newqu"
+            keyAlias "aaaaaa"
             keyPassword "123456"
         }
         release {
-            storeFile file('newqu.keystore')
+            storeFile file('aaaaaa.keystore')
             storePassword "123456"
-            keyAlias "newqu"
+            keyAlias "aaaaaa"
             keyPassword "123456"
         }
     }

@@ -13,7 +13,7 @@
         android:visibility="invisible"
         android:clipChildren="false"
         android:clipToPadding="false">
-        <com.android.gift.gift.view.CircleTextProgressbar
+        <com.amazon.kindle.gift.view.CircleTextProgressbar
             android:layout_width="46dp"
             android:layout_height="46dp"
             android:id="@+id/view_circle_progress"

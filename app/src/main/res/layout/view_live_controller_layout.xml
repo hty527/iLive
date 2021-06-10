@@ -26,7 +26,7 @@
             android:layout_alignParentBottom="true"
             android:orientation="vertical">
             <!--普通的礼物动画-->
-            <com.android.gift.gift.manager.GiftRoomGroupManager
+            <com.amazon.kindle.gift.manager.GiftRoomGroupManager
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:animateLayoutChanges="true"
@@ -34,7 +34,7 @@
                 android:clipToPadding="false"
                 android:id="@+id/room_gift_manager"/>
             <!--消息-->
-            <com.android.gift.room.view.BrightConversationListView
+            <com.amazon.kindle.room.view.BrightConversationListView
                 android:id="@+id/view_bright_conversation"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
@@ -59,7 +59,7 @@
                     android:layout_weight="1"
                     android:orientation="horizontal"
                     android:layout_gravity="center_vertical">
-                    <com.android.gift.view.ShapeTextView
+                    <com.amazon.kindle.view.ShapeTextView
                         android:id="@+id/view_btn_chat"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
         </LinearLayout>
     </RelativeLayout>
     <!--点赞动画-->
-    <com.android.gift.room.view.LikeHeartLayout
+    <com.amazon.kindle.room.view.LikeHeartLayout
         android:id="@+id/heart_layout"
         android:layout_width="80dp"
         android:layout_height="match_parent"
@@ -114,7 +114,7 @@
         android:layout_marginBottom="66dp"
         android:focusable="true"/>
     <!--连击赠送礼物倒计时-->
-    <com.android.gift.gift.view.CountdownGiftView
+    <com.amazon.kindle.gift.view.CountdownGiftView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/view_countdown_view"

@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"/>
-    <com.android.gift.view.ShapeTextView
+    <com.amazon.kindle.view.ShapeTextView
         android:id="@+id/view_state"
         android:layout_width="45dp"
         android:layout_height="18dp"

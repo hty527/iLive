@@ -8,8 +8,8 @@ ext {
          supportLibVersion : "26.1.0"
     ]
     app=[
-         applicationId  : "com.android.gift",
-         versionCode    : 100004,
-         versionName    : "1.0.04"
+         applicationId  : "com.kindle.live.gift",
+         versionCode    : 100005,
+         versionName    : "1.0.05"
     ]
 }
